@@ -17,3 +17,17 @@ for sas_scc in $(oc get scc | grep pgo | awk '{ print$1 }'); do oc delete scc $s
 oc -n $project delete postgresclusters --selector="sas.com/deployment=sas-viya"
 
 oc delete -f $siteYaml
+
+delete-pvcs () {
+    oc -n $project get pvc --no-headers -o custom-columns=":metadata.name" | xargs -n 1 oc delete pvc
+}
+
+while true; do
+    read -p "Do you wish to delete any PVCs used by SFD as well? " yn
+    case $yn in
+        [Yy]* ) delete-pvcs ; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
