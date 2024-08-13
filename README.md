@@ -3,6 +3,9 @@
 ##### Table of Contents
 - [Download SAS Deployment Assets](#Download-SAS-Deployment-Assets)
 - [Download SAS Deployment manifest](#Download-SAS-Deployment-manifest)
+- [Edit Environment properties](#Edit-Environment-Properties)
+- [Deploy SFD](#Deploy-SFD)
+- [Uninstall SFD](#Uninstall-SFD)
 
 ## Download SAS Deployment Assets
 Download the deployment assets from my.sas.com and unzip them in the current directory
@@ -10,7 +13,7 @@ Download the deployment assets from my.sas.com and unzip them in the current dir
 ## Download SAS Deployment Manifest
 For POC only, since kustomize is not available, download site.yaml file provided by SAS into the current directory.
 
-## Edit Environment properties
+## Edit Environment Properties
 Edit [env.propertie](env.properties) to set the properties of the environment.
 Environment properties 
 |  Property Name               |    Description                            |
