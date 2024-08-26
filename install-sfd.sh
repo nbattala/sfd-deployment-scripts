@@ -14,6 +14,8 @@ oc apply -f sas-bases/overlays/sas-model-repository/service-account/sas-model-re
 oc -n $project adm policy add-scc-to-user sas-model-repository -z sas-model-repository
 oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml
 oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro
+#sas-model-publish-kaniko
+oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
 
 #Deploy SFD
 #Apply cluster-api resources to the cluster. As an administrator with cluster permissions, run

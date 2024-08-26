@@ -7,6 +7,13 @@ oc project $project
 #export APPS_DOMAIN=$(oc get ingresscontroller.operator.openshift.io -n openshift-ingress-operator -o jsonpath='{.items[].status.domain}')
 #export INGRESS_FQDN="${project}.${APPS_DOMAIN}"
 export INGRESS_URL=$(oc get cm -o custom-columns=:.metadata.name | grep sas-shared-config | xargs -n 1 oc get cm -o jsonpath='{.data.SAS_SERVICES_URL}')
+export dockerUrl=acrce34aa65ifgei.azurecr.io/sas
+export dockerUser=00000000-0000-0000-0000-000000000000
+export dockerPwd=eKAqFlo59TdCkdfWD+wzNwI+TjZslPGsJe0B8Nms02+ACRC2wRWn
+
+export dockerUserB64=$(echo -n $dockerUser | base64)
+export dockerPwdB64=$(echo -n $dockerPwd | base64)
+export kubeUrl=$(oc project | awk '{print $6}' | cut -d "\"" -f 2)
 
 config-model-publish-dest () {
 	echo "Entering ${FUNCNAME[0]}"
@@ -21,52 +28,44 @@ config-model-publish-dest () {
 	}'
 
 	#create secret for the SDADockerRegistry credential domain (for SFD)
-	curl -s -k -X PUT ${INGRESS_URL}/credentials/domains/SDADockerRegistry -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" -d '
-	{
-		"domainId"     : "SDADockerRegistry",
-		"identityId"   : "sas.detectionDefinition",
-		"identityType" : "client",
-		"domainType"   : "base64",
-		"properties" : {
-			"dockerRegistryUserId" : "<base64 encoded value of container registry login ID>"
-		},
-		"secrets": {
-			"dockerRegistryPasswd" : "<base64 encoded value of container registry password>",
-		}
-	}'
+	#prepare payload for SFD
+    printf "%s" \ { \
+    \"identityId\"    : \"sas.detectionDefinition\",    \
+    \"identityType\"  : \"client\",                 \
+    \"domainId\"   : \"SDADockerRegistry\",         \
+    \"domainType\"    : \"base64\",                 \
+    \"properties\":{\"dockerRegistryUserId\":\"${dockerUserB64}\"},        \
+    \"secrets\":{\"dockerRegistryPasswd\":\"${dockerPwdB64}\"}    \
+    }\
+    |jq| tee /tmp/.SDADockerRegistry-sfd.json > /dev/null
+	curl -s -k -X PUT ${INGRESS_URL}/credentials/domains/SDADockerRegistry/clients/sas.detectionDefinition -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" -d @/tmp/.SDADockerRegistry-sfd.json
 
 	#create secret for the SDADockerRegistry credential domain (for Intelligent Decisioning)
-	curl -s -k -X PUT ${INGRESS_URL}/credentials/domains/SDADockerRegistry -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" -d ' 
-	{
-		"domainId"     : "SDADockerRegistry",
-		"identityId"   : "SDASrRulesEditor",
-		"identityType" : "client",
-		"domainType"   : "base64",
-		"properties" : {
-			"dockerRegistryUserId" : "<base64 encoded value of container registry login ID>"
-		},
-		"secrets": {
-			"dockerRegistryPasswd" : "<base64 encoded value of container registry password>",
-		}
-	}'
+	#prepare payload for ID
+    printf "%s" \ { \
+    \"identityId\"    : \"SDASrRulesEditor\",    \
+    \"identityType\"  : \"group\",                 \
+    \"domainId\"   : \"SDADockerRegistry\",         \
+    \"domainType\"    : \"base64\",                 \
+    \"properties\":{\"dockerRegistryUserId\":\"${dockerUserB64}\"},        \
+    \"secrets\":{\"dockerRegistryPasswd\":\"${dockerPwdB64}\"}    \
+    }\
+    |jq| tee /tmp/.SDADockerRegistry-id.json > /dev/null
+	curl -s -k -X PUT ${INGRESS_URL}/credentials/domains/SDADockerRegistry/groups/SDASrRulesEditor -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" -d @/tmp/.SDADockerRegistry-id.json
 
 	#create publishing destination
-	curl -k --location --request POST \
-	${INGRESS_URL}/modelPublish/destinations \
-	--header "Authorization: Bearer $ACCESS_TOKEN" \
-	--header 'Content-Type: application/json' \
-	--data '{
-		"name"            : "SDADockerRegistry",
-		"destinationType" : "privateDocker",
-		"description"     : "Created via REST API",
-		"properties"      : [{"name"  : "credDomainId",
-								"value" : "SDADockerRegistry"},
-							{"name"  : "baseRepoUrl",
-								"value" : "<container Registry Url"},
-							{"name"  : "kubeUrl",
-								"value" : "<kube api endpoint"}
-							]
-	}'
+	#prepare payload for pub destination
+    printf "%s" \ { \
+    \"name\"    :   \"SDADockerRegistry\",                   \
+    \"destinationType\" : \"privateDocker\",                         \
+    \"description\" :   \"Docker repository for SDA create by REST API\",       \
+    \"properties\"  : [{\"name\": \"baseRepoUrl\", \"value\": \"${dockerUrl}\"},                       \
+                       {\"name\": \"credDomainId\", \"value\": \"SDADockerRegistry\"},             \
+                       {\"name\": \"kubeUrl\", \"value\": \"${kubeUrl}\"}                   \
+                      ] \
+    }\
+    |jq| tee /tmp/.SDAConfigPubDest.json > /dev/null
+	curl -k --location -X POST  ${INGRESS_URL}/modelPublish/destinations --header "Authorization: Bearer $ACCESS_TOKEN" --header 'Content-Type: application/json' -d @/tmp/.SDAConfigPubDest.json
 }
 
 config-model-publish-dest
