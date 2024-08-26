@@ -8,8 +8,9 @@ oc project $project
 #export INGRESS_FQDN="${project}.${APPS_DOMAIN}"
 export INGRESS_URL=$(oc get cm -o custom-columns=:.metadata.name | grep sas-shared-config | xargs -n 1 oc get cm -o jsonpath='{.data.SAS_SERVICES_URL}')
 export dockerUrl=acrce34aa65ifgei.azurecr.io/sas
-export dockerUser=00000000-0000-0000-0000-000000000000
-export dockerPwd=eKAqFlo59TdCkdfWD+wzNwI+TjZslPGsJe0B8Nms02+ACRC2wRWn
+export dockerUser=acrce34aa65ifgei
+echo "Please enter password for docker user $dockerUser:"
+read dockerPwd
 
 export dockerUserB64=$(echo -n $dockerUser | base64)
 export dockerPwdB64=$(echo -n $dockerPwd | base64)
