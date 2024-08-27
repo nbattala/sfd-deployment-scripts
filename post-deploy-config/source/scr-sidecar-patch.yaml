@@ -1,0 +1,43 @@
+spec:
+  template:
+    spec:
+      containers:
+        - name: sas-sda-scr
+          image: registry-nonprod.sdi.corp.bankofamerica.com/47231/sas/BOFA:latest
+          imagePullPolicy: "Always"
+          ports:
+          - name: http
+            containerPort: 8080
+            protocol: TCP
+          env:
+          - name: SAS_SCR_LOG_LEVEL_App.tk.MAS.Detection.Detect.DS2
+            value: INFO
+          - name: SAS_SCR_LOG_LEVEL_App.tk.Detection
+            value: INFO
+          - name: PORT
+            value: "8080"
+          envFrom:
+          - configMapRef:
+              name: sas-shared-config
+          - secretRef:
+              name: sas-consul-client
+          resources:
+            limits:
+              cpu: 1
+              memory: 1Gi
+            requests:
+              cpu: 1
+              memory: 1Gi
+          securityContext:
+            runAsUser: 999
+            allowPrivilegeEscalation: false
+            capabilities:
+              add: []
+              drop:
+              - ALL
+            privileged: false
+            readOnlyRootFilesystem: true
+          volumeMounts:
+          - mountPath: /tmp
+            name: tmp
+          
