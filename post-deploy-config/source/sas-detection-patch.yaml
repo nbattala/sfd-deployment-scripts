@@ -55,6 +55,6 @@ spec:
         - name: SAS_DETECTION_SERVICE_URL
           value: http://localhost:8777
         - name: SAS_DETECTION_WATCHER_INTERVAL_SEC
-          value: "60"
+          value: "120"
         - name: SAS_DETECTION_WATCHER_SSL_ENABLED
           value: "true"
