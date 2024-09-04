@@ -20,26 +20,8 @@ spec:
         env:
         - name: SAS_DETECTION_DEPLOYMENT_NAME
           value: sas-detection
-        - name: SAS_DETECTION_KAFKA_CONSUMER_ENABLED
-          value: "false"
-        - name: SAS_DETECTION_KAFKA_ENABLE_HOSTNAME_VERIFICATION
-          value: "false"
-        - name: SAS_DETECTION_KAFKA_REJECT_TOPIC
-          value: transactions_reject
-        - name: SAS_DETECTION_KAFKA_SASL_PASSWORD
-          value: password
-        - name: SAS_DETECTION_KAFKA_SASL_USERNAME
-          value: username
-        - name: SAS_DETECTION_KAFKA_SECURITY_PROTOCOL
-          value: SASL_SSL
-        - name: SAS_DETECTION_KAFKA_SERVER
-          value: kafka_host:9099
         - name: SAS_DETECTION_KAFKA_SSL_TRUSTSTORE
           value: /etc/truststore
-        - name: SAS_DETECTION_KAFKA_TDR_TOPIC
-          value: transactions_data_repository
-        - name: SAS_DETECTION_KAFKA_TOPIC
-          value: transactions_incoming
         - name: SAS_DETECTION_PROCESSING_DISABLEMETRICS
           value: "false"
         - name: SAS_DETECTION_PROCESSING_EXECUTION_URL
@@ -58,3 +40,19 @@ spec:
           value: "120"
         - name: SAS_DETECTION_WATCHER_SSL_ENABLED
           value: "true"
+        envFrom:
+        - secretRef:
+            name: sas-detection-kafka-secret
+        - configMapRef:
+            name: sas-detection-kafka-config
+        - secretRef:
+            name: sas-detection-redis-secret
+        - secretRef:
+            name: sas-detection-redis-config
+        volumeMounts:
+        - name: bank-ca-chain
+          mountPath: /etc/truststore
+      volumes:
+      - name: bank-ca-chain
+        configMap:
+          name: bank-ca-chain
