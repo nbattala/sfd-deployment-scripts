@@ -47,7 +47,7 @@ spec:
             name: sas-detection-kafka-config
         - secretRef:
             name: sas-detection-redis-secret
-        - secretRef:
+        - configMapRef:
             name: sas-detection-redis-config
         volumeMounts:
         - name: bank-ca-chain
