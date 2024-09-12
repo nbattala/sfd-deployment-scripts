@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-opendistro-storage-class-transformer
+patch: |-
+  - op: add
+    path: /spec/defaultStorageClassName
+    value: {{ STORAGE-CLASS }}
+target:
+  kind: OpenDistroCluster

@@ -1,0 +1,13 @@
+config:
+  application:
+    sas.identities.providers.ldap.connection:
+      host: {ldap-host}
+      password: {ldap-password}
+      port: {ldap-port}
+      url: ldap://${sas.identities.providers.ldap.connection.host}:${sas.identities.providers.ldap.connection.port}
+      userDN: {ldap-user}
+    sas.identities.providers.ldap.group:
+      baseDN: {ldap-group-dn}
+    sas.identities.providers.ldap.user:
+      baseDN: {ldap-user-dn}
+    sas.logon.intitial.password: Password123

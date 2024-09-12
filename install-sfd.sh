@@ -4,13 +4,13 @@ source env.properties
 oc project $project
 
 #Apply and bind SCCs
-oc apply -f sas-bases/examples/cas/configure/cas-server-scc-host-launch.yaml
+oc apply -f downloads/sas-bases/examples/cas/configure/cas-server-scc-host-launch.yaml
 oc -n $project adm policy add-scc-to-user sas-cas-server-host -z sas-cas-server
-oc apply -f sas-bases/overlays/sas-microanalytic-score/service-account/sas-microanalytic-score-scc.yaml
+oc apply -f downloads/sas-bases/overlays/sas-microanalytic-score/service-account/sas-microanalytic-score-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-microanalytic-score -z sas-microanalytic-score
-oc apply -f sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml
+oc apply -f downloads/sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-detection-definition -z sas-detection-definition 
-oc apply -f sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml
+oc apply -f downloads/sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-model-repository -z sas-model-repository
 oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml
 oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro

@@ -1,0 +1,29 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: set-consul-bind-external
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/env/-
+    value:
+      name: CONSUL_BIND_EXTERNAL
+      value: "eth0"
+target:
+  kind: StatefulSet
+  name: sas-consul-server
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: set-consul-bind-external-cas
+patch: |-
+  - op: add
+    path: /spec/controllerTemplate/spec/containers/2/env/-
+    value:
+      name: CONSUL_BIND_EXTERNAL
+      value: "eth0"
+target:
+  group: viya.sas.com
+  kind: CASDeployment
+  name: .*
+  version: v1alpha1

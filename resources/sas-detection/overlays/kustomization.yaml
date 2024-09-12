@@ -1,0 +1,17 @@
+bases:
+- ../../sas-bases
+
+patchesStrategicMerge:
+- sas-detection-patch.yaml
+
+configMapGenerator:
+- name: sas-detection-datastore-config
+  envs:
+    - redis-config.yaml
+    - kafka-config.yaml
+
+secretGenerator:
+- name: sas-detection-datastore-secrets
+  envs:
+  - redis-secret.yaml
+  - kafka-secret.yaml

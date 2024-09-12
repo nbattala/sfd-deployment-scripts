@@ -1,0 +1,80 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+namespace: {{ namespace }}
+
+resources:
+## vdm defined resources (pre)
+- sas-bases/base
+- sas-bases/overlays/update-checker
+- sas-bases/overlays/network/route.openshift.io
+#- sas-bases/examples/security/openssl-generated-ingress-certificate.yaml
+- sas-bases/overlays/internal-elasticsearch
+- sas-bases/overlays/crunchydata/postgres-operator
+- sas-bases/overlays/postgres/platform-postgres
+- sas-bases/overlays/cas-server
+- sas-bases/overlays/sas-detection-definition/service-account/sa.yaml
+## user defined resources
+- site-config/ldap/resources/openldap.yaml
+- site-config/kaniko
+
+configurations:
+## vdm defined configurations (post)
+- sas-bases/overlays/required/kustomizeconfig.yaml
+
+transformers:
+- sas-bases/overlays/internal-elasticsearch/sysctl-transformer.yaml
+- sas-bases/overlays/required/transformers.yaml
+- sas-bases/overlays/internal-elasticsearch/internal-elasticsearch-transformer.yaml
+#- site-config/postgres/platform-postgres-dataserver-transformer.yaml
+#- site-config/ha/enable-ha-transformer.yaml
+- sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml
+- site-config/ldap/transformers/openldap.yaml
+#- site-config/vdm/transformers/mirror.yaml
+#- sas-bases/overlays/cas-server/auto-resources/remove-resources.yaml
+- site-config/security/container-security/update-fsgroup.yaml
+- sas-bases/overlays/security/container-security/remove-seccomp-transformer.yaml
+- sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
+#rwo storage class
+- site-config/rwoStorageClass/crunchy-storage-transformer.yaml
+- site-config/rwoStorageClass/consul-storage-transformer.yaml
+- site-config/rwoStorageClass/opendistro-storage-transformer.yaml
+- site-config/rwoStorageClass/rabbitmq-storage-transformer.yaml
+- site-config/rwoStorageClass/redis-modify-storage.yaml
+#sas-consul-server ip bind (https://sirius.na.sas.com/Sirius/GSTS/ShowTrack.aspx?trknum=7613748910)
+- site-config/sas-consul-server-ip-bind-transformer.yaml
+
+
+patches:
+- path: site-config/rwx-storageclass.yaml
+  target:
+    kind: PersistentVolumeClaim
+    annotationSelector: sas.com/component-name in (sas-backup-job,sas-data-quality-services,sas-commonfiles,sas-cas-operator,sas-pyconfig)
+generators:
+- site-config/ldap/generators/openldap-bootstrap-config.yaml
+
+components:
+- sas-bases/components/crunchydata/internal-platform-postgres 
+#- sas-bases/components/security/core/base/full-stack-tls
+- sas-bases/components/security/core/base/truststores-only
+#- sas-bases/components/security/network/route.openshift.io/route/full-stack-tls
+secretGenerator:
+- name: sas-consul-config
+  behavior: merge
+  literals:
+  - INGRESS_HOST={{ ingressHost }}
+  files:
+  - SITEDEFAULT_CONF=site-config/sitedefault.yaml
+#- name: platform-postgres-user
+#  envs:
+#  - site-config/postgres/platform-postgres-user.env
+configMapGenerator:
+- name: ingress-input
+  behavior: merge
+  literals:
+  - INGRESS_HOST={{ ingressHost }}
+- name: sas-shared-config
+  behavior: merge
+  literals:
+  - SAS_SERVICES_URL=http://{{ ingressHost }}:80
+  # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }} 

@@ -21,9 +21,15 @@ file_exists() {
 file_exists "sas-detection-kafka-config.env"
 oc create cm sas-detection-kafka-config --from-env-file=sas-detection-kafka-config.env 
 
-echo "Please enter the path to Kafka TLS Root CA in pem format:"
-read -r kafkaTrustStore
-file_exists "$kafkaTrustStore"
-oc create cm bank-ca-chain --from-file ca.crt="$kafkaTrustStore"
+echo "Please enter the path to Kafka and Redis TLS Root CA in pem format:"
+read -r caTrustStore
+file_exists "$caTrustStore"
+caConfigMap=$(oc get cm -o=custom-columns='NAME:metadata.name' | grep sas-customer-provided-ca-certificates)
+oc create cm ${caConfigMap} --from-file ca.crt="$caTrustStore" --dry-run-=client -o yaml | oc replace -f -
 
-
+echo "Please enter Redis Username:"
+read -r redisUser
+echo "Please enter Redis Password:"
+read -rs redisPassword
+file_exists "sas-detection-redis-config.env"
+oc create secret generic sas-detection-redis-secret --from-literal=

@@ -55,16 +55,16 @@ spec:
             name: scr-redis-secrets
           - mountPath: /opt/scr/config/redis
             name: scr-redis-config
-          - mountPath: /opt/scr/certs/redis
-            name: scr-redis-certs
+          - mountPath: /security
+            name: scr-redis-ca
       volumes:
       - name: scr-redis-config
         configMap:
           name: scr-redis-config
       - name: scr-redis-secrets
+        secret:
+          secretName: scr-redis-secrets
+      - name: scr-redis-ca
         configMap:
-          name: scr-redis-secrets
-      - name: scr-redis-certs
-        configMap:
-          name: scr-redis-certs
+          name: bank-ca-chain
           
