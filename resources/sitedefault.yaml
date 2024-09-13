@@ -1,13 +1,28 @@
 config:
   application:
     sas.identities.providers.ldap.connection:
-      host: {ldap-host}
-      password: {ldap-password}
-      port: {ldap-port}
+      host: ${adHost}
+      password: ${adPasswd}
+      port: ${adPort}
       url: ldap://${sas.identities.providers.ldap.connection.host}:${sas.identities.providers.ldap.connection.port}
-      userDN: {ldap-user}
+      userDN: ${adUserDN}
     sas.identities.providers.ldap.group:
-      baseDN: {ldap-group-dn}
+      baseDN: ${adGroupBaseDN}
     sas.identities.providers.ldap.user:
-      baseDN: {ldap-user-dn}
+      baseDN: ${adUserBaseDN}
     sas.logon.intitial.password: Password123
+    sas.logon.oauth.providers:
+      attributeMappings.user_name: ${oauthAttributeMappingUserName}
+      authUrl: ${oauthAuthUrl}
+      discoveryUrl: ${oauthDiscoveryUrl}
+      name: ${oauthName}
+      relyingPartyId: ${oauthClientId}
+      relyingPartySecret: ${oauthClientSecret}
+      scopes: ${oauthScopes}
+      tokenUrl: {oauth-tokenurl}
+    sas.logon.zone:
+      defaultIdentityProvider: ${oauthName}
+    sas.listdata.redis:
+      address: ${redisHost}:${redisPort}
+      serverFQDN: ${redisServerDomain}
+      useSSL: ${redisTlsEnabled}

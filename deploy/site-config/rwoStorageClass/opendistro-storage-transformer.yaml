@@ -1,0 +1,10 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sas-opendistro-storage-class-transformer
+patch: |-
+  - op: add
+    path: /spec/defaultStorageClassName
+    value: odf-storagecluster-ceph-rbd
+target:
+  kind: OpenDistroCluster

@@ -1,0 +1,3971 @@
+# This transformer MUST appear after overlays/required/transformers.yaml
+
+
+# This transformer is for use solely for non-flattened registries.
+# If the registry is flattened, use 'mirror-flattened.yaml' instead.
+
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-admin-content-loader-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-admin-content-loader
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-admin-content-loader
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-admin-content-loader-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-admin-content-loader
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-admin-content-loader
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-alerts-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-alerts
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-alerts
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-alerts-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-alerts
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-alerts
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-alerts-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-alerts-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-alerts-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-alerts-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-alerts-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-alerts-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-alerts-transaction-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-alerts-transaction
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-alerts-transaction
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-alerts-transaction-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-alerts-transaction
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-alerts-transaction
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-annotations-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-annotations
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-annotations
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-annotations-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-annotations
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-annotations
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-app-registry-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-app-registry
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-app-registry
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-app-registry-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-app-registry
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-app-registry
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-arke-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-arke
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-arke
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-arke-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-arke
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-arke
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-audit-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-audit
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-audit
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-audit-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-audit
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-audit
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-authorization-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-authorization
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-authorization
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-authorization-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-authorization
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-authorization
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-backup-agent-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-agent
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-backup-agent
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-backup-agent-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-agent
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-backup-agent
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-backup-job-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-backup-job
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-backup-job-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-backup-job
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-backup-job
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-batch-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-batch
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-batch
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-batch-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-batch
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-batch
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-batch-cmd-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-batch-cmd
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-batch-cmd
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-batch-cmd-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-batch-cmd
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-batch-cmd
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-buildkit-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-buildkit
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-buildkit
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-buildkit-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-buildkit
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-buildkit
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-business-orchestration-worker-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-business-orchestration-worker
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-business-orchestration-worker
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-business-orchestration-worker-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-business-orchestration-worker
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-business-orchestration-worker
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-business-rules-services-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-business-rules-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-business-rules-services
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-business-rules-services-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-business-rules-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-business-rules-services
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-cas-control-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-cas-control
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-cas-control
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-cas-control-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-cas-control
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-cas-control
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-cas-operator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-cas-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-cas-operator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-cas-operator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-cas-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-cas-operator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-cas-server-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-cas-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-cas-server
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-cas-server-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-cas-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-cas-server
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-catalog-services-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-catalog-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-catalog-services
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-catalog-services-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-catalog-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-catalog-services
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-certframe-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-certframe
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-certframe
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-certframe-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-certframe
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-certframe
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-code-debugger-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-code-debugger
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-code-debugger
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-code-debugger-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-code-debugger
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-code-debugger
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-code-debugger-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-code-debugger-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-code-debugger-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-code-debugger-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-code-debugger-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-code-debugger-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-collaboration-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-collaboration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-collaboration
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-collaboration-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-collaboration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-collaboration
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-commonfiles-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-commonfiles
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-commonfiles
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-commonfiles-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-commonfiles
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-commonfiles
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-compute-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-compute
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-compute
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-compute-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-compute
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-compute
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-config-init-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-config-init
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-config-init-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-init
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-config-init
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-config-reconciler-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-reconciler
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-config-reconciler
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-config-reconciler-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-config-reconciler
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-config-reconciler
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-configuration-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-configuration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-configuration
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-configuration-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-configuration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-configuration
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-connect-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-connect
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-connect
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-connect-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-connect
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-connect
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-connect-spawner-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-connect-spawner
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-connect-spawner
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-connect-spawner-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-connect-spawner
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-connect-spawner
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-consul-server-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-consul-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-consul-server
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-consul-server-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-consul-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-consul-server
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-content-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-content
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-content
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-content-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-content
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-content
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-credentials-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-credentials
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-credentials
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-credentials-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-credentials
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-credentials
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-pgbackrest-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-pgbackrest
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-pgbackrest
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-pgbackrest-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-pgbackrest
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-pgbackrest
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-postgres-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-postgres
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-postgres
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-postgres-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-postgres
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-postgres
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-postgres-exporter-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-postgres-exporter
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-postgres-exporter
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-postgres-exporter-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-postgres-exporter
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-postgres-exporter
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-postgres-operator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-postgres-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-postgres-operator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-postgres-operator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-postgres-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-postgres-operator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-upgrade-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-upgrade
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-upgrade
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-crunchy5-upgrade-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-crunchy5-upgrade
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-crunchy5-upgrade
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-agent-server-colocated-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-agent-server-colocated
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-agent-server-colocated
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-agent-server-colocated-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-agent-server-colocated
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-agent-server-colocated
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-agent-server-remote-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-agent-server-remote
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-agent-server-remote
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-agent-server-remote-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-agent-server-remote
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-agent-server-remote
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-agent-services-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-agent-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-agent-services
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-agent-services-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-agent-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-agent-services
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-explorer-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-explorer-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-explorer-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-explorer-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-explorer-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-explorer-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-flows-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-flows
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-flows
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-flows-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-flows
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-flows
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-plans-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-plans
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-plans
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-plans-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-plans
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-plans
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-quality-services-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-quality-services
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-quality-services-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-quality-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-quality-services
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-server-operator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-server-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-server-operator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-server-operator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-server-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-server-operator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-sources-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-sources
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-sources-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-sources
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-sources
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-studio-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-studio-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-studio-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-data-studio-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-data-studio-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-data-studio-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-db-migrator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-db-migrator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-db-migrator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-db-migrator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-db-migrator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decision-manager-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decision-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decision-manager-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decision-manager-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decision-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decision-manager-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-definitions-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-definitions
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-definitions
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-definitions-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-definitions
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-definitions
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-runtime-base-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-runtime-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-runtime-base
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-runtime-base-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-runtime-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-runtime-base
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-runtime-builder-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-runtime-builder
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-runtime-builder
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-runtime-builder-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-runtime-builder
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-runtime-builder
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-runtime-components-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-runtime-components
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-runtime-components
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-decisions-runtime-components-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-decisions-runtime-components
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-decisions-runtime-components
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-deployment-data-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-deployment-data
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-deployment-data
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-deployment-data-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-deployment-data
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-deployment-data
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-deployment-operator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-deployment-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-deployment-operator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-deployment-operator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-deployment-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-deployment-operator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-analysis-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-analysis
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-analysis
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-analysis-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-analysis
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-analysis
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-definition-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-definition
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-definition
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-definition-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-definition
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-definition
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-definition-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-definition-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-definition-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-definition-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-definition-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-definition-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-message-schema-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-message-schema
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-message-schema
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-detection-message-schema-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-detection-message-schema
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-detection-message-schema
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-device-management-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-device-management
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-device-management
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-device-management-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-device-management
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-device-management
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-discovery-services-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-discovery-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-discovery-services
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-discovery-services-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-discovery-services
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-discovery-services
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-drive-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-drive-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-drive-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-drive-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-drive-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-drive-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-environment-manager-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-environment-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-environment-manager-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-environment-manager-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-environment-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-environment-manager-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-event-monitor-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-event-monitor
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-event-monitor
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-event-monitor-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-event-monitor
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-event-monitor
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-feature-flags-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-feature-flags
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-feature-flags
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-feature-flags-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-feature-flags
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-feature-flags
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-files-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-files
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-files-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-files
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-files
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-flow-orchestrator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-flow-orchestrator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-flow-orchestrator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-flow-orchestrator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-flow-orchestrator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-flow-orchestrator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-folders-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-folders
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-folders
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-folders-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-folders
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-folders
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-formats-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-formats
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-formats
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-formats-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-formats
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-formats
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-geo-enrichment-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-geo-enrichment
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-geo-enrichment
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-geo-enrichment-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-geo-enrichment
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-geo-enrichment
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-geography-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-geography
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-geography
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-geography-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-geography
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-geography
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-graph-builder-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-graph-builder-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-graph-builder-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-graph-builder-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-graph-builder-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-graph-builder-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-graph-templates-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-graph-templates
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-graph-templates
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-graph-templates-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-graph-templates
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-graph-templates
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-identities-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-identities
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-identities
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-identities-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-identities
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-identities
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-import-9-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-import-9
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-import-9
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-import-9-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-import-9
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-import-9
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-import-data-loader-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-import-data-loader
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-import-data-loader
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-import-data-loader-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-import-data-loader
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-import-data-loader
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-information-catalog-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-information-catalog-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-information-catalog-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-information-catalog-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-information-catalog-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-information-catalog-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-insights-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-insights
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-insights
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-insights-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-insights
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-insights
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-inventory-collector-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-inventory-collector
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-inventory-collector
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-inventory-collector-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-inventory-collector
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-inventory-collector
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-job-execution-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-execution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-job-execution
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-job-execution-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-execution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-job-execution
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-job-execution-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-execution-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-job-execution-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-job-execution-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-execution-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-job-execution-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-job-flow-scheduling-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-job-flow-scheduling
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-job-flow-scheduling-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-job-flow-scheduling
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-job-flow-scheduling
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-kaniko-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-kaniko
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-kaniko
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-kaniko-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-kaniko
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-kaniko
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-krb5-proxy-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-krb5-proxy
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-krb5-proxy
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-krb5-proxy-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-krb5-proxy
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-krb5-proxy
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-launcher-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-launcher
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-launcher
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-launcher-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-launcher
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-launcher
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-lineage-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-lineage-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-lineage-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-lineage-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-lineage-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-lineage-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-links-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-links
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-links
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-links-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-links
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-links
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-list-data-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-list-data
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-list-data
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-list-data-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-list-data
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-list-data
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-localization-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-localization
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-localization
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-localization-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-localization
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-localization
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-logon-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-logon-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-logon-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-logon-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-logon-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-logon-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-maspy-base-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-maspy-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-maspy-base
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-maspy-base-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-maspy-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-maspy-base
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-microanalytic-score-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-microanalytic-score
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-microanalytic-score
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-microanalytic-score-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-microanalytic-score
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-microanalytic-score
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-migration-manager-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-migration-manager
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-migration-manager
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-migration-manager-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-migration-manager
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-migration-manager
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-management-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-management
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-management
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-management-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-management
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-management
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-manager-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-manager-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-manager-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-manager-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-publish-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-publish
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-publish
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-publish-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-publish
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-publish
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-repository-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-repository
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-repository
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-model-repository-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-model-repository
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-model-repository
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-natural-language-generation-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-natural-language-generation
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-natural-language-generation
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-natural-language-generation-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-natural-language-generation
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-natural-language-generation
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-office-addin-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-office-addin-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-office-addin-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-office-addin-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-office-addin-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-office-addin-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-opendistro-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-opendistro
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-opendistro
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-opendistro-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-opendistro
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-opendistro
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-opendistro-operator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-opendistro-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-opendistro-operator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-opendistro-operator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-opendistro-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-opendistro-operator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-opendistro-sysctl-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-opendistro-sysctl
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-opendistro-sysctl
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-opendistro-sysctl-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-opendistro-sysctl
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-opendistro-sysctl
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-operational-qualification-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-operational-qualification
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-operational-qualification
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-operational-qualification-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-operational-qualification
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-operational-qualification
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-orchestration-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-orchestration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-orchestration
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-orchestration-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-orchestration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-orchestration
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: patch-transformer-sas-orchestration-configmap-image-mirror
+patch: |-
+  - op: replace
+    path: /data/image
+    value: registry-nonprod.sdi.corp.example.com/47231/sas/sas-orchestration:1.119.0-20240514.1715702965973
+  - op: replace
+    path: /data/registry
+    value: 
+target:
+  kind: ConfigMap
+  labelSelector: orchestration.sas.com/lifecycle=image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-portable-formats-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-portable-formats
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-portable-formats
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-portable-formats-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-portable-formats
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-portable-formats
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-postgres-data-transfer-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-postgres-data-transfer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-postgres-data-transfer
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-postgres-data-transfer-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-postgres-data-transfer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-postgres-data-transfer
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-preferences-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-preferences
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-preferences
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-preferences-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-preferences
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-preferences
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-prepull-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-prepull
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-prepull
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-prepull-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-prepull
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-prepull
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-process-exporter-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-process-exporter
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-process-exporter
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-process-exporter-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-process-exporter
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-process-exporter
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-programming-environment-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-programming-environment
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-programming-environment
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-programming-environment-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-programming-environment
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-programming-environment
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-pyconfig-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-pyconfig
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-pyconfig
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-pyconfig-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-pyconfig
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-pyconfig
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-quality-knowledge-base-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-quality-knowledge-base
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-quality-knowledge-base-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-quality-knowledge-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-quality-knowledge-base
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-rabbitmq-server-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-rabbitmq-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-rabbitmq-server
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-rabbitmq-server-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-rabbitmq-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-rabbitmq-server
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-readiness-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-readiness
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-readiness
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-readiness-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-readiness
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-readiness
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-redis-operator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-redis-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-redis-operator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-redis-operator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-redis-operator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-redis-operator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-redis-server-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-redis-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-redis-server
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-redis-server-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-redis-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-redis-server
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-alerts-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-alerts
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-alerts
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-alerts-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-alerts
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-alerts
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-distribution-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-distribution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-distribution
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-distribution-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-distribution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-distribution
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-execution-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-execution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-execution
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-execution-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-execution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-execution
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-operations-core-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-operations-core
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-operations-core
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-operations-core-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-operations-core
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-operations-core
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-renderer-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-renderer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-renderer
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-renderer-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-renderer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-renderer
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-renderers-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-renderers
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-renderers
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-renderers-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-renderers
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-renderers
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-services-group-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-services-group
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-services-group
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-report-services-group-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-report-services-group
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-report-services-group
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-restore-job-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-restore-job
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-restore-job
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-restore-job-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-restore-job
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-restore-job
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-rfc-solution-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-rfc-solution-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-rfc-solution-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-rfc-solution-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-rfc-solution-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-rfc-solution-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-rfc-solution-config-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-rfc-solution-config
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-rfc-solution-config
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-rfc-solution-config-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-rfc-solution-config
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-rfc-solution-config
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-scheduler-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-scheduler
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-scheduler
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-scheduler-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-scheduler
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-scheduler
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-definitions-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-definitions
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-definitions
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-definitions-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-definitions
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-definitions
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-execution-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-execution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-execution
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-execution-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-execution
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-execution
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-python3-base-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-python3-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-python3-base
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-python3-base-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-python3-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-python3-base
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-r4-base-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-r4-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-r4-base
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-score-r4-base-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-score-r4-base
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-score-r4-base
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-search-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-search
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-search
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-search-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-search
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-search
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-sssd-server-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-sssd-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-sssd-server
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-sssd-server-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-sssd-server
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-sssd-server
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-start-sequencer-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-start-sequencer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-start-sequencer
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-start-sequencer-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-start-sequencer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-start-sequencer
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-development-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio-development
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio-development
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-development-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio-development
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio-development
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-steps-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio-steps
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio-steps
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-studio-steps-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-studio-steps
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-studio-steps
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-subject-contacts-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-subject-contacts
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-subject-contacts
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-subject-contacts-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-subject-contacts
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-subject-contacts
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-templates-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-templates
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-templates
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-templates-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-templates
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-templates
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-tenant-job-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-tenant-job
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-tenant-job
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-tenant-job-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-tenant-job
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-tenant-job
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-theme-designer-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-theme-designer-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-theme-designer-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-theme-designer-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-theme-designer-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-theme-designer-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-transfer-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-transfer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-transfer
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-transfer-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-transfer
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-transfer
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-transformations-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-transformations
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-transformations
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-transformations-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-transformations
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-transformations
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-types-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-types
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-types
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-types-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-types
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-types
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-visual-analytics-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-visual-analytics
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-visual-analytics
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-visual-analytics-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-visual-analytics
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-visual-analytics
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-visual-analytics-administration-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-visual-analytics-administration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-visual-analytics-administration
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-visual-analytics-administration-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-visual-analytics-administration
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-visual-analytics-administration
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-visual-analytics-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-visual-analytics-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-visual-analytics-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-visual-analytics-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-visual-analytics-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-visual-analytics-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-viya-cli-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-viya-cli
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-viya-cli
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-viya-cli-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-viya-cli
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-viya-cli
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-web-assets-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-web-assets
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-web-assets
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-web-assets-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-web-assets
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-web-assets
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-webhooks-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-webhooks
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-webhooks
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-webhooks-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-webhooks
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-webhooks
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workflow-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workflow
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workflow
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workflow-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workflow
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workflow
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workflow-definition-history-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workflow-definition-history
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workflow-definition-history
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workflow-definition-history-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workflow-definition-history
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workflow-definition-history
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workflow-manager-app-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workflow-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workflow-manager-app
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workflow-manager-app-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workflow-manager-app
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workflow-manager-app
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workload-orchestrator-mirror
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workload-orchestrator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workload-orchestrator
+---
+apiVersion: builtin
+kind: ImageTagTransformer
+metadata:
+  name: image-transformer-sas-workload-orchestrator-mirror-configured
+imageTag:
+  name: cr.sas.com/viya-4-x64_oci_linux_2-docker/sas-workload-orchestrator
+  newName: registry-nonprod.sdi.corp.example.com/47231/sas/sas-workload-orchestrator
+fieldSpecs:
+- kind: PostgresCluster
+  path: spec/image
+- kind: PostgresCluster
+  path: spec/backups/pgbackrest/image
+- kind: PostgresCluster
+  path: spec/monitoring/pgmonitor/exporter/image
+- kind: PostgresCluster
+  path: spec/userInterface/pgAdmin/image

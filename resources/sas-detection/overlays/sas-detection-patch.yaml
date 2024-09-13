@@ -1,110 +1,99 @@
-spec:
-  template:
-    metadata:
-      annotations:
-        prometheus.io/port: "8777"
-    spec:
-      containers:
-      - name: sas-sda-scr
-        image: scr-registry-url
-        imagePullPolicy: "Always"
-        ports:
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sasfd-runtime-sidecar-scr
+patch: |-
+  - op: add
+    path: /spec/template/spec/containers/0/envFrom/-
+    value:
+      secretRef:
+        name: sas-detection-datastore-secrets
+  - op: add
+    path: /spec/template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-detection-datastore-config
+  - op: add
+    path: /spec/template/spec/containers/0/envFrom/-
+    value:
+      configMapRef:
+        name: sas-detection-config
+  - op: replace
+    path: /spec/template/spec/containers/0/ports/0/containerPort
+    value: 8777
+  - op: replace
+    path: /spec/template/metadata/annotations/prometheus.io~1port
+    value: "8777"
+  - op: add
+    path: /spec/template/spec/containers/0/volumeMounts/-
+    value:
+      name: customer-provided-ca-certificates
+      mountPath: /customer-provided-ca-certificates
+  - op: add
+    path: /spec/template/spec/containers/-
+    value:
+      name: sas-sda-scr
+      image: scr-registry-url
+      imagePullPolicy: "Always"
+      ports:
         - name: http
           containerPort: 8080
           protocol: TCP
-        env:
-        - name: SAS_SCR_LOG_LEVEL_App.tk.MAS.Detection.Detect.DS2
-          value: INFO
-        - name: SAS_SCR_LOG_LEVEL_App.tk.Detection
-          value: INFO
-        - name: PORT
-          value: "8080"
-        - name: SAS_REDIS_TRUST_CERT_PATH
-          value: /customer-provided-ca-certificates
-        envFrom:
-        - secretRef:
-            name: sas-detection-datastore-secrets
-        - configMapRef:
-            name: sas-detection-datastore-config
-        resources:
-          limits:
-            cpu: 1
-            memory: 1Gi
-          requests:
-            cpu: 1
-            memory: 1Gi
-        livenessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /internal/live
-            port: http
-            scheme: HTTP
-          periodSeconds: 20
-          successThreshold: 1
-          timeoutSeconds: 5
-        readinessProbe:
-          failureThreshold: 3
-          httpGet:
-            path: /internal/ready
-            port: http
-            scheme: HTTP
-          periodSeconds: 20
-          successThreshold: 1
-          timeoutSeconds: 1
-        startupProbe:
-          failureThreshold: 180
-          httpGet:
-            path: /internal/live
-            port: http
-            scheme: HTTP
-          periodSeconds: 10
-          successThreshold: 1
-          timeoutSeconds: 1
-        volumeMounts:
-        - mountPath: /customer-provided-ca-certificates
-          name: customer-provided-ca-certificates
-      - name: sas-detection
-        ports:
-        - containerPort: 8777
-          name: http
-          protocol: TCP
-        resources:
-          limits:
-            cpu: 4
-            memory: 8Gi
-          requests:
-            cpu: 4
-            memory: 8Gi
-        volumeMounts:
-        - mountPath: /customer-provided-ca-certificates
-          name: customer-provided-ca-certificates
-        env:
-        - name: SAS_DETECTION_DEPLOYMENT_NAME
-          value: sas-detection
-        - name: SAS_LOG_LEVEL
-          value: INFO
-        - name: SAS_DETECTION_REDIS_TLS_CACERT
-          value: /customer-provided-ca-certificates
-        - name: SAS_DETECTION_KAFKA_SSL_TRUSTSTORE
-          value: /customer-provided-ca-certificates
-        - name: SAS_DETECTION_PROCESSING_DISABLEMETRICS
-          value: "false"
-        - name: SAS_DETECTION_PROCESSING_EXECUTION_URL
-          value: http://localhost:8080
-        - name: SAS_DETECTION_PROCESSING_OUTPUT_FILTER
-          value: message.sas.system,message.sas.decision,message.request,message.alerted
-        - name: SAS_DETECTION_PROCESSING_SETVERBOSE
-          value: "1"
-        - name: SAS_DETECTION_PROCESSING_SLA
-          value: "850"
-        - name: SAS_DETECTION_SERVICE_URL
-          value: http://localhost:8777
-        - name: SAS_DETECTION_WATCHER_INTERVAL_SEC
-          value: "120"
-        - name: SAS_DETECTION_WATCHER_SSL_ENABLED
-          value: "true"
-        envFrom:
-        - secretRef:
-            name: sas-detection-datastore-secrets
-        - configMapRef:
-            name: sas-detection-datastore-config
+      env:
+      - name: SAS_SCR_LOG_LEVEL_App.tk.MAS.Detection.Detect.DS2
+        value: DEBUG
+      - name: SAS_SCR_LOG_LEVEL_App.tk.Detection
+        value: INFO
+      - name: PORT
+        value: "8080"
+      - name: SAS_REDIS_TRUST_CERT_PATH
+        value: "/customer-provided-ca-certificates"
+      envFrom:
+      - configMapRef:
+          name: sas-detection-datastore-config
+      - secretRef:
+          name: sas-detection-datastore-secrets
+      resources:
+        limits:
+          cpu: 1000m
+          memory: 1000Mi
+        requests:
+          cpu: 1000m
+          memory: 1000Mi
+      livenessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /internal/live
+          port: http
+          scheme: HTTP
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 5
+      readinessProbe:
+        failureThreshold: 3
+        httpGet:
+          path: /internal/ready
+          port: http
+          scheme: HTTP
+        periodSeconds: 20
+        successThreshold: 1
+        timeoutSeconds: 1
+      startupProbe:
+        failureThreshold: 180
+        httpGet:
+          path: /internal/live
+          port: http
+          scheme: HTTP
+        periodSeconds: 10
+        successThreshold: 1
+        timeoutSeconds: 1
+      volumeMounts:
+      - mountPath: /customer-provided-ca-certificates
+        name: customer-provided-ca-certificates
+target:
+  group: apps
+  kind: Deployment
+  name: sas-detection
+  version: v1
+---

@@ -1,2 +1,6 @@
 sas-bases
 site.yaml
+downloads
+ca-certificates
+deploy/sas-bases
+resource/tools

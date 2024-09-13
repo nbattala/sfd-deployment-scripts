@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-source env.properties
+source properties.env
 
 #Remove Service Account links and SCCs
 for oc_scc in $(oc get clusterrolebinding | grep "system:openshift:scc:" | awk '{ print $1 }'); do

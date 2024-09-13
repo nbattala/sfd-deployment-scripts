@@ -1,0 +1,18 @@
+# This file is used to specify the persistent storage resources for Redis nodes.
+# The default value for storage size is 1Gi. The default storage class
+# is the default storage class in Kubernetes.
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: redis-modify-storage
+patch: |-
+  - op: add
+    path: /spec/storage
+    value:
+      class: odf-storagecluster-ceph-rbd
+target:
+  kind: DistributedRedisCluster
+  name: sas-redis-server
+  version: v1alpha1
+  group: redis.kun

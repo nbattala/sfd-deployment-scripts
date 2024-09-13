@@ -1,16 +1,14 @@
 #!/usr/bin/env bash
-
-source env.properties
-
-APPS_DOMAIN=$(oc get ingresscontroller.operator.openshift.io -n openshift-ingress-operator -o jsonpath='{.items[].status.domain}')
-ingressHost="${project}.${APPS_DOMAIN}"
+set -o allexport
+source properties.env
+set +o allexport
 
 k8s_resource_exists() {
     local resource_type="$1"
     local resource_name="$2"
-    if [ ! $(oc get "$resource_type" "$resource_name") ]; then
-	echo "ERROR: "$resource_type" "${resource_name}" not found!"
-	exit 1;
+    if [[ ! $(oc get "$resource_type" "$resource_name") ]]; then
+	    echo "ERROR: "$resource_type" "${resource_name}" not found!"
+	    exit 1;
     fi
 }
 
@@ -34,24 +32,43 @@ check_var() {
     for var in "$@"
     do 
         if [ -z ${!var+x} ]; then 
-            echo "ERROR: $var is unset"
+            echo "ERROR: Variable $var is unset in env.properties"
             exit 1; 
         fi
     done
 }
 
-check_var project siteYaml imagePullSecret imageRepository scrImageName rwxStorageClass \
-    rwoStorageClass adHost adPort adUserDN adGroupBaseDN adUserBaseDN redisHost redisPort \
-    redisTlsEnabled redisServerDomain redisUser redisPassword kafkaHost kafkaPort kafkaBypass \
-    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
-    kafkaSaslPassword
 
-k8s_resource_exists namespace "$project"
-k8s_resource_exists storageclass "$rwxStorageClass"
-k8s_resource_exists storageclass "$rwoStorageClass"
+check_var project siteYaml imagePullSecret imageRegistry scrImageName rwxStorageClass \
+    rwoStorageClass enableHA adHost adPort adUserDN adGroupBaseDN adUserBaseDN redisHost redisPort \
+    redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
+    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
+    kafkaSaslPassword customerCaCertsDir
+
+ingressHost=''
+if [ -z "${ingressHost}" ]; then
+    APPS_DOMAIN=$(oc get ingresscontroller.operator.openshift.io -n openshift-ingress-operator -o jsonpath='{.items[].status.domain}')
+    ingressHost="${project}.${APPS_DOMAIN}"
+fi
+
+clusterPreReqCheck='true'
+if ${clusterPreReqCheck}; then
+    k8s_resource_exists namespace "$project"
+    k8s_resource_exists storageclass "$rwxStorageClass"
+    k8s_resource_exists storageclass "$rwoStorageClass"
+    k8s_resource_exists secret "$imagePullSecret"
+fi
+
 dir_exists downloads/sas-bases
-rm -rf deploy/site-config
+chmod -Rf 755 deploy/sas-bases
+rm -rf deploy
 mkdir -p deploy/site-config
+cp -a downloads/sas-bases deploy
+
+#extract tools
+file_exists resources/tools.tar.gz
+tar xzf resources/tools.tar.gz -C resources
+chmod +x resources/tools/*
 
 #rwx-storage-class
 cat > deploy/site-config/rwx-storageclass.yaml <<EOF
@@ -60,18 +77,6 @@ metadata:
  name: wildcard
 spec:
  storageClassName: ${rwxStorageClass}
-EOF
-
-#sas-shared-config
-#change the Service URL to https and port 443 for TLS.. Changed to Test noTLS for BofA.
-cat > deploy/site-config/sas-shared-config.yaml <<EOF
-apiVersion: builtin
-kind: ConfigMapGenerator
-metadata:
-  name: sas-shared-config
-behavior: merge
-literals:
-  - SAS_SERVICES_URL=http://${ingressHost}:80
 EOF
 
 #kaniko configuration
@@ -87,14 +92,12 @@ sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/kani
 #configure rwo storage class (for customers who do not have rwo sc set as default or do not want default sc to be used)
 dir_exists resources/rwoStorageClass
 cp -a resources/rwoStorageClass deploy/site-config
-file_exists downloads/sas-bases/examples/crunchydata/storage/crunchy-storage-transformer.yaml
-cp -a downloads/sas-bases/examples/crunchydata/storage/crunchy-storage-transformer.yaml deploy/site-config/rwoStorageClass
+file_exists deploy/site-config/rwoStorageClass/crunchy-storage-transformer.yaml
 sed -i "s/{{ POSTGRES-STORAGE-CLASS }}/${rwoStorageClass}/g" deploy/site-config/rwoStorageClass/crunchy-storage-transformer.yaml
 sed -i "s/{{ BACKREST-STORAGE-CLASS }}/${rwoStorageClass}/g" deploy/site-config/rwoStorageClass/crunchy-storage-transformer.yaml
 file_exists deploy/site-config/rwoStorageClass/opendistro-storage-transformer.yaml
 sed -i "s/{{ STORAGE-CLASS }}/${rwoStorageClass}/g" deploy/site-config/rwoStorageClass/opendistro-storage-transformer.yaml
-file_exists downloads/sas-bases/examples/redis/operator/redis-modify-storage.yaml
-cp -a downloads/sas-bases/examples/redis/operator/redis-modify-storage.yaml deploy/site-config/rwoStorageClass
+file_exists deploy/site-config/rwoStorageClass/redis-modify-storage.yaml
 sed -i "s/{{ STORAGE-CLASS }}/${rwoStorageClass}/g" deploy/site-config/rwoStorageClass/redis-modify-storage.yaml
 file_exists deploy/site-config/rwoStorageClass/consul-storage-transformer.yaml
 sed -i "s/{{ STORAGE-CLASS }}/${rwoStorageClass}/g" deploy/site-config/rwoStorageClass/consul-storage-transformer.yaml
@@ -107,22 +110,22 @@ file_exists resources/sas-consul-server-ip-bind-transformer.yaml
 cp -a resources/sas-consul-server-ip-bind-transformer.yaml deploy/site-config
 
 #configure SCR sidecar for sas-detection
-dir_exists resources/sas-detection/overlays
+file_exists resources/sas-detection/overlays/kustomization.yaml
+file_exists resources/sas-detection/overlays/sas-detection-patch.yaml
 cp -a resources/sas-detection deploy/site-config
-file_exists deploy/site-config/sas-detection/overlays/redis-config.yaml
-[ ${redisTlsEnabled} = 'true' ] && redisTlsScr='true' || redisTlsScr='false'
-sed -i "s/{redis-host}/${redisHost}/g;s/{redis-port}/${redisPort}/g;s/{redis-server-domain}/${redisServerDomain}/g;s/{redis-tls-enabled}/${redisTlsEnabled}/g;s/{redis-tls-scr}/${redisTlsScr}/g" deploy/site-config/sas-detection/overlays/redis-config.yaml
-file_exists deploy/site-config/sas-detection/overlays/redis-secret.yaml
-sed -i "s/{redis-user}/${redisUser}/g;s/{redis-pwd}/${redisPassword}/g" deploy/site-config/sas-detection/overlays/redis-secret.yaml
-file_exists deploy/site-config/sas-detection/overlays/kafka-config.yaml
-sed -i "s/{kafka-host}/${kafkaHost}:${kafka-port}/g;s/{tdr-topic}/${kafkaTdrTopic}/g;s/{kafka-cons-enable}/${kafkaConsumerEnabled}/g;s/{kafka-host-verify}/${kafkaHostnameVerify}/g;s/{reject-topic}/${kafkaRejectTopic}/g;s/{kafka-sec-prot}/${kafkaSecurityProtocol}/g;s/{input-topic}/${kafkaConsumerTopic}/g;s/{kafka-bypass}/${kafkaBypass}/g" deploy/site-config/sas-detection/overlays/kafka-config.yaml
-file_exists deploy/site-config/sas-detection/overlays/kafka-secret.yaml
-sed -i "s/{kafka-sasl-user}/${kafkaSaslUsername}/g;s/{kafka-sasl-password}/${kafkaSaslPassword}/g" deploy/site-config/sas-detection/overlays/kafka-secret.yaml 
+file_exists resources/sas-detection/overlays/redis-config.yaml
+${redisTlsEnabled} && redisTlsScr='T' || redisTlsScr='F'
+envsubst < resources/sas-detection/overlays/redis-config.yaml > deploy/site-config/sas-detection/overlays/redis-config.yaml
+file_exists resources/sas-detection/overlays/redis-secret.yaml
+envsubst <  resources/sas-detection/overlays/redis-secret.yaml > deploy/site-config/sas-detection/overlays/redis-secret.yaml
+file_exists resources/sas-detection/overlays/kafka-config.yaml
+envsubst < resources/sas-detection/overlays/kafka-config.yaml > deploy/site-config/sas-detection/overlays/kafka-config.yaml
+file_exists resources/sas-detection/overlays/kafka-secret.yaml
+envsubst < resources/sas-detection/overlays/kafka-secret.yaml > deploy/site-config/sas-detection/overlays/kafka-secret.yaml 
 
-#configure Active Directory information
+#configure Active Directory, SSO, Redis for Designtime
 file_exists resources/sitedefault.yaml
-cp -a resources/sitedefault.yaml deploy/site-config
-sed -i "s/{ldap-host}/${adHost}/g;s/{ldap-password}/${adPasswd}/g;s/{ldap-port}/${adPort}/g;s/{ldap-user}/${adUserDN}/g;s/{ldap-group-dn}/${adGroupBaseDN}/g;s/{ldap-user-dn}/${adUserBaseDN}/g" deploy/site-config/sitedefault.yaml
+envsubst < resources/sitedefault.yaml >  deploy/site-config/sitedefault.yaml
 
 #remove seccomp
 nsGroupId=$(oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
@@ -134,27 +137,54 @@ sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/contai
 #mirror repository
 file_exists downloads/sas-bases/examples/mirror/mirror.yaml 
 cp -a downloads/sas-bases/examples/mirror/mirror.yaml deploy/site-config
-sed -i "s/{{ MIRROR-HOST }}\/viya-4-x64_oci_linux_2-docker/${imageRegistry}/g" deploy/site-config/mirror.yaml
+imageRegistryEsc="$(echo $imageRegistry | sed -e 's/\//\\&/g')"
+imageRegHost="$(echo "$imageRegistry" | cut -d '/' -f1)"
+sed -i "s/{{ MIRROR-HOST }}\/viya-4-x64_oci_linux_2-docker/${imageRegistryEsc}/g" deploy/site-config/mirror.yaml
+sed -i "s/{{ MIRROR-HOST }}/${imageRegistryHost}/g" deploy/site-config/mirror.yaml
+file_exists deploy/sas-bases/base/components/configmaps.yaml
+sed -i "s/viya-4-x64_oci_linux_2-docker\///g" deploy/sas-bases/base/components/configmaps.yaml
 
 #customer provided ca certificates
 dir_exists $customerCaCertsDir
 file_exists downloads/sas-bases/examples/security/customer-provided-ca-certificates.yaml 
 mkdir -p deploy/site-config/security/cacerts
 cp -a downloads/sas-bases/examples/security/customer-provided-ca-certificates.yaml deploy/site-config/security
+chmod +w deploy/site-config/security/customer-provided-ca-certificates.yaml
 sed -i '/- {{ CA_CERTIFICATE_FILE_NAME }}/d' deploy/site-config/security/customer-provided-ca-certificates.yaml
 for file in "$customerCaCertsDir"/*.pem
 do
     if [ -f "$file" ]; then 
-        # Remove spaces and replace with underscores
-        new_file=$(echo "$file" | tr ' ' '_')
-        # Rename the file
-        mv "$file" "$new_file"
-        if [ ! $(openssl x509 -in ${new_file} -text -noout > /dev/null) ]; then
-            echo "ERROR: CA cert file $new_file is not in pem format"
+        if [[ $file = *" "* ]]; then 
+            # Remove spaces and replace with underscores
+            new_file=$(echo "$file" | tr ' ' '_')
+            # Rename the file
+            mv "$file" "$new_file"
+        fi    
+    fi
+done
+
+for file in "$customerCaCertsDir"/*.pem
+do
+    if [ -f "$file" ]; then 
+        if [[ ! $(openssl x509 -in ${file} -text -noout) ]]; then
+            echo "ERROR: CA cert file $file is not in pem format"
             exit 1;
         else
             cp -a "$file" deploy/site-config/security/cacerts
-            echo "- site-config/security/cacerts/$new_file" >> deploy/site-config/security/customer-provided-ca-certificates.yaml
+            echo "- site-config/security/cacerts/$(basename $file)" >> deploy/site-config/security/customer-provided-ca-certificates.yaml
         fi
     fi
 done
+
+#image pull secret
+file_exists resources/image-pull-secret/sas-image-pull-secret-patch.yaml
+mkdir -p deploy/site-config/image-pull-secret
+envsubst < resources/image-pull-secret/sas-image-pull-secret-patch.yaml > deploy/site-config/image-pull-secret/sas-image-pull-secret-patch.yaml
+
+#kustomize
+file_exists resources/kustomization.yaml
+envsubst < resources/kustomization.yaml > deploy/kustomization.yaml
+#ln -s ../downloads/sas-bases deploy/
+${enableHA} && ./resource/tools/yq e -i '.transformers += ["sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml"]' deploy/kustomization.yaml
+rm -f site.yaml
+./resources/tools/kustomize build ./deploy -o site.yaml

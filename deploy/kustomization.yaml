@@ -1,0 +1,82 @@
+kind: Kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+
+namespace: viya4-sasfd
+
+resources:
+- sas-bases/base
+- sas-bases/overlays/update-checker
+- sas-bases/overlays/network/route.openshift.io
+#- sas-bases/examples/security/openssl-generated-ingress-certificate.yaml
+- sas-bases/overlays/internal-elasticsearch
+- sas-bases/overlays/crunchydata/postgres-operator
+- sas-bases/overlays/postgres/platform-postgres
+- sas-bases/overlays/cas-server
+- sas-bases/overlays/sas-detection-definition/service-account/sa.yaml
+## user defined resources
+- site-config/sas-detection/overlays
+- site-config/kaniko
+
+configurations:
+- sas-bases/overlays/required/kustomizeconfig.yaml
+
+transformers:
+- sas-bases/overlays/internal-elasticsearch/sysctl-transformer.yaml
+- sas-bases/overlays/required/transformers.yaml
+#- sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml
+- sas-bases/overlays/internal-elasticsearch/internal-elasticsearch-transformer.yaml
+- sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml
+#- sas-bases/overlays/cas-server/auto-resources/remove-resources.yaml
+- sas-bases/overlays/security/container-security/remove-seccomp-transformer.yaml
+- sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
+##user defined
+- site-config/mirror.yaml
+- site-config/security/container-security/update-fsgroup.yaml
+- site-config/rwoStorageClass/crunchy-storage-transformer.yaml
+- site-config/rwoStorageClass/consul-storage-transformer.yaml
+- site-config/rwoStorageClass/opendistro-storage-transformer.yaml
+- site-config/rwoStorageClass/rabbitmq-storage-transformer.yaml
+- site-config/rwoStorageClass/redis-modify-storage.yaml
+###sas-consul-server ip bind (https://sirius.na.sas.com/Sirius/GSTS/ShowTrack.aspx?trknum=7613748910)
+- site-config/sas-consul-server-ip-bind-transformer.yaml
+- site-config/image-pull-secret/sas-image-pull-secret-patch.yaml
+
+patches:
+- path: site-config/rwx-storageclass.yaml
+  target:
+    kind: PersistentVolumeClaim
+    annotationSelector: sas.com/component-name in (sas-backup-job,sas-data-quality-services,sas-commonfiles,sas-cas-operator,sas-pyconfig)
+
+components:
+- sas-bases/components/crunchydata/internal-platform-postgres 
+#- sas-bases/components/security/core/base/full-stack-tls
+- sas-bases/components/security/core/base/truststores-only
+#- sas-bases/components/security/network/route.openshift.io/route/full-stack-tls
+
+generators:
+- site-config/security/customer-provided-ca-certificates.yaml
+
+secretGenerator:
+- name: sas-consul-config
+  behavior: merge
+  literals:
+  - INGRESS_HOST=viya4-sasfd.apps.sasfd.westus.aroapp.io
+  files:
+  - SITEDEFAULT_CONF=site-config/sitedefault.yaml
+#- name: platform-postgres-user
+#  envs:
+#  - site-config/postgres/platform-postgres-user.env
+configMapGenerator:
+- name: input
+  behavior: merge
+  literals:
+  - IMAGE_REGISTRY=registry-nonprod.sdi.corp.example.com/47231/sas
+- name: ingress-input
+  behavior: merge
+  literals:
+  - INGRESS_HOST=viya4-sasfd.apps.sasfd.westus.aroapp.io
+- name: sas-shared-config
+  behavior: merge
+  literals:
+  - SAS_SERVICES_URL="http://{ingressHost}"
+  # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }} 
