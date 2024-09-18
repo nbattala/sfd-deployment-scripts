@@ -45,10 +45,11 @@ check_var project siteYaml imagePullSecret imageRegistry scrImageName rwxStorage
     kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
     kafkaSaslPassword customerCaCertsDir
 
-ingressHost=''
+export ingressHost=''
 if [ -z "${ingressHost}" ]; then
     APPS_DOMAIN=$(oc get ingresscontroller.operator.openshift.io -n openshift-ingress-operator -o jsonpath='{.items[].status.domain}')
-    ingressHost="${project}.${APPS_DOMAIN}"
+    export ingressHost="${project}.${APPS_DOMAIN}"
+    echo "Ingress Host is : $ingressHost"
 fi
 
 clusterPreReqCheck='true'

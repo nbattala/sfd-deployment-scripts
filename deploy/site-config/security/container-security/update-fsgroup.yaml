@@ -4,7 +4,7 @@
 ## hyphenated name set off by curly braces and a space at each end. You should replace this token with the
 ## actual value.
 ## Replace the curly braces, interior spaces, and the variable name.
-## For instance, "1000700000"
+## For instance, "1000720000"
 ## should be replaced by the desired fsgroup value
 ## The correct, final syntax would include a value within the allowed range, such as:
 ## value: 1000120000
@@ -20,7 +20,7 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/template/spec/securityContext/fsGroup
-    value: 1000700000
+    value: 1000720000
 target:
   kind: StatefulSet
 
@@ -33,7 +33,7 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/template/spec/securityContext/fsGroup
-    value: 1000700000
+    value: 1000720000
 target:
   kind: OpenDistroCluster
 
@@ -46,7 +46,7 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/template/spec/securityContext/fsGroup
-    value: 1000700000
+    value: 1000720000
 target:
   kind: Job
   annotationSelector: sas.com/component-name in (sas-commonfiles)
@@ -61,7 +61,7 @@ target:
 #patch: |-
 #  - op: replace
 #    path: /spec/jobTemplate/spec/template/spec/securityContext/fsGroup
-#    value: 1000700000
+#    value: 1000720000
 #target:
 #  kind: CronJob
 #  annotationSelector: sas.com/component-name in (sas-pyconfig)
@@ -75,7 +75,7 @@ metadata:
 patch: |-
   - op: replace
     path: /template/spec/securityContext/fsGroup
-    value: 1000700000
+    value: 1000720000
 target:
   kind: PodTemplate
 
@@ -89,7 +89,7 @@ target:
 #patch: |-
 #  - op: replace
 #    path: /spec/controllerTemplate/spec/securityContext/fsGroup
-#    value: 1000700000
+#    value: 1000720000
 #target:
 #  kind: CASDeployment
 
@@ -102,7 +102,7 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/template/spec/securityContext/fsGroup
-    value: 1000700000
+    value: 1000720000
 target:
   kind: Deployment
   annotationSelector: sas.com/component-name in (sas-audit)
@@ -116,7 +116,7 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/template/spec/containers/0/args/2
-    value: "1000700000"
+    value: "1000720000"
 target:
   kind: Deployment
   annotationSelector: sas.com/component-name in (sas-singlestore-operator)

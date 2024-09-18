@@ -1,0 +1,87 @@
+name: CreateCustomDebitCardFraud
+type: Custom
+description: "Process debitcard transactions"
+operation: put
+tenant: null
+product: sda
+message:
+  name: "Custom Debit Card Fraud"
+  type: Custom
+  description: "custom csca message"
+  operation: create
+  messageRelations:
+  - messageName: Core
+    operation: put
+  - messageName: Solution
+    operation: put
+  - messageName: Merchant
+    operation: put
+  - messageName: Debit Card
+    operation: put
+  - messageName: Debit Account
+    operation: put
+  - messageName: Customer
+    operation: put
+  - messageName: Card Financial
+    operation: put
+  variableSets:
+  - name: CustomDebit
+    displayName: CustomDebit
+    type: object
+    description: custom csca variableset
+    operation: put
+    variables:
+    - name: merchantMCC
+      type: string
+      minLength: 0
+      maxLength: 4
+      operation: put
+    - name: termOwnerID
+      type: string
+      minLength: 0
+      maxLength: 15
+      operation: put
+    - name: cardSource
+      type: string
+      minLength: 0
+      maxLength: 10
+      operation: put
+    - name: limitCount
+      type: string
+      minLength: 0
+      maxLength: 3
+      operation: put
+    - name: billCurrConversionRate
+      type: number
+      operation: put
+    - name: limitSubType
+      type: string
+      minLength: 0
+      maxLength: 4
+      operation: put
+    - name: transactionType
+      type: string
+      minLength: 0
+      maxLength: 3
+      operation: put
+      defaultValue: TRX
+    - name: entityUse
+      type: string
+      minLength: 0
+      maxLength: 1
+      operation: put
+    - name: scheme
+      type: string
+      minLength: 0
+      maxLength: 1
+      operation: put
+    - name: transactionUtcFlag
+      type: string
+      minLength: 0
+      maxLength: 1
+      operation: put
+    - name: termOwnerName
+      type: string
+      minLength: 0
+      maxLength: 40
+      operation: put

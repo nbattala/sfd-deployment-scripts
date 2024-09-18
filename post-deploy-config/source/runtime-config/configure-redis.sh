@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 
 export INGRESS_URL=$(oc get cm -o custom-columns=:.metadata.name | grep sas-shared-config | xargs -n 1 oc get cm -o jsonpath='{.data.SAS_SERVICES_URL}')
-echo "Please enter Redis Username:"
-read -r redisUser
-echo "Please enter Redis Password:"
-read -rs redisPassword
 
 configure-sfd-with-redis () {
     echo "Entering ${FUNCNAME[0]}"

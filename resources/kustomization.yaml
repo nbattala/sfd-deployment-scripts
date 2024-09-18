@@ -26,7 +26,6 @@ transformers:
 #- sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml
 - sas-bases/overlays/internal-elasticsearch/internal-elasticsearch-transformer.yaml
 - sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml
-#- sas-bases/overlays/cas-server/auto-resources/remove-resources.yaml
 - sas-bases/overlays/security/container-security/remove-seccomp-transformer.yaml
 - sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
 ##user defined
@@ -78,5 +77,5 @@ configMapGenerator:
 - name: sas-shared-config
   behavior: merge
   literals:
-  - SAS_SERVICES_URL="http://{ingressHost}"
-  # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }} 
+  - SAS_SERVICES_URL="http://${ingressHost}"
+  # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }}

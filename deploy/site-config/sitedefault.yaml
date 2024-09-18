@@ -11,18 +11,3 @@ config:
     sas.identities.providers.ldap.user:
       baseDN: ou=people,dc=example,dc=com
     sas.logon.intitial.password: Password123
-    sas.logon.oauth.providers:
-      attributeMappings.user_name: sub
-      authUrl: https://examplesso.com/oauth2/<auth-server>/v1/authorize
-      discoveryUrl: https://examplesso.com/oauth2/<auth-server>/.well-known/openid-configuration
-      name: ping_oidc
-      relyingPartyId: oauth-client-id
-      relyingPartySecret: oauth-client-secret-csdrwerwer
-      scopes: openid
-      tokenUrl: {oauth-tokenurl}
-    sas.logon.zone:
-      defaultIdentityProvider: ping_oidc
-    sas.listdata.redis:
-      address: 10.0.0.1:10000
-      serverFQDN: redis.example.com
-      useSSL: false

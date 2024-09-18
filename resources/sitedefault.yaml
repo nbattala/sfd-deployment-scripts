@@ -11,18 +11,3 @@ config:
     sas.identities.providers.ldap.user:
       baseDN: ${adUserBaseDN}
     sas.logon.intitial.password: Password123
-    sas.logon.oauth.providers:
-      attributeMappings.user_name: ${oauthAttributeMappingUserName}
-      authUrl: ${oauthAuthUrl}
-      discoveryUrl: ${oauthDiscoveryUrl}
-      name: ${oauthName}
-      relyingPartyId: ${oauthClientId}
-      relyingPartySecret: ${oauthClientSecret}
-      scopes: ${oauthScopes}
-      tokenUrl: {oauth-tokenurl}
-    sas.logon.zone:
-      defaultIdentityProvider: ${oauthName}
-    sas.listdata.redis:
-      address: ${redisHost}:${redisPort}
-      serverFQDN: ${redisServerDomain}
-      useSSL: ${redisTlsEnabled}

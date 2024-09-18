@@ -70,7 +70,7 @@ configMapGenerator:
 - name: input
   behavior: merge
   literals:
-  - IMAGE_REGISTRY=registry-nonprod.sdi.corp.example.com/47231/sas
+  - IMAGE_REGISTRY=sasfd202406acr.azurecr.io/viya-4-x64_oci_linux_2-docker
 - name: ingress-input
   behavior: merge
   literals:
@@ -78,5 +78,5 @@ configMapGenerator:
 - name: sas-shared-config
   behavior: merge
   literals:
-  - SAS_SERVICES_URL="http://{ingressHost}"
-  # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }} 
+  - SAS_SERVICES_URL="http://viya4-sasfd.apps.sasfd.westus.aroapp.io"
+  # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }}
