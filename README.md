@@ -11,7 +11,7 @@
 Download the deployment assets from my.sas.com and unzip them in the downloads directory or create a symlink name downloads for your deployment assets in a different location.
 
 ## Edit Environment Properties
-Edit [env.propertie](env.properties) to set the properties of the environment.
+Edit [properties.env](properties.env) to set the properties of the environment.
 Environment properties 
 |  Property Name               |    Description                            |
 | -----------------            |  ---------------------------------------- |
