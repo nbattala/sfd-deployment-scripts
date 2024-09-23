@@ -8,10 +8,7 @@
 - [Uninstall SFD](#Uninstall-SFD)
 
 ## Download SAS Deployment Assets
-Download the deployment assets from my.sas.com and unzip them in the current directory
-
-## Download SAS Deployment Manifest
-For POC only, since kustomize is not available, download site.yaml file provided by SAS into the current directory.
+Download the deployment assets from my.sas.com and unzip them in the downloads directory or create a symlink name downloads for your deployment assets in a different location.
 
 ## Edit Environment Properties
 Edit [env.propertie](env.properties) to set the properties of the environment.
@@ -20,6 +17,13 @@ Environment properties
 | -----------------            |  ---------------------------------------- |
 | project                      | Name of the Openshift project where SFD will be deployed. Ex. cp-3353070    |
 | siteYaml                     | Name of the deployment manifest yaml file or full path if not in current directory. Ex. site.yaml |
+
+
+## Create Deployment Manifest
+This script will create the deployment manifest (site.yaml) required to deploy SFD on openshift
+```bash
+./create-site-yaml.sh
+```
 
 ## Deploy SFD
 This will create and bind the necessary SCCs (Security Context Constraints) and deploy all the resources required for SFD by applying the Manifest
