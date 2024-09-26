@@ -112,11 +112,18 @@ cp -a resources/sas-consul-server-ip-bind-transformer.yaml deploy/site-config
 
 #configure SCR sidecar for sas-detection
 file_exists resources/sas-detection/overlays/kustomization.yaml
-file_exists resources/sas-detection/overlays/sas-detection-patch.yaml
 cp -a resources/sas-detection deploy/site-config
 file_exists resources/sas-detection/overlays/redis-config.yaml
-${redisTlsEnabled} && redisTlsScr='T' || redisTlsScr='F'
+if [[ ${redisTlsEnabled} ]] 
+then 
+    export redisTlsScr='T' 
+else   
+    export redisTlsScr='F'
+fi
 envsubst < resources/sas-detection/overlays/redis-config.yaml > deploy/site-config/sas-detection/overlays/redis-config.yaml
+export scrRegistryUrl=${imageRegistry}/${scrImageName}
+file_exists resources/sas-detection/overlays/sas-detection-patch.yaml
+envsubst < resources/sas-detection/overlays/sas-detection-patch.yaml > deploy/site-config/sas-detection/overlays/sas-detection-patch.yaml
 file_exists resources/sas-detection/overlays/redis-secret.yaml
 envsubst <  resources/sas-detection/overlays/redis-secret.yaml > deploy/site-config/sas-detection/overlays/redis-secret.yaml
 file_exists resources/sas-detection/overlays/kafka-config.yaml

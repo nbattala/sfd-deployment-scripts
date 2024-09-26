@@ -34,7 +34,7 @@ patch: |-
     path: /spec/template/spec/containers/-
     value:
       name: sas-sda-scr
-      image: scr-registry-url
+      image: ${scrRegistryUrl}
       imagePullPolicy: "Always"
       ports:
         - name: http

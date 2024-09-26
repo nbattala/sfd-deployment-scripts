@@ -39,6 +39,7 @@ transformers:
 ###sas-consul-server ip bind (https://sirius.na.sas.com/Sirius/GSTS/ShowTrack.aspx?trknum=7613748910)
 - site-config/sas-consul-server-ip-bind-transformer.yaml
 - site-config/image-pull-secret/sas-image-pull-secret-patch.yaml
+- site-config/sas-detection/overlays/sas-detection-patch.yaml
 
 patches:
 - path: site-config/rwx-storageclass.yaml
