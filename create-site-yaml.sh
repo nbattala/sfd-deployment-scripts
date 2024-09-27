@@ -59,7 +59,10 @@ if ${clusterPreReqCheck}; then
     k8s_resource_exists storageclass "$rwoStorageClass"
     k8s_resource_exists secret "$imagePullSecret"
 fi
-
+dir_exists downloads
+file_exists downloads/*$cadence*multipleAssets*.zip
+unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
+tar xzf downloads/*$cadence*deploymentAssets*.tgz -C downloads
 dir_exists downloads/sas-bases
 chmod -Rf 755 deploy/sas-bases
 rm -rf deploy
