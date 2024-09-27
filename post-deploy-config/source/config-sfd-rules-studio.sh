@@ -47,7 +47,7 @@ CREDIT,CREDIT,1.2'
     \"messageClassificationId\" : \"${globalMCId}\", \
         \"schemaRelations\": [ \
             { \
-                \"schemaName\": \"'CustomDebitAuthorizations'\" \
+                \"schemaName\": \"'Custom Debit Card Fraud'\" \
             } \
         ], \
         \"roleRelations\": [ \
