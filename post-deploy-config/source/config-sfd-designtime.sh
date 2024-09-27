@@ -24,8 +24,8 @@ config-sfd-designtime () {
                "address": "'${redisHost}:${redisPort}'",
                "password": "",
                "db": 0,
-               "useSSL": false,
-               "serverFQDN": ""
+               "useSSL": '${redisTlsEnabled}',
+               "serverFQDN": "'${redisServerDomain}'"
           }
           ]
      }'| jq
