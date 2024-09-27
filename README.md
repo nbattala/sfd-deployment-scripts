@@ -12,7 +12,7 @@
 Download the deployment assets from my.sas.com and unzip them in the downloads directory or create a symlink name downloads for your deployment assets in a different location.
 
 ## Edit Environment Properties
-Copy the sample environment properties file from [examples/sample-properties.env](examples/sample.properties.env) as properties.env in current directory and edit it to set the properties for the environment.
+Copy the sample environment properties file from [examples/sample-properties.env](examples/sample-properties.env) as properties.env in current directory and edit it to set the properties for the environment.
 Environment properties 
 |  Property Name               |    Description                            |
 | -----------------            |  ---------------------------------------- |
