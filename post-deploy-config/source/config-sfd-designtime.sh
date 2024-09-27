@@ -34,7 +34,7 @@ config-sfd-designtime () {
     echo "Add List Data Redis Credentials"
     ########################################################
     redisPasswordB64=$(echo -n ${redisPassword} | base64)
-    #echo "base64 redis passwd: $redisPasswordB64"
+    echo "base64 redis passwd: $redisPasswordB64"
     declare -a arr=("SDASrRulesEditor" "SDAJrRulesEditor" "SDARulesEditor" "SDASystemAdmin")
     for i in "${arr[@]}"
     do 

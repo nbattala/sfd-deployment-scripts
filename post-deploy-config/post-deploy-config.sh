@@ -19,7 +19,9 @@ export ACCESS_TOKEN=$(curl -k -X POST ${INGRESS_URL}/SASLogon/oauth/token -H 'Ac
 export kubeUrl=$(oc project | grep -oh "http[^ ]*" | cut -d "\"" -f 1)
 export imageRegistryHost=$(echo ${imageRegistry} | cut -d '/' -f 1)
 export dockerUserB64=$(oc get secret $imagePullSecret -o=jsonpath={.data."\.dockerconfigjson"} | base64 -d | jq -r .auths.\"$imageRegistryHost\".username | base64)
+#echo -n "$dockerUserB64" | base64 -d
 export dockerPwdB64=$(oc get secret $imagePullSecret -o=jsonpath={.data."\.dockerconfigjson"} | base64 -d | jq -r .auths.\"$imageRegistryHost\".password | base64)
+#echo -n "$dockerPwdB64" | base64 -d
 #get passwod for $sfdAdminUserId
 echo "please enter password of ${sfdAdminUserId}": 
 read -rs sfdAdminUserPwd

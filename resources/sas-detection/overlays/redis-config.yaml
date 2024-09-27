@@ -11,5 +11,5 @@ SAS_REDIS_HOST=${redisHost}
 SAS_REDIS_PORT=${redisPort}
 SAS_REDIS_KEY_PREFIX=SASODE|0
 SAS_REDIS_PROFILE_COMPRESS=${redisProfileCompress}
-SAS_REDIS_TLS=${redisTlsScr} ## Setting to 0, N, or F will prohibit TLS. Setting to 1, Y, or T will allow TLS.
+SAS_REDIS_TLS=${redisTlsScr}
 SAS_REDIS_SERVER_DOMAIN=${redisServerDomain}
