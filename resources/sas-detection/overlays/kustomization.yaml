@@ -6,6 +6,8 @@ configMapGenerator:
   envs:
     - redis-config.yaml
     - kafka-config.yaml
+- name: sas-detection-config
+  envs:
     - sas-detection-config.yaml
 
 secretGenerator:
