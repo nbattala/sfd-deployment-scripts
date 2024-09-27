@@ -2,8 +2,8 @@
 
 ##### Table of Contents
 - [Download SAS Deployment Assets](#Download-SAS-Deployment-Assets)
-- [Download SAS Deployment manifest](#Download-SAS-Deployment-manifest)
 - [Edit Environment properties](#Edit-Environment-Properties)
+- [Create Deployment manifest](#Create-Deployment-manifest)
 - [Deploy SFD](#Deploy-SFD)
 - [Uninstall SFD](#Uninstall-SFD)
 
