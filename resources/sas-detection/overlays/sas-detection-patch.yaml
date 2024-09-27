@@ -47,8 +47,6 @@ patch: |-
         value: INFO
       - name: PORT
         value: "8080"
-      - name: SAS_REDIS_TRUST_CERT_PATH
-        value: "/customer-provided-ca-certificates"
       envFrom:
       - configMapRef:
           name: sas-detection-datastore-config
@@ -91,6 +89,10 @@ patch: |-
       volumeMounts:
       - mountPath: /customer-provided-ca-certificates
         name: customer-provided-ca-certificates
+      - mountPath: /security
+        name: security
+      - mountPath: /tmp
+        name: tmp
 target:
   group: apps
   kind: Deployment
