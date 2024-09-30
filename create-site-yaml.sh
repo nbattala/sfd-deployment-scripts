@@ -39,11 +39,11 @@ check_var() {
 }
 
 
-check_var project siteYaml imagePullSecret imageRegistry scrImageName rwxStorageClass \
+check_var project siteYaml cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
     rwoStorageClass enableHA adHost adPort adUserDN adGroupBaseDN adUserBaseDN redisHost redisPort \
     redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
     kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
-    kafkaSaslPassword customerCaCertsDir
+    kafkaSaslPassword customerCaCertsDir 
 
 export ingressHost=''
 if [ -z "${ingressHost}" ]; then
@@ -62,7 +62,7 @@ fi
 
 dir_exists downloads
 if [ ! -d "downloads/sas-bases" ]; then
-	if [ -f "downloads/*$cadence*multipleAssets*.zip" ]; then
+	if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
 		unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
 		tar xzf downloads/*$cadence*deploymentAssets*.tgz -C downloads
 	else
