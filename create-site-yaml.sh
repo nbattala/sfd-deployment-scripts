@@ -45,7 +45,7 @@ check_var project siteYaml imagePullSecret imageRegistry scrImageName rwxStorage
     kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
     kafkaSaslPassword customerCaCertsDir
 
-export ingressHost=''
+#export ingressHost=''
 if [ -z "${ingressHost}" ]; then
     APPS_DOMAIN=$(oc get ingresscontroller.operator.openshift.io -n openshift-ingress-operator -o jsonpath='{.items[].status.domain}')
     export ingressHost="${project}.${APPS_DOMAIN}"
@@ -107,8 +107,8 @@ sed -i "s/{{ STORAGE-CLASS }}/${rwoStorageClass}/g" deploy/site-config/rwoStorag
 
 
 #configure ip bind for sas-consul-server
-file_exists resources/sas-consul-server-ip-bind-transformer.yaml
-cp -a resources/sas-consul-server-ip-bind-transformer.yaml deploy/site-config
+# file_exists resources/sas-consul-server-ip-bind-transformer.yaml
+# cp -a resources/sas-consul-server-ip-bind-transformer.yaml deploy/site-config
 
 #configure SCR sidecar for sas-detection
 file_exists resources/sas-detection/overlays/kustomization.yaml
@@ -131,16 +131,16 @@ envsubst < resources/sas-detection/overlays/kafka-config.yaml > deploy/site-conf
 file_exists resources/sas-detection/overlays/kafka-secret.yaml
 envsubst < resources/sas-detection/overlays/kafka-secret.yaml > deploy/site-config/sas-detection/overlays/kafka-secret.yaml 
 
-#configure Active Directory, SSO, Redis for Designtime
+#configure Active Directory
 file_exists resources/sitedefault.yaml
 envsubst < resources/sitedefault.yaml >  deploy/site-config/sitedefault.yaml
 
 #remove seccomp
-nsGroupId=$(oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
-mkdir -p deploy/site-config/security/container-security
-file_exists downloads/sas-bases/examples/security/container-security/update-fsgroup.yaml
-cp -a downloads/sas-bases/examples/security/container-security/update-fsgroup.yaml deploy/site-config/security/container-security
-sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/update-fsgroup.yaml
+# nsGroupId=$(oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
+# mkdir -p deploy/site-config/security/container-security
+# file_exists downloads/sas-bases/examples/security/container-security/update-fsgroup.yaml
+# cp -a downloads/sas-bases/examples/security/container-security/update-fsgroup.yaml deploy/site-config/security/container-security
+# sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/update-fsgroup.yaml
 
 #mirror repository
 file_exists downloads/sas-bases/examples/mirror/mirror.yaml 

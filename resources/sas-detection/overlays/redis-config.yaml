@@ -13,3 +13,4 @@ SAS_REDIS_KEY_PREFIX=SASODE|0
 SAS_REDIS_PROFILE_COMPRESS=${redisProfileCompress}
 SAS_REDIS_TLS=${redisTlsScr}
 SAS_REDIS_SERVER_DOMAIN=${redisServerDomain}
+SAS_REDIS_CA_CERT=/security/trustedcerts.pem
