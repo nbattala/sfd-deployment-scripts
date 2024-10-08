@@ -39,11 +39,11 @@ check_var() {
 }
 
 
-check_var project siteYaml imagePullSecret imageRegistry scrImageName rwxStorageClass \
+check_var project siteYaml cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
     rwoStorageClass enableHA adHost adPort adUserDN adGroupBaseDN adUserBaseDN redisHost redisPort \
     redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
     kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
-    kafkaSaslPassword customerCaCertsDir
+    kafkaSaslPassword customerCaCertsDir 
 
 export ingressHost=''
 if [ -z "${ingressHost}" ]; then
@@ -60,6 +60,16 @@ if ${clusterPreReqCheck}; then
     k8s_resource_exists secret "$imagePullSecret"
 fi
 
+dir_exists downloads
+if [ ! -d "downloads/sas-bases" ]; then
+	if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
+		unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
+		tar xzf downloads/*$cadence*deploymentAssets*.tgz -C downloads
+	else
+		echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
+		exit 1
+	fi
+fi
 dir_exists downloads/sas-bases
 chmod -Rf 755 deploy/sas-bases
 rm -rf deploy
