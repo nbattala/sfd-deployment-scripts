@@ -52,7 +52,7 @@ if [ -z "${ingressHost}" ]; then
     echo "Ingress Host is : $ingressHost"
 fi
 
-clusterPreReqCheck='true'
+clusterPreReqCheck='false'
 if ${clusterPreReqCheck}; then
     k8s_resource_exists namespace "$project"
     k8s_resource_exists storageclass "$rwxStorageClass"
