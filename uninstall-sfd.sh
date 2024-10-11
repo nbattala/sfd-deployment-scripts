@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 source properties.env
 
+export MSYS_NO_PATHCONV=1
+
+export PATH=$PATH:${PWD}/resources/tools
+
 #Remove Service Account links and SCCs
 for oc_scc in $(oc get clusterrolebinding | grep "system:openshift:scc:" | awk '{ print $1 }'); do
     crb_name=$(oc get clusterrolebinding $oc_scc -o json | jq -r '.roleRef.name')

@@ -5,7 +5,7 @@ operation: put
 tenant: null
 product: sda
 message:
-  name: "Custom Debit Card Fraud"
+  name: "SFD Debit Card Fraud"
   type: Custom
   description: "custom csca message"
   operation: create
