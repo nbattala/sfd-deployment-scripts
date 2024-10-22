@@ -25,6 +25,9 @@ patch: |-
   - op: replace
     path: /spec/template/metadata/annotations/prometheus.io~1port
     value: "8777"
+  - op: replace
+    path: /spec/template/metadata/annotations/prometheus.io~1path
+    value: "/detection/metrics"
   - op: add
     path: /spec/template/spec/containers/0/volumeMounts/-
     value:

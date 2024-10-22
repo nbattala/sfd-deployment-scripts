@@ -16,6 +16,9 @@ oc apply -f resources/scc/sas-opendistro-scc-modified-for-sysctl-transformer.yam
 oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro
 #sas-model-publish-kaniko
 oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
+#sas-detection-role-bindings (metrics)
+sed "s/{{ NAMESPACE }}/$project/g" resources/sas-detection/roles-and-rolebinding.yaml > sas-detection-roles-and-rolebinding.yaml
+oc -n $project apply -f sas-detection-roles-and-rolebinding.yaml
 
 #Deploy SFD
 #Apply cluster-api resources to the cluster. As an administrator with cluster permissions, run
