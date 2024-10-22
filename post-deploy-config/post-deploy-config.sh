@@ -29,6 +29,6 @@ read -rs sfdAdminUserPwd
 
 
 #config-sso-oauth
-config-model-publish-dest
+#config-model-publish-dest
 config-sfd-designtime
 config-sfd-rules-studio

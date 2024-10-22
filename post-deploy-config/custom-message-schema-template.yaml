@@ -1,11 +1,11 @@
 name: CreateCustomDebitCardFraud
 type: Custom
 description: "Process debitcard transactions"
-operation: put
+operation: create
 tenant: null
 product: sda
 message:
-  name: "Custom Debit Card Fraud"
+  name: "SFD Debit Card Fraud"
   type: Custom
   description: "custom csca message"
   operation: create
