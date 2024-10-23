@@ -23,6 +23,9 @@ patch: |-
     path: /spec/template/spec/containers/0/ports/0/containerPort
     value: 8777
   - op: replace
+    path: /spec/template/spec/containers/0/lifecycle/preStop/exec/command
+    value: {"sh", "-c", "sleep 30"}
+  - op: replace
     path: /spec/template/metadata/annotations/prometheus.io~1port
     value: "8777"
   - op: replace
@@ -62,6 +65,13 @@ patch: |-
         requests:
           cpu: 1000m
           memory: 1000Mi
+      lifecycle:
+        preStop:
+          exec:
+            command:
+            - sh
+            - -c
+            - sleep 30
       livenessProbe:
         failureThreshold: 3
         httpGet:
