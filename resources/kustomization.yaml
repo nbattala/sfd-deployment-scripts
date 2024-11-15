@@ -16,6 +16,7 @@ resources:
 ## user defined resources
 - site-config/sas-detection/overlays
 - site-config/kaniko
+- site-config/security/container-security/configmap-inputs.yaml
 
 configurations:
 - sas-bases/overlays/required/kustomizeconfig.yaml
@@ -30,7 +31,6 @@ transformers:
 - sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
 ##user defined
 - site-config/mirror.yaml
-- site-config/security/container-security/update-fsgroup.yaml
 - site-config/rwoStorageClass/crunchy-storage-transformer.yaml
 - site-config/rwoStorageClass/consul-storage-transformer.yaml
 - site-config/rwoStorageClass/opendistro-storage-transformer.yaml

@@ -10,4 +10,5 @@ config:
       baseDN: ${adGroupBaseDN}
     sas.identities.providers.ldap.user:
       baseDN: ${adUserBaseDN}
+      objectFilter: ${adUserObjectFilter}
     sas.logon.intitial.password: Password123

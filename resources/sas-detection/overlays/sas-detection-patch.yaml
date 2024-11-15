@@ -23,9 +23,6 @@ patch: |-
     path: /spec/template/spec/containers/0/ports/0/containerPort
     value: 8777
   - op: replace
-    path: /spec/template/spec/containers/0/lifecycle/preStop/exec/command
-    value: {"sh", "-c", "sleep 30"}
-  - op: replace
     path: /spec/template/metadata/annotations/prometheus.io~1port
     value: "8777"
   - op: replace
@@ -71,7 +68,7 @@ patch: |-
             command:
             - sh
             - -c
-            - sleep 30
+            - sleep 5
       livenessProbe:
         failureThreshold: 3
         httpGet:
@@ -112,3 +109,36 @@ target:
   name: sas-detection
   version: v1
 ---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sasfd-runtime-hpa-patch
+patch: |-
+  - op: replace
+    path: /spec/maxReplicas
+    value: 20
+  - op: replace
+    path: /spec/minReplicas
+    value: 10
+  - op: replace
+    path: /spec/metrics/0/resource/target/averageUtilization
+    value: 50
+target:
+  group: autoscaling
+  kind: HorizontalPodAutoscaler
+  name: sas-detection
+  version: v2
+---
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+  name: sasfd-runtime-pdb-patch
+patch: |-
+  - op: replace
+    path: /spec/minAvailable
+    value: 4
+target:
+  group: policy
+  kind: PodDisruptionBudget
+  name: sas-detection
+  version: v1

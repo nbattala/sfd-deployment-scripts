@@ -31,28 +31,29 @@ dir_exists() {
 check_var() {
     for var in "$@"
     do 
+        echo $"${var}"
         if [ -z ${!var+x} ]; then 
-            echo "ERROR: Variable $var is unset in env.properties"
+            echo "ERROR: Variable $var is unset or empty in properties.env"
             exit 1; 
         fi
     done
 }
 
 
-check_var project siteYaml cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
-    rwoStorageClass enableHA adHost adPort adUserDN adGroupBaseDN adUserBaseDN redisHost redisPort \
-    redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
-    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
-    kafkaSaslPassword customerCaCertsDir 
 
-export ingressHost=''
 if [ -z "${ingressHost}" ]; then
     APPS_DOMAIN=$(oc get ingresscontroller.operator.openshift.io -n openshift-ingress-operator -o jsonpath='{.items[].status.domain}')
     export ingressHost="${project}.${APPS_DOMAIN}"
     echo "Ingress Host is : $ingressHost"
 fi
 
-clusterPreReqCheck='false'
+tstvar=
+check_var project siteYaml cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
+    rwoStorageClass enableHA adHost adPort adUserDN adUserObjectFilter adGroupBaseDN adUserBaseDN redisHost redisPort \
+    redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
+    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
+    kafkaSaslPassword customerCaCertsDir ingressHost tstvar
+
 if ${clusterPreReqCheck}; then
     k8s_resource_exists namespace "$project"
     k8s_resource_exists storageclass "$rwxStorageClass"
@@ -61,14 +62,13 @@ if ${clusterPreReqCheck}; then
 fi
 
 dir_exists downloads
-if [ ! -d "downloads/sas-bases" ]; then
-	if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
-		unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
-		tar xzf downloads/*$cadence*deploymentAssets*.tgz -C downloads
-	else
-		echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
-		exit 1
-	fi
+rm -rf downloads/sas-bases
+if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
+    unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
+    tar xzf downloads/*$cadence*deploymentAssets*.tgz -C downloads
+else
+    echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
+    exit 1
 fi
 dir_exists downloads/sas-bases
 chmod -Rf 755 deploy/sas-bases
@@ -145,12 +145,14 @@ envsubst < resources/sas-detection/overlays/kafka-secret.yaml > deploy/site-conf
 file_exists resources/sitedefault.yaml
 envsubst < resources/sitedefault.yaml >  deploy/site-config/sitedefault.yaml
 
-#remove seccomp
+#add FSGROUP Value
 nsGroupId=$(oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
+check_var $nsGroupId
 mkdir -p deploy/site-config/security/container-security
-file_exists downloads/sas-bases/examples/security/container-security/update-fsgroup.yaml
-cp -a downloads/sas-bases/examples/security/container-security/update-fsgroup.yaml deploy/site-config/security/container-security
-sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/update-fsgroup.yaml
+
+file_exists downloads/sas-bases/examples/security/container-security/configmap-inputs.yaml
+cp -a downloads/sas-bases/examples/security/container-security/configmap-inputs.yaml deploy/site-config/security/container-security
+sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/configmap-inputs.yaml
 
 #mirror repository
 file_exists downloads/sas-bases/examples/mirror/mirror.yaml 
