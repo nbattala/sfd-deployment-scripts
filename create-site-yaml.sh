@@ -277,8 +277,9 @@ else
 fi 
 EOF
 }
-#create_site_yaml
+
+create_site_yaml
 prepare_install_script
-if [ $cadence != '2024.08' ]; then
+if [ $cadence = '2024.09' ||  $cadence = '2024.10' || $cadence = '2024.11' ]; then
     upgrade_to_2024.09_extra_steps
 fi
