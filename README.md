@@ -28,14 +28,35 @@ This script will create the deployment manifest (site.yaml) required to deploy S
 ./create-site-yaml.sh
 ```
 
-## Deploy SFD
-This will create and bind the necessary SCCs (Security Context Constraints) and deploy all the resources required for SFD by applying the Manifest
+## Pre Upgrade Steps
+If you are doing an upgrade, read the deployment notes published by SAS to see if there are any steps required to upgrade https://go.documentation.sas.com/doc/en/itopscdc/v_058/dplynotes/titlepage.htm
+
+The pre upgrade steps for 2024.08 to 2024.09 or 2024.10 or 2024.11 have been scripted. The script should be available in sfd-install-scripts after you create deployment manifests. This should be run by cluster admin.
 ```bash
+cd sfd-install-scripts
+#{cadence} is either 2024.09, 2024.10 or 2024.11
+./pre-upgrade-to_{cadence}.sh
+```
+
+## Deploy SFD
+This will create and bind the necessary SCCs (Security Context Constraints) and deploy all the resources required for SFD by applying the Manifest. This should be run by cluster admin.
+```bash
+cd sfd-install-scripts
 ./install-sfd.sh
 ```
 
+## Post Upgrade Steps
+If you are doing an upgrade, read the deployment notes published by SAS to see if there are any steps required to upgrade https://go.documentation.sas.com/doc/en/itopscdc/v_058/dplynotes/titlepage.htm
+
+The post upgrade steps for 2024.08 to 2024.09 or 2024.10 or 2024.11 have been scripted. The script should be available in sfd-install-scripts after you create deployment manifests. This should be run by cluster admin.
+```bash
+cd sfd-install-scripts
+#{cadence} is either 2024.09, 2024.10 or 2024.11
+./post-upgrade-to_{cadence}.sh
+```
+
 ## Uninstall SFD
-This will remove all the SCCs and SFD resources from openshift. 
+This will remove all the SCCs and SFD resources from openshift. This should be run by cluster admin.
 ```bash
 ./uninstall-sfd.sh
 ```
