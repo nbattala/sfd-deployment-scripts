@@ -1,7 +1,8 @@
-site.yaml
+*.yaml
 downloads
 ca-certificates
 deploy
 resource/tools
 properties.env
-sas-detection-roles-and-rolebinding.yaml
+sfd-install-scripts
+backups

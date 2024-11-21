@@ -1,23 +1,21 @@
 #!/usr/bin/env bash
-source properties.env
 
 oc project $project
 
 #Apply and bind SCCs
-oc apply -f resources/scc/cas-server-scc-host-launch.yaml
+oc apply -f cas-server-scc-host-launch.yaml
 oc -n $project adm policy add-scc-to-user sas-cas-server-host -z sas-cas-server
-oc apply -f resources/scc/sas-microanalytic-score-scc.yaml
+oc apply -f sas-microanalytic-score-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-microanalytic-score -z sas-microanalytic-score
-oc apply -f resources/scc/sas-detection-definition-scc.yaml
+oc apply -f sas-detection-definition-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-detection-definition -z sas-detection-definition 
-oc apply -f resources/scc/sas-model-repository-scc.yaml
+oc apply -f sas-model-repository-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-model-repository -z sas-model-repository
-oc apply -f resources/scc/sas-opendistro-scc-modified-for-sysctl-transformer.yaml
+oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml
 oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro
 #sas-model-publish-kaniko
 oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
 #sas-detection-role-bindings (metrics)
-sed "s/{{ NAMESPACE }}/$project/g" resources/sas-detection/roles-and-rolebinding.yaml > sas-detection-roles-and-rolebinding.yaml
 oc -n $project apply -f sas-detection-roles-and-rolebinding.yaml
 
 #Deploy SFD

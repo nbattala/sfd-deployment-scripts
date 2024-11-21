@@ -33,6 +33,18 @@ patch: |-
     value:
       name: customer-provided-ca-certificates
       mountPath: /customer-provided-ca-certificates
+  - op: replace
+    path: /spec/template/spec/containers/0/resources/limits/cpu
+    value: $goOdeCpu
+  - op: replace
+    path: /spec/template/spec/containers/0/resources/requests/cpu
+    value: $goOdeCpu
+  - op: replace
+    path: /spec/template/spec/containers/0/resources/limits/memory
+    value: $goOdeMemory
+  - op: replace
+    path: /spec/template/spec/containers/0/resources/requests/memory
+    value: $goOdeMemory
   - op: add
     path: /spec/template/spec/containers/-
     value:
@@ -57,11 +69,11 @@ patch: |-
           name: sas-detection-datastore-secrets
       resources:
         limits:
-          cpu: 1000m
-          memory: 1000Mi
+          cpu: $scrCpu
+          memory: $scrMemory
         requests:
-          cpu: 1000m
-          memory: 1000Mi
+          cpu: $scrCpu
+          memory: $scrMemory
       lifecycle:
         preStop:
           exec:
@@ -116,13 +128,13 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/maxReplicas
-    value: 20
+    value: $maxRuntimeReplicas
   - op: replace
     path: /spec/minReplicas
-    value: 10
+    value: $minRuntimeReplicas
   - op: replace
     path: /spec/metrics/0/resource/target/averageUtilization
-    value: 50
+    value: $scaleRuntimeTargetCpuUtilization
 target:
   group: autoscaling
   kind: HorizontalPodAutoscaler
@@ -136,7 +148,7 @@ metadata:
 patch: |-
   - op: replace
     path: /spec/minAvailable
-    value: 4
+    value: $minRuntimePDB
 target:
   group: policy
   kind: PodDisruptionBudget

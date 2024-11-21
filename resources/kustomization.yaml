@@ -16,7 +16,6 @@ resources:
 ## user defined resources
 - site-config/sas-detection/overlays
 - site-config/kaniko
-- site-config/security/container-security/configmap-inputs.yaml
 
 configurations:
 - sas-bases/overlays/required/kustomizeconfig.yaml

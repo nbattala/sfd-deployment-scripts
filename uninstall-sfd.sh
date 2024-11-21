@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 source properties.env
+siteYaml=site-$cadence.yaml
 
 export MSYS_NO_PATHCONV=1
 
