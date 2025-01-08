@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: check-backups
+spec:
+  template:
+    metadata:
+      labels:
+        app: check-backups
+    spec:
+      imagePullSecrets:
+      - name: regcred
+      containers:
+      - name: sas-orchestration-check-disks
+        image: sasfdeastus2acr.azurecr.io/viya-4-x64_oci_linux_2-docker/sas-orchestration:1.124.0-20240809.1723210011936
+        command: ["/bin/sh", "-xc"]
+        args: ["while true; do ls -l /sasviyabackup; df -h /sasviyabackup; sleep 10; done"]
+        volumeMounts:
+        - mountPath: /sasviyabackup
+          name: backup
+      volumes:
+        - name: backup
+          persistentVolumeClaim:
+            claimName: sas-common-backup-data
+      restartPolicy: Never
+  backoffLimit: 4
