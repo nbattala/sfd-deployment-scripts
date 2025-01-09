@@ -5,7 +5,10 @@
 - [Edit Environment properties](#Edit-Environment-Properties)
 - [Customer Provided CA certificates](#Customer-Provided-CA-certificates)
 - [Create Deployment manifest](#Create-Deployment-manifest)
+- [Pre Upgrade Steps](#Pre-Upgrade-Steps)
 - [Deploy SFD](#Deploy-SFD)
+- [Post Deploy Steps](#Post-Deploy-Steps)
+- [Post Upgrade Steps](#Post-Upgrade-Steps)
 - [Uninstall SFD](#Uninstall-SFD)
 
 ## Download SAS Deployment Assets
