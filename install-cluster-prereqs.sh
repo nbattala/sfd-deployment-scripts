@@ -40,11 +40,14 @@ volumeBindingMode: WaitForFirstConsumer
 allowVolumeExpansion: true
 EOF
 
-#rwx-storage-class
-cat > deploy/site-config/rwx-storageclass.yaml <<EOF
-kind: RWXStorageClass
-metadata:
- name: wildcard
-spec:
- storageClassName: ${rwxStorageClass}
-EOF
+#create imagepullsecret
+imageRegHost="$(echo "$imageRegistry" | cut -d '/' -f1)"
+echo "Enter Image Registry Host Username:"
+read imageRegUser
+echo "Enter Image Registry Host Password:"
+read -s imageRegPwd
+oc create secret docker-registry $imagePullSecret \
+	--docker-server $imageRegHost \
+	--docker-username $imageRegUser \
+	--docker-password $imageRegPwd
+

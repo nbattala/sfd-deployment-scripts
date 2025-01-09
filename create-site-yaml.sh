@@ -48,8 +48,8 @@ fi
 check_var project cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
     rwoStorageClass enableHA adHost adPort adUserDN adUserObjectFilter adGroupBaseDN adUserBaseDN redisHost redisPort \
     redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
-    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol kafkaSaslUsername \
-    kafkaSaslPassword customerCaCertsDir ingressHost tlsMode
+    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol \
+    customerCaCertsDir ingressHost tlsMode
 
 if ${clusterPreReqCheck}; then
     k8s_resource_exists namespace "$project"
@@ -119,8 +119,7 @@ create_site_yaml () {
     file_exists resources/sas-detection/overlays/kustomization.yaml
     cp -a resources/sas-detection deploy/site-config
     file_exists resources/sas-detection/overlays/redis-config.yaml
-    if [[ ${redisTlsEnabled} ]] 
-    then 
+    if [[ ${redisTlsEnabled} ]]; then 
         export redisTlsScr='T' 
     else   
         export redisTlsScr='F'
@@ -132,6 +131,19 @@ create_site_yaml () {
     file_exists resources/sas-detection/overlays/redis-secret.yaml
     envsubst <  resources/sas-detection/overlays/redis-secret.yaml > deploy/site-config/sas-detection/overlays/redis-secret.yaml
     file_exists resources/sas-detection/overlays/kafka-config.yaml
+    if [[ -n ${kafkaClientCertificate} && -n ${kafkaClientPrivateKey} && -n ${kafkaTrustStore} ]]; then
+        file_exists ca-certificates/${kafkaClientCertificate}
+        export kafkaCertLocation=/customer-provided-ca-certificates/${kafkaClientCertificate}
+        file_exists ca-certificates/${kafkaTrustStore}
+        export kafkaTrustStoreLocation=/customer-provided-ca-certificates/${kafkaTrustStore}
+        file_exists deploy/site-config/sas-detection/overlays/kustomization.yaml 
+        file_exists ca-certificates/${kafkaClientPrivateKey}
+        cp ca-certificates/${kafkaClientPrivateKey} deploy/site-config/sas-detection/overlays/kafkaClientPrivateKey.key
+        ./resources/tools/yq e -i '.secretGenerator[].files += ["kafkaClientPrivateKey.key"]' deploy/site-config/sas-detection/overlays/kustomization.yaml
+        export kafkaKeyLocation=/etc/kafka-client-mtls-key/kafkaClientPrivateKey.key
+    else
+        echo "kafkaClientCertificate or kafkaClientPrivateKey or kafkaTrustStore property is not set, skipping mTLS setup"
+    fi
     envsubst < resources/sas-detection/overlays/kafka-config.yaml > deploy/site-config/sas-detection/overlays/kafka-config.yaml
     file_exists resources/sas-detection/overlays/kafka-secret.yaml
     envsubst < resources/sas-detection/overlays/kafka-secret.yaml > deploy/site-config/sas-detection/overlays/kafka-secret.yaml 
@@ -280,6 +292,6 @@ EOF
 
 create_site_yaml
 prepare_install_script
-if [ $cadence = '2024.09' ||  $cadence = '2024.10' || $cadence = '2024.11' ]; then
+if [[ $cadence = '2024.09' ||  $cadence = '2024.10' || $cadence = '2024.11' ]]; then
     upgrade_to_2024.09_extra_steps
 fi

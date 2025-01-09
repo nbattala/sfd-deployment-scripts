@@ -33,6 +33,11 @@ patch: |-
     value:
       name: customer-provided-ca-certificates
       mountPath: /customer-provided-ca-certificates
+  - op: add
+    path: /spec/template/spec/containers/0/volumeMounts/-
+    value:
+      name: kafka-client-mtls-key
+      mountPath: /etc/kafka-client-mtls-key
   - op: replace
     path: /spec/template/spec/containers/0/resources/limits/cpu
     value: $goOdeCpu
@@ -45,6 +50,12 @@ patch: |-
   - op: replace
     path: /spec/template/spec/containers/0/resources/requests/memory
     value: $goOdeMemory
+  - op: add
+    path: /spec/template/spec/volumes/-
+    value:
+      name: kafka-client-mtls-key
+      secret:
+        secretName: sas-detection-datastore-secrets
   - op: add
     path: /spec/template/spec/containers/-
     value:
