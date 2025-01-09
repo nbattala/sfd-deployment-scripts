@@ -55,6 +55,7 @@ config-sfd-designtime
 config-sfd-rules-studio
 ```
 | Function            |   Description    |
+| --------------------- | ------------------------- |
 | config-sso-oauth    | Configures Oauth with values defined in properties.env |
 | config-model-publish-dest  | Configures container registry defined in properties.env as the destination for rules and model in SFD  |
 | config-sfd-designtime    | Configures Advanced Lists with Redis credentials defined in properties.env   |
