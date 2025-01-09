@@ -45,6 +45,21 @@ cd sfd-install-scripts
 ./install-sfd.sh
 ```
 
+## Post Deploy Steps
+This step will configure Oauth, Rules/model deployment destination, Redis Credentials for Advanced Lists and Rules Studio UI.
+Edit [post-deploy-config/post-deploy-config.sh](post-deploy-config/post-deploy-config.sh) and comment/uncomment the last 4 functions (shown below) based on what you would like the script to do.
+```bash
+#config-sso-oauth
+config-model-publish-dest
+config-sfd-designtime
+config-sfd-rules-studio
+```
+| Function            |   Description    |
+| config-sso-oauth    | Configures Oauth with values defined in properties.env |
+| config-model-publish-dest  | Configures container registry defined in properties.env as the destination for rules and model in SFD  |
+| config-sfd-designtime    | Configures Advanced Lists with Redis credentials defined in properties.env   |
+| config-sfd-rules-studio  | Configures Rules Studio UI with privileges for the sfdAdminUserId defined in properties.env and hardcoded messageClassification/Organization/Projects etc. Read the script [post-deploy-config/source/config-sfd-rules-studio.sh](post-deploy-config/source/config-sfd-rules-studio.sh) for more details |
+
 ## Post Upgrade Steps
 If you are doing an upgrade, read the deployment notes published by SAS to see if there are any steps required to upgrade https://go.documentation.sas.com/doc/en/itopscdc/v_058/dplynotes/titlepage.htm
 
