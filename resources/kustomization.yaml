@@ -49,7 +49,7 @@ patches:
 components:
 - sas-bases/components/crunchydata/internal-platform-postgres 
 #- sas-bases/components/security/core/base/full-stack-tls
-- sas-bases/components/security/core/base/truststores-only
+#- sas-bases/components/security/core/base/truststores-only
 #- sas-bases/components/security/network/route.openshift.io/route/full-stack-tls
 
 generators:

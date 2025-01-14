@@ -42,9 +42,9 @@ EOF
 
 #create imagepullsecret
 imageRegHost="$(echo "$imageRegistry" | cut -d '/' -f1)"
-echo "Enter Image Registry Host Username:"
+echo "Enter Image Registry Host ($imageRegHost) Username:"
 read imageRegUser
-echo "Enter Image Registry Host Password:"
+echo "Enter Image Registry Host ($imageRegHost) Password:"
 read -s imageRegPwd
 oc create secret docker-registry $imagePullSecret \
 	--docker-server $imageRegHost \

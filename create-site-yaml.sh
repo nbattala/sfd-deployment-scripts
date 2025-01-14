@@ -225,7 +225,8 @@ create_site_yaml () {
             ;;
         full-stack)
             ;;
-        off)
+        *)
+            ./resources/tools/yq e -i '.components += ["sas-bases/components/security/core/base/truststores-only"]' deploy/kustomization.yaml
             ;;
     esac
 
