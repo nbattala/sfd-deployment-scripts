@@ -70,6 +70,8 @@ create_site_yaml () {
     if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
         unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
         tar xzf downloads/*$cadence*deploymentAssets*.tgz -C deploy
+        cp downloads/*$cadence*license*.jwt deploy
+        export licenseFile=$(ls downloads/*$cadence*license*.jwt | xargs -n 1 basename)
     else
         echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
         exit 1
@@ -132,13 +134,13 @@ create_site_yaml () {
     envsubst <  resources/sas-detection/overlays/redis-secret.yaml > deploy/site-config/sas-detection/overlays/redis-secret.yaml
     file_exists resources/sas-detection/overlays/kafka-config.yaml
     if [[ -n ${kafkaClientCertificate} && -n ${kafkaClientPrivateKey} && -n ${kafkaTrustStore} ]]; then
-        file_exists ca-certificates/${kafkaClientCertificate}
+        file_exists ${customerCaCertsDir}/${kafkaClientCertificate}
         export kafkaCertLocation=/customer-provided-ca-certificates/${kafkaClientCertificate}
-        file_exists ca-certificates/${kafkaTrustStore}
+        file_exists ${customerCaCertsDir}/${kafkaTrustStore}
         export kafkaTrustStoreLocation=/customer-provided-ca-certificates/${kafkaTrustStore}
         file_exists deploy/site-config/sas-detection/overlays/kustomization.yaml 
-        file_exists ca-certificates/${kafkaClientPrivateKey}
-        cp ca-certificates/${kafkaClientPrivateKey} deploy/site-config/sas-detection/overlays/kafkaClientPrivateKey.key
+        file_exists ${customerCaCertsDir}/${kafkaClientPrivateKey}
+        cp ${customerCaCertsDir}/${kafkaClientPrivateKey} deploy/site-config/sas-detection/overlays/kafkaClientPrivateKey.key
         ./resources/tools/yq e -i '.secretGenerator[].files += ["kafkaClientPrivateKey.key"]' deploy/site-config/sas-detection/overlays/kustomization.yaml
         export kafkaKeyLocation=/etc/kafka-client-mtls-key/kafkaClientPrivateKey.key
     else
@@ -224,8 +226,36 @@ create_site_yaml () {
         front-door)
             ;;
         full-stack)
+            export scheme=https
+            sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
+            ./resources/tools/yq e -i '.components += ["sas-bases/components/security/core/base/full-stack-tls"]' deploy/kustomization.yaml
+            ./resources/tools/yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
+            #./resources/tools/yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
+            file_exists deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml 
+            cp -a deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml deploy/site-config/security/
+            ./resources/tools/yq e -i '.literals.[0] = "SAS_CERTIFICATE_GENERATOR=cert-manager"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            ./resources/tools/yq e -i '.literals.[1] = "SAS_CERTIFICATE_DURATION=\"180\""' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            ./resources/tools/yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            ./resources/tools/yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            ./resources/tools/yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            ./resources/tools/yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
+            file_exists deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml
+            cp -a deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml deploy/site-config/security/customer-provided-ingress-certificate.yaml
+            mkdir -p deploy/site-config/security/cacerts
+            file_exists ${customerCaCertsDir}/${ingressCertificate}
+            cp -a ${customerCaCertsDir}/${ingressCertificate} deploy/site-config/security/cacerts/sas-ingress-certificate.pem
+            ./resources/tools/yq e -i '.files.[0] = "tls.crt=site-config/security/cacerts/sas-ingress-certificate.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
+            file_exists ${customerCaCertsDir}/${ingressKey}
+            cp -a ${customerCaCertsDir}/${ingressKey} deploy/site-config/security/cacerts/sas-ingress-key.pem
+            ./resources/tools/yq e -i '.files.[1] = "tls.key=site-config/security/cacerts/sas-ingress-key.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
+            file_exists ${customerCaCertsDir}/${ingressCa}
+            cp -a ${customerCaCertsDir}/${ingressCa} deploy/site-config/security/cacerts/sas-ingress-ca.pem
+            ./resources/tools/yq e -i '.files.[2] = "ca.crt=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
+            ./resources/tools/yq e -i '.generators += ["site-config/security/customer-provided-ingress-certificate.yaml"]' deploy/kustomization.yaml
             ;;
         *)
+            export scheme=http
+            sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
             ./resources/tools/yq e -i '.components += ["sas-bases/components/security/core/base/truststores-only"]' deploy/kustomization.yaml
             ;;
     esac

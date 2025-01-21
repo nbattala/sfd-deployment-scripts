@@ -4,7 +4,7 @@
 config-model-publish-dest () {
 	echo "Entering ${FUNCNAME[0]}"
 	#create SDADockerRegistry credential domain
-	curl -s -k -X PUT ${INGRESS_URL}/credentials/domains/SDADockerRegistry -H "Authorization: Bearer $ACCESS_TOKEN" -H "Content-Type: application/json" -d ' 
+	curl -s -k -X PUT ${INGRESS_URL}/credentials/domains/SDADockerRegistry -H "Authorization: Bearer ${ACCESS_TOKEN}" -H "Content-Type: application/json" -d ' 
 	{
 		"id"          : "SDADockerRegistry",
 		"description" : "SDADockerRegistry Domain ID and Publishing Destination",

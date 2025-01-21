@@ -48,7 +48,6 @@ patches:
 
 components:
 - sas-bases/components/crunchydata/internal-platform-postgres 
-#- sas-bases/components/security/core/base/full-stack-tls
 #- sas-bases/components/security/core/base/truststores-only
 #- sas-bases/components/security/network/route.openshift.io/route/full-stack-tls
 
@@ -62,9 +61,11 @@ secretGenerator:
   - INGRESS_HOST=${ingressHost}
   files:
   - SITEDEFAULT_CONF=site-config/sitedefault.yaml
-#- name: platform-postgres-user
-#  envs:
-#  - site-config/postgres/platform-postgres-user.env
+- name: sas-license
+  type: sas.com/license
+  behavior: merge
+  files:
+  - SAS_LICENSE=${licenseFile}
 configMapGenerator:
 - name: input
   behavior: merge
@@ -77,5 +78,5 @@ configMapGenerator:
 - name: sas-shared-config
   behavior: merge
   literals:
-  - SAS_SERVICES_URL="http://${ingressHost}"
+  - SAS_SERVICES_URL="{{scheme}}://${ingressHost}"
   # - SAS_URL_EXTERNAL_VIYA={{ EXTERNAL-PROXY-URL }}

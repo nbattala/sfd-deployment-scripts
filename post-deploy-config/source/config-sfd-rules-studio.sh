@@ -47,7 +47,7 @@ CREDIT,CREDIT,1.2'
     \"messageClassificationId\" : \"${globalMCId}\", \
         \"schemaRelations\": [ \
             { \
-                \"schemaName\": \"'SFD Debit Card Fraud'\" \
+                \"schemaName\": \"'Core'\" \
             } \
         ], \
         \"roleRelations\": [ \
