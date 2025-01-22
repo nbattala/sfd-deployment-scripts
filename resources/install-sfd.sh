@@ -33,6 +33,8 @@ oc apply --selector="sas.com/admin=namespace" -f $siteYaml --prune
 #wait for sas-readiness pod
 echo "WAITING FOR sas-readiness POD TO REACH A READY STATE....."
 oc wait --timeout=1m --for=condition=ready pod -l app=sas-readiness
+#restart CAS pods as noted in deployment notes
+oc -n $project delete pods -l app.kubernetes.io/managed-by=sas-cas-operator
 #Tail logs to see the deployment progress
 oc -n $project logs -f -l app=sas-readiness
 
