@@ -12,7 +12,7 @@ resources:
 - sas-bases/overlays/crunchydata/postgres-operator
 - sas-bases/overlays/postgres/platform-postgres
 - sas-bases/overlays/cas-server
-- sas-bases/overlays/sas-detection-definition/service-account/sa.yaml
+  #- sas-bases/overlays/sas-detection-definition/service-account/sa.yaml
 ## user defined resources
 - site-config/sas-detection/overlays
 - site-config/kaniko

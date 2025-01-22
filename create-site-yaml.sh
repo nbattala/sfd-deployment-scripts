@@ -286,43 +286,5 @@ prepare_install_script () {
     echo "Install script and manifests are written to $install_dir directory"
 }
 
-upgrade_to_2024.09_extra_steps () {
-    install_dir=sfd-install-scripts
-    dir_exists $install_dir
-    cp -a resources/postgres-upgrade.sh $install_dir
-    chmod +x $install_dir/postgres-upgrade.sh
-    file_exists resources/tools/yq
-    cp resources/tools/yq $install_dir
-    cat << EOF > $install_dir/pre_upgrade_to_2024.09.sh
-#!/usr/bin/env bash
-export PATH=\$PATH:\$(pwd)
-clusterName=\$(oc get postgrescluster -n $project -o custom-columns=POD:.metadata.name --no-headers)
-POD1=\$(oc -n $project get pods --selector="postgres-operator.crunchydata.com/cluster=\$clusterName,postgres-operator.crunchydata.com/role=master" -o name)
-oc exec -t \$POD1 -c database -n $project -- psql -c 'show data_checksums;'
-oc exec -t \$POD1 -c database -n $project -- psql -c '\l+'
-if [ \$? == 0 ]; then
-    ./postgres-upgrade.sh $project site-2024.09.yaml debug-log 2>&1 | tee postgres-upgrade-$(date +%Y-%m-%d.%H:%M:%S).log 
-fi
-EOF
-
-    cat << EOF > $install_dir/post_upgrade_to_2024.09.sh
-#!/usr/bin/env bash
-export PATH=\$PATH:\$(pwd)
-clusterName=\$(oc get postgrescluster -n $project -o custom-columns=POD:.metadata.name --no-headers)
-POD1=\$(oc -n $project get pods --selector="postgres-operator.crunchydata.com/cluster=\$clusterName,postgres-operator.crunchydata.com/role=master" -o name)
-oc exec -t \$POD1 -c database -n $project -- psql -t -c "select version()" | grep 16.4
-if [ \$? == 0 ]; then
-    oc exec -t \$POD1 -c database -n $project -- bash -c 'test -d /pgdata/pg12  && mv -v /pgdata/pg12 /pgdata/pg12.old || echo "/pgdata/pg12 does not exist"'
-    oc exec -t \$POD1 -c database -n $project -- bash -c 'test -d /pgdata/pg12_wal  && mv -v /pgdata/pg12_wal /pgdata/pg12_wal.old || echo "/pgdata/pg12 does not exist"'
-else
-    echo "ERROR: Postgres 16.4 upgrade failed!"
-    exit 1
-fi 
-EOF
-}
-
 create_site_yaml
 prepare_install_script
-if [[ $cadence = '2024.09' ||  $cadence = '2024.10' || $cadence = '2024.11' ]]; then
-    upgrade_to_2024.09_extra_steps
-fi

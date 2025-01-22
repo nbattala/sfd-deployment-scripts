@@ -16,7 +16,7 @@ metadata:
 mountOptions:
   - nconnect=4
 parameters:
-  skuName: Standard_LRS
+  skuName: Premium_LRS
   protocol: nfs
 provisioner: file.csi.azure.com
 allowVolumeExpansion: true
