@@ -20,9 +20,11 @@ export ACCESS_TOKEN=$(curl -k -X POST ${INGRESS_URL}/SASLogon/oauth/token -H 'Ac
 #export kubeUrl=$(oc project | awk '{print $6}' | cut -d "\"" -f 2)
 export kubeUrl=$(oc project | grep -oh "http[^ ]*" | cut -d "\"" -f 1)
 export imageRegistryHost=$(echo ${imageRegistry} | cut -d '/' -f 1)
-export dockerUserB64=$(oc get secret $imagePullSecret -o=jsonpath={.data."\.dockerconfigjson"} | base64 -d | jq -r .auths.\"$imageRegistryHost\".username | xargs -n 1 echo -n | base64)
+export dockerUser=$(oc get secret $imagePullSecret -o=jsonpath={.data."\.dockerconfigjson"} | base64 -d | jq -r .auths.\"$imageRegistryHost\".username)
+export dockerUserB64=$(echo -n $dockerUser | base64)
 #echo -n "$dockerUserB64" | base64 -d
-export dockerPwdB64=$(oc get secret $imagePullSecret -o=jsonpath={.data."\.dockerconfigjson"} | base64 -d | jq -r .auths.\"$imageRegistryHost\".password | xargs -n 1 echo -n | base64)
+export dockerPwd=$(oc get secret $imagePullSecret -o=jsonpath={.data."\.dockerconfigjson"} | base64 -d | jq -r .auths.\"$imageRegistryHost\".password)
+export dockerPwdB64=$(echo -n $dockerPwd | base64)
 #echo -n "$dockerPwdB64" | base64 -d
 #################################################################
 
