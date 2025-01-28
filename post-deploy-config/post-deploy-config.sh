@@ -16,7 +16,7 @@ fi
 export INGRESS_URL=$(oc get cm -o custom-columns=:.metadata.name | grep sas-shared-config | xargs -n 1 oc get cm -o jsonpath='{.data.SAS_SERVICES_URL}')
 export ACCESS_TOKEN=$(curl -k -X POST ${INGRESS_URL}/SASLogon/oauth/token -H 'Accept: application/json' -H 'Content-type: application/x-www-form-urlencoded' -H 'Authorization: Basic c2FzLmVjOg==' -d 'grant_type=password&username=sasboot&password=Password123'|jq -r '.access_token')
 
-echo $ACCESS_TOKEN
+#echo $ACCESS_TOKEN
 #export kubeUrl=$(oc project | awk '{print $6}' | cut -d "\"" -f 2)
 export kubeUrl=$(oc project | grep -oh "http[^ ]*" | cut -d "\"" -f 1)
 export imageRegistryHost=$(echo ${imageRegistry} | cut -d '/' -f 1)

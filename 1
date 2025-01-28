@@ -9,7 +9,8 @@ metadata:
 patch: |-
   - op: add
     path: /spec/volumeClaimTemplates/0/spec/storageClassName
-    value: {{ STORAGE-CLASS }}
+    value: 
+       name: odf-test
 target:
   kind: StatefulSet
   name: sas-redis-server

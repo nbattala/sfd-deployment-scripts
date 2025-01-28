@@ -50,4 +50,8 @@ config-model-publish-dest () {
     }\
     |jq| tee /tmp/.SDAConfigPubDest.json > /dev/null
 	curl -k --location -X POST  ${INGRESS_URL}/modelPublish/destinations --header "Authorization: Bearer $ACCESS_TOKEN" --header 'Content-Type: application/json' -d @/tmp/.SDAConfigPubDest.json
+
+	if [ $1 == 'verify' ]
+	then
+		curl -s -k -X GET ${INGRESS_URL}/credentials/domains/SDADockerRegistry/secrets
 }

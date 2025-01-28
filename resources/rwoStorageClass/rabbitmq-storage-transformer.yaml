@@ -9,3 +9,5 @@ patch: |-
 target:
   kind: StatefulSet
   name: sas-rabbitmq-server
+  group: apps
+  version: v1

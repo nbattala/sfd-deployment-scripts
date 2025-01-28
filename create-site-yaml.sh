@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+export MSYS_NO_PATHCONV=1
 set -o allexport
 source properties.env
 set +o allexport
@@ -31,7 +32,7 @@ dir_exists() {
 check_var() {
     for var in "$@"
     do 
-        if [ -z ${!var+x} ]; then 
+        if [[ -z "${!var}" ]]; then 
             echo "ERROR: Variable $var is unset or empty in properties.env"
             exit 1; 
         fi
