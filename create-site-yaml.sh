@@ -242,7 +242,7 @@ create_site_yaml () {
             file_exists deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml 
             cp -a deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml deploy/site-config/security/
             yq e -i '.literals.[0] = "SAS_CERTIFICATE_GENERATOR=cert-manager"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            yq e -i '.literals.[1] = "SAS_CERTIFICATE_DURATION=\"180\""' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            yq e -i '.literals.[1] = "SAS_CERTIFICATE_DURATION=\"730\""' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
