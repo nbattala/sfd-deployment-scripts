@@ -276,7 +276,7 @@ create_site_yaml () {
                 yq e -i '.transformers += ["site-config/security/ingress-annotation-transformer.yaml"]' deploy/kustomization.yaml
                 file_exists deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml
                 cp -a deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
-                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$customerCaIssuer/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
+                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$customerCaIssuer/g;s/17532h/17520h/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
                 yq e -i '.resources += ["site-config/security/cert-manager-pre-created-ingress-certificate.yaml"]' deploy/kustomization.yaml
             fi
 
