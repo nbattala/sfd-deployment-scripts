@@ -31,5 +31,27 @@ config-sso-oauth() {
           }
           ]
      }'| jq
+
+    #configure logon page bypass
+    curl -k -X POST ${INGRESS_URL}/configuration/configurations \
+     -H "Authorization: Bearer $ACCESS_TOKEN" \
+     -H "Content-Type: application/vnd.sas.collection+json" \
+     -d '
+     {
+          "version": 2,
+          "items": [
+          {
+               "metadata": {
+                    "services": [
+                         "SASLogon"
+                    ],
+               "isDefault": false,
+               "mediaType": "application/vnd.sas.configuration.config.sas.logon.zone+json;version=1",
+               "tenant": null
+               },
+               "defaultIdentityProvider": "'${oauthName}'"
+          }
+          ]
+     }'| jq
     
 }

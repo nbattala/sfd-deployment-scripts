@@ -2,7 +2,7 @@
 source properties.env
 siteYaml=site-$cadence.yaml
 
-export MSYS_NO_PATHCONV=1
+#export MSYS_NO_PATHCONV=1
 
 export PATH=$PATH:${PWD}/resources/tools
 

@@ -3,6 +3,7 @@ export MSYS_NO_PATHCONV=1
 set -o allexport
 source properties.env
 set +o allexport
+export PATH=$PATH:./resources/tools
 
 k8s_resource_exists() {
     local resource_type="$1"
@@ -142,7 +143,7 @@ create_site_yaml () {
         file_exists deploy/site-config/sas-detection/overlays/kustomization.yaml 
         file_exists ${customerCaCertsDir}/${kafkaClientPrivateKey}
         cp ${customerCaCertsDir}/${kafkaClientPrivateKey} deploy/site-config/sas-detection/overlays/kafkaClientPrivateKey.key
-        ./resources/tools/yq e -i '.secretGenerator[].files += ["kafkaClientPrivateKey.key"]' deploy/site-config/sas-detection/overlays/kustomization.yaml
+        yq e -i '.secretGenerator[].files += ["kafkaClientPrivateKey.key"]' deploy/site-config/sas-detection/overlays/kustomization.yaml
         export kafkaKeyLocation=/etc/kafka-client-mtls-key/kafkaClientPrivateKey.key
     else
         echo "kafkaClientCertificate or kafkaClientPrivateKey or kafkaTrustStore property is not set, skipping mTLS setup"
@@ -155,21 +156,28 @@ create_site_yaml () {
     file_exists resources/sitedefault.yaml
     envsubst < resources/sitedefault.yaml >  deploy/site-config/sitedefault.yaml
 
-    #add FSGROUP Value
-    nsGroupId=$(oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
-    check_var nsGroupId
-    mkdir -p deploy/site-config/security/container-security
-    if [ $cadence = '2024.08' ]; then
-        file_exists deploy/sas-bases/examples/security/container-security/update-fsgroup.yaml
-        cp -a deploy/sas-bases/examples/security/container-security/update-fsgroup.yaml deploy/site-config/security/container-security
-        sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/update-fsgroup.yaml
-        ./resources/tools/yq e -i '.transformers += ["site-config/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
-    else   
-        file_exists deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml
-        cp -a deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml deploy/site-config/security/container-security
-        sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/configmap-inputs.yaml
-        ./resources/tools/yq e -i '.resources += ["site-config/security/container-security/configmap-inputs.yaml"]' deploy/kustomization.yaml
-        ./resources/tools/yq e -i '.transformers += ["sas-bases/overlays/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
+    #add FSGROUP Value 
+    unset MSYS_NO_PATHCONV
+    nsGroupId=$(exec 2>/dev/null oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
+    export MSYS_NO_PATHCONV=1
+    #check_var nsGroupId
+    #echo $nsGroupId
+    if [[ -z "${nsGroupId}" ]]; then 
+        echo "Namespace Supplemental group number cannot be found. Skipping fsgroup update..."
+    else
+        mkdir -p deploy/site-config/security/container-security
+        if [ $cadence = '2024.08' ]; then
+            file_exists deploy/sas-bases/examples/security/container-security/update-fsgroup.yaml
+            cp -a deploy/sas-bases/examples/security/container-security/update-fsgroup.yaml deploy/site-config/security/container-security
+            sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/update-fsgroup.yaml
+            yq e -i '.transformers += ["site-config/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
+        else   
+            file_exists deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml
+            cp -a deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml deploy/site-config/security/container-security
+            sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/configmap-inputs.yaml
+            yq e -i '.resources += ["site-config/security/container-security/configmap-inputs.yaml"]' deploy/kustomization.yaml
+            yq e -i '.transformers += ["sas-bases/overlays/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
+        fi
     fi
 
     #mirror repository
@@ -220,7 +228,7 @@ create_site_yaml () {
     envsubst < resources/image-pull-secret/sas-image-pull-secret-patch.yaml > deploy/site-config/image-pull-secret/sas-image-pull-secret-patch.yaml
 
     #enable HA if needed
-    ${enableHA} && ./resources/tools/yq e -i '.transformers += ["sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml"]' deploy/kustomization.yaml
+    ${enableHA} && yq e -i '.transformers += ["sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml"]' deploy/kustomization.yaml
 
     #enable TLS if needed
     case $tlsMode in
@@ -229,35 +237,54 @@ create_site_yaml () {
         full-stack)
             export scheme=https
             sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
-            ./resources/tools/yq e -i '.components += ["sas-bases/components/security/core/base/full-stack-tls"]' deploy/kustomization.yaml
-            ./resources/tools/yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
-            #./resources/tools/yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
+            yq e -i '.components += ["sas-bases/components/security/core/base/full-stack-tls"]' deploy/kustomization.yaml
+            #yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
             file_exists deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml 
             cp -a deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml deploy/site-config/security/
-            ./resources/tools/yq e -i '.literals.[0] = "SAS_CERTIFICATE_GENERATOR=cert-manager"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            ./resources/tools/yq e -i '.literals.[1] = "SAS_CERTIFICATE_DURATION=\"180\""' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            ./resources/tools/yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            ./resources/tools/yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            ./resources/tools/yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            ./resources/tools/yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
-            file_exists deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml
-            cp -a deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml deploy/site-config/security/customer-provided-ingress-certificate.yaml
+            yq e -i '.literals.[0] = "SAS_CERTIFICATE_GENERATOR=cert-manager"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            yq e -i '.literals.[1] = "SAS_CERTIFICATE_DURATION=\"180\""' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
+            eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$customerCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            #since sas-ingress-certificate will have ca.crt, we are going to use it as CA certificate secret instead of actual CA secret that has CA private key which could be confidential and restricted at customer sites.
+            eval $(echo "yq e -i '.literals += \"SAS_CA_CERTIFICATE_SECRET_NAME=sas-ingress-certificate\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            dir_exists deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls 
+            cp -a deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls deploy/site-config/security/full-stack-tls
+            find deploy/site-config/security/full-stack-tls -type f -exec sed -i 's/sas-viya-ca-certificate-secret/sas-ingress-certificate/g' {} +
+            yq e -i '.components += ["site-config/security/full-stack-tls"]' deploy/kustomization.yaml
+            yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
             mkdir -p deploy/site-config/security/cacerts
-            file_exists ${customerCaCertsDir}/${ingressCertificate}
-            cp -a ${customerCaCertsDir}/${ingressCertificate} deploy/site-config/security/cacerts/sas-ingress-certificate.pem
-            ./resources/tools/yq e -i '.files.[0] = "tls.crt=site-config/security/cacerts/sas-ingress-certificate.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
-            file_exists ${customerCaCertsDir}/${ingressKey}
-            cp -a ${customerCaCertsDir}/${ingressKey} deploy/site-config/security/cacerts/sas-ingress-key.pem
-            ./resources/tools/yq e -i '.files.[1] = "tls.key=site-config/security/cacerts/sas-ingress-key.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
-            file_exists ${customerCaCertsDir}/${ingressCa}
-            cp -a ${customerCaCertsDir}/${ingressCa} deploy/site-config/security/cacerts/sas-ingress-ca.pem
-            ./resources/tools/yq e -i '.files.[2] = "ca.crt=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
-            ./resources/tools/yq e -i '.generators += ["site-config/security/customer-provided-ingress-certificate.yaml"]' deploy/kustomization.yaml
+            if [[ ! -z ${ingressCertificate} || ! -z ${ingressKey} || ! -z ${ingressCa} ]]; then
+                file_exists deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml
+                cp -a deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml deploy/site-config/security/customer-provided-ingress-certificate.yaml
+                file_exists ${customerCaCertsDir}/${ingressCertificate}
+                cp -a ${customerCaCertsDir}/${ingressCertificate} deploy/site-config/security/cacerts/sas-ingress-certificate.pem
+                yq e -i '.files.[0] = "tls.crt=site-config/security/cacerts/sas-ingress-certificate.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
+                file_exists ${customerCaCertsDir}/${ingressKey}
+                cp -a ${customerCaCertsDir}/${ingressKey} deploy/site-config/security/cacerts/sas-ingress-key.pem
+                yq e -i '.files.[1] = "tls.key=site-config/security/cacerts/sas-ingress-key.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
+                file_exists ${customerCaCertsDir}/${ingressCa}
+                cp -a ${customerCaCertsDir}/${ingressCa} deploy/site-config/security/cacerts/sas-ingress-ca.pem
+                yq e -i '.files.[2] = "ca.crt=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
+                yq e -i '.generators += ["site-config/security/customer-provided-ingress-certificate.yaml"]' deploy/kustomization.yaml
+            fi
+            if [[ ! -z ${customerCaIssuer} ]]; then
+                file_exists deploy/sas-bases/overlays/cert-manager-provided-ingress-certificate/ingress-annotation-transformer.yaml
+                cp -a deploy/sas-bases/overlays/cert-manager-provided-ingress-certificate/ingress-annotation-transformer.yaml deploy/site-config/security/ingress-annotation-transformer.yaml
+                sed -i "s/sas-viya-issuer/$customerCaIssuer/g" deploy/site-config/security/ingress-annotation-transformer.yaml
+                yq e -i '.transformers += ["site-config/security/ingress-annotation-transformer.yaml"]' deploy/kustomization.yaml
+                file_exists deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml
+                cp -a deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
+                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$customerCaIssuer/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
+                yq e -i '.resources += ["site-config/security/cert-manager-pre-created-ingress-certificate.yaml"]' deploy/kustomization.yaml
+            fi
+
             ;;
         *)
             export scheme=http
             sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
-            ./resources/tools/yq e -i '.components += ["sas-bases/components/security/core/base/truststores-only"]' deploy/kustomization.yaml
+            yq e -i '.components += ["sas-bases/components/security/core/base/truststores-only"]' deploy/kustomization.yaml
             ;;
     esac
 
@@ -281,7 +308,7 @@ prepare_install_script () {
     cp -a deploy/sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml $install_dir
     cp -a resources/scc/sas-opendistro-scc-modified-for-sysctl-transformer.yaml $install_dir
     cp -a deploy/sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml $install_dir
-    sed "s/{{ NAMESPACE }}/$project/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
+    sed "s/{{ NAMESPACE }}/$project/g;s/default/sas-detection/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
     file_exists site-$cadence.yaml
     cp -a site-$cadence.yaml $install_dir
     echo "Install script and manifests are written to $install_dir directory"
