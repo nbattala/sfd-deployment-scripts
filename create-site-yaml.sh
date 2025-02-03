@@ -272,11 +272,9 @@ create_site_yaml () {
                 yq e -i '.files.[2] = "ca.crt=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
                 yq e -i '.generators += ["site-config/security/customer-provided-ingress-certificate.yaml"]' deploy/kustomization.yaml
             elif [[ ! -z ${ingressCaIssuer} ]]; then
-                file_exists deploy/sas-bases/overlays/cert-manager-provided-ingress-certificate/ingress-annotation-transformer.yaml
-                yq e -i '.transformers += ["site-config/security/ingress-annotation-transformer.yaml"]' deploy/kustomization.yaml
                 file_exists deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml
                 cp -a deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
-                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$ingressCaIssuer/g;s/17532h/17520h/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
+                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$ingressCaIssuer/g;s/17532h/17520h/g;s/kind: Issuer/kind: ClusterIssuer/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
                 yq e -i '.resources += ["site-config/security/cert-manager-pre-created-ingress-certificate.yaml"]' deploy/kustomization.yaml
             else
                 echo "ERROR: ingressCertificate, ingressKey, ingressCa or ingressCaIssuer property is not set, Cannot skip ingress certificate setup when tlsMode is full-stack"
