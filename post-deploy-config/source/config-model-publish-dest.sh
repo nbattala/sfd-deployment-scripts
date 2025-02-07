@@ -51,7 +51,11 @@ config-model-publish-dest () {
     |jq| tee /tmp/.SDAConfigPubDest.json > /dev/null
 	curl -k --location -X POST  ${INGRESS_URL}/modelPublish/destinations --header "Authorization: Bearer $ACCESS_TOKEN" --header 'Content-Type: application/json' -d @/tmp/.SDAConfigPubDest.json
 
-	if [ $1 == 'verify' ]
-	then
-		curl -s -k -X GET ${INGRESS_URL}/credentials/domains/SDADockerRegistry/secrets
+    if [ $1 == 'verify' ]
+    then
+        USER_ACCESS_TOKEN=$(curl -k -X POST ${INGRESS_URL}/SASLogon/oauth/token -H 'Accept: application/json' -H 'Content-type: application/x-www-form-urlencoded' -H 'Authorization: Basic c2FzLmVjOg==' -d "grant_type=password&username=${sfdAdminUserId}&password=${sfdAdminUserPwd}"|jq -r '.access_token')
+        curl -s -k -X GET ${INGRESS_URL}/credentials/domains/SDADockerRegistry/secrets \
+        -H "Authorization: Bearer $USER_ACCESS_TOKEN" \
+        -H "Content-Type: application/json" | jq
+    fi
 }
