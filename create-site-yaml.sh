@@ -247,15 +247,15 @@ create_site_yaml () {
             yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            #if [[ ! -z ${viyaCaIssuer} ]]; then
-            #eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$viyaCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
-            #fi
+            if [[ ! -z ${viyaCaIssuer} ]]; then
+            eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$viyaCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            fi
             #since sas-ingress-certificate will have ca.crt, we are going to use it as CA certificate secret instead of actual CA secret that has CA private key which could be confidential and restricted at customer sites.
-            #eval $(echo "yq e -i '.literals += \"SAS_CA_CERTIFICATE_SECRET_NAME=sas-ingress-certificate\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
-            #dir_exists deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls 
-            #cp -a deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls deploy/site-config/security/full-stack-tls
-            #find deploy/site-config/security/full-stack-tls -type f -exec sed -i 's/sas-viya-ca-certificate-secret/sas-ingress-certificate/g' {} +
-            #yq e -i '.components += ["site-config/security/full-stack-tls"]' deploy/kustomization.yaml
+            eval $(echo "yq e -i '.literals += \"SAS_CA_CERTIFICATE_SECRET_NAME=sas-ingress-certificate\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            dir_exists deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls 
+            cp -a deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls deploy/site-config/security/full-stack-tls
+            find deploy/site-config/security/full-stack-tls -type f -exec sed -i 's/sas-viya-ca-certificate-secret/sas-ingress-certificate/g' {} +
+            yq e -i '.components += ["site-config/security/full-stack-tls"]' deploy/kustomization.yaml
             yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
             mkdir -p deploy/site-config/security/cacerts
             if [[ ! -z ${ingressCertificate} || ! -z ${ingressKey} || ! -z ${ingressCa} ]]; then
