@@ -29,7 +29,8 @@ export dockerPwdB64=$(echo -n $dockerPwd | base64)
 #################################################################
 
 
-config-sso-oauth disable
+#config-sso-oauth disable
 #config-model-publish-dest
 #config-sfd-designtime
 #config-sfd-rules-studio
+config-query-internal-postgres
