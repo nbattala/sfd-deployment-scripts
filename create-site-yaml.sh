@@ -239,7 +239,7 @@ create_site_yaml () {
             sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
             yq e -i '.components += ["sas-bases/components/security/core/base/full-stack-tls"]' deploy/kustomization.yaml
             yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
-            yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
+            #yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
             file_exists deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml 
             cp -a deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml deploy/site-config/security/
             yq e -i '.literals.[0] = "SAS_CERTIFICATE_GENERATOR=cert-manager"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
@@ -247,14 +247,14 @@ create_site_yaml () {
             yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            if [[ ! -z ${viyaCaIssuer} ]]; then
-            eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$viyaCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            if [[ ! -z ${podCaIssuer} || ${podCaSecret} ]]; then
+            eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$podCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
             fi
             #since sas-ingress-certificate will have ca.crt, we are going to use it as CA certificate secret instead of actual CA secret that has CA private key which could be confidential and restricted at customer sites.
-            eval $(echo "yq e -i '.literals += \"SAS_CA_CERTIFICATE_SECRET_NAME=sas-ingress-certificate\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            eval $(echo "yq e -i '.literals += \"SAS_CA_CERTIFICATE_SECRET_NAME=$podCaSecret\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
             dir_exists deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls 
             cp -a deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls deploy/site-config/security/full-stack-tls
-            find deploy/site-config/security/full-stack-tls -type f -exec sed -i 's/sas-viya-ca-certificate-secret/sas-ingress-certificate/g' {} +
+            find deploy/site-config/security/full-stack-tls -type f -exec sed -i "s/sas-viya-ca-certificate-secret/$podCaSecret/g" {} +
             yq e -i '.components += ["site-config/security/full-stack-tls"]' deploy/kustomization.yaml
             yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
             mkdir -p deploy/site-config/security/cacerts
@@ -274,7 +274,7 @@ create_site_yaml () {
             elif [[ ! -z ${ingressCaIssuer} ]]; then
                 file_exists deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml
                 cp -a deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
-                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$ingressCaIssuer/g;s/17532h/17520h/g;s/kind: Issuer/kind: ClusterIssuer/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
+                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/- {{ ANOTHER_INGRESS_DNS_ALIAS }}//g;s/sas-viya-issuer/$ingressCaIssuer/g;s/17532h/17520h/g;s/kind: Issuer/kind: $ingressCaIssuerKind/g" deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml
                 yq e -i '.resources += ["site-config/security/cert-manager-pre-created-ingress-certificate.yaml"]' deploy/kustomization.yaml
             else
                 echo "ERROR: ingressCertificate, ingressKey, ingressCa or ingressCaIssuer property is not set, Cannot skip ingress certificate setup when tlsMode is full-stack"

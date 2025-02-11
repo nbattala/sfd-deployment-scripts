@@ -51,7 +51,7 @@ oc create secret docker-registry $imagePullSecret \
 	--docker-username $imageRegUser \
 	--docker-password $imageRegPwd
 
-#create ingress ca issuer
+#create ingress ca cluster issuer
 oc -n cert-manager create secret tls myca-ingress-secret --cert=../MyCA/myca.crt --key=../MyCA/myca-unencrypted.key
 cat <<EOF | oc apply -f -
 apiVersion: cert-manager.io/v1
@@ -62,3 +62,40 @@ spec:
   ca:
     secretName: myca-ingress-secret
 EOF
+
+#create pod ca issuer
+cat << EOF | oc apply -f -
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: myca-pod-selfsigning-issuer
+spec:
+  selfSigned: {}
+EOF
+cat << EOF | oc apply -f -
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: myca-pod-ca-certificate
+spec:
+  secretName: myca-pod-certificate-secret
+  commonName: "myca-pod-ca-certificate"
+  duration: 43800h # 5 years
+  renewBefore: 1h # 1 hour
+  isCA: true
+  issuerRef:
+    name: myca-pod-selfsigning-issuer
+    kind: Issuer
+EOF
+cat << EOF | oc apply -f -
+apiVersion: cert-manager.io/v1
+kind: Issuer
+metadata:
+  name: myca-pod-issuer
+spec:
+  ca:
+    secretName: myca-pod-certificate-secret
+EOF
+#create a secret with just the CA to be used for the pods truststore- This does not work as pods expect both tls.crt and tls.key.
+#oc get secret myca-pod-certificate-secret -o=jsonpath='{.data.ca\.crt}' | base64 -d > /tmp/myca-pod-ca-secret.pem
+#oc create secret generic myca-pod-ca-secret --from-file=tls.crt=/tmp/myca-pod-ca-secret.pem

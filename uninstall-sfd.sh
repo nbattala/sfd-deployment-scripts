@@ -27,10 +27,23 @@ delete-pvcs () {
     oc -n $project get pvc --no-headers -o custom-columns=":metadata.name" | xargs -n 1 oc delete pvc
 }
 
+delete-project () {
+    oc delete project $project
+}
+
 while true; do
     read -p "Do you wish to delete any PVCs used by SFD as well? " yn
     case $yn in
         [Yy]* ) delete-pvcs ; break;;
+        [Nn]* ) exit;;
+        * ) echo "Please answer yes or no.";;
+    esac
+done
+
+while true; do
+    read -p "Do you wish to delete the project $project used by SFD as well? " yn
+    case $yn in
+        [Yy]* ) delete-project ; break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
     esac
