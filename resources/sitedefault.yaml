@@ -8,7 +8,16 @@ config:
       userDN: ${adUserDN}
     sas.identities.providers.ldap.group:
       baseDN: ${adGroupBaseDN}
+      accountId: ${adGroupAccountId}
+      member: ${adGroupMember}
+      objectClass: ${adGroupObjectClass}
+      objectFilter: ${adGroupObjectFilter}
+      searchFilter: ${adGroupSearchFilter}
     sas.identities.providers.ldap.user:
       baseDN: ${adUserBaseDN}
+      accountId: ${adUserAccountId}
+      objectClass: ${adUserObjectClass}
       objectFilter: ${adUserObjectFilter}
+      searchFilter: ${adUserSearchFilter}
     sas.logon.intitial.password: Password123
+config/identities/sas.identities/administrator: ${sfdAdminUserId}

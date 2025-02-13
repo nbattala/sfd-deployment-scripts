@@ -159,6 +159,7 @@ create_site_yaml () {
     #add FSGROUP Value 
     unset MSYS_NO_PATHCONV
     nsGroupId=$(exec 2>/dev/null oc describe ns $project | grep sa.scc.supplemental-groups | awk '{print $2}' | awk -F '/' '{print $1}')
+    nsUserId=$(exec 2>/dev/null oc describe ns $project | grep sa.scc.uid-range | awk '{print $2}' | awk -F '/' '{print $1}')
     export MSYS_NO_PATHCONV=1
     #check_var nsGroupId
     #echo $nsGroupId
@@ -179,6 +180,28 @@ create_site_yaml () {
             yq e -i '.transformers += ["sas-bases/overlays/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
         fi
     fi
+
+    #opendistro - scc modifications
+    export openDistroSccMod='runuser'
+    case $openDistroSccMod in
+        sysctl)
+            # sysctl modifications
+            file_exists deploy/sas-bases/overlays/internal-elasticsearch/sysctl-transformer.yaml
+            yq e -i '.transformers += ["sas-bases/overlays/internal-elasticsearch/sysctl-transformer.yaml"]' deploy/kustomization.yaml
+            ;;
+        runuser)
+            # runuser modifications
+            file_exists deploy/sas-bases/overlays/internal-elasticsearch/disable-mmap-transformer.yaml
+            file_exists deploy/sas-bases/examples/configure-elasticsearch/internal/run-user/run-user-transformer.yaml
+            cp -a deploy/sas-bases/examples/configure-elasticsearch/internal/run-user/run-user-transformer.yaml deploy/site-config/security
+            sed -i "s/{{ USER-ID }}/$nsUserId/g" deploy/site-config/security/run-user-transformer.yaml
+            yq e -i '.transformers += ["site-config/security/run-user-transformer.yaml"]' deploy/kustomization.yaml
+            ;;
+        *)
+            echo "ERROR: Invalid value for openDistroSccMod"
+            exit 1
+            ;;
+    esac
 
     #mirror repository
     file_exists deploy/sas-bases/examples/mirror/mirror.yaml 
@@ -304,10 +327,42 @@ prepare_install_script () {
     mkdir -p $install_dir
     envsubst < resources/install-sfd.sh > $install_dir/install-sfd.sh
     dir_exists deploy/sas-bases
-    cp -a deploy/sas-bases/examples/cas/configure/cas-server-scc-host-launch.yaml $install_dir
+    case $openDistroSccMod in
+        sysctl)
+            # sysctl modifications
+            file_exists resources/scc/sas-opendistro-scc-modified-for-sysctl-transformer.yaml
+            cp -a resources/scc/sas-opendistro-scc-modified-for-sysctl-transformer.yaml $install_dir
+            ;;
+        runuser)
+            # runuser modifications
+            cp -a deploy/sas-bases/examples/configure-elasticsearch/internal/openshift/sas-opendistro-scc.yaml $install_dir/sas-opendistro-scc-modified-for-run-user-transformer.yaml
+            sed -i "s/uid: 1000/uid: $nsUserId/g" $install_dir/sas-opendistro-scc-modified-for-run-user-transformer.yaml
+            ;;
+        *)
+            echo "ERROR: Invalid value for openDistroSccMod"
+            exit 1
+            ;;
+    esac
+    #CAS SCCs
+    export casServerScc='basic'
+    case $casServerScc in
+        basic)
+            cp -a deploy/sas-bases/examples/cas/configure/cas-server-scc.yaml $install_dir
+            ;;
+        hostLaunch)
+            cp -a deploy/sas-bases/examples/cas/configure/cas-server-scc-host-launch.yaml $install_dir
+            ;;
+        sssd)
+            cp -a deploy/sas-bases/examples/cas/configure/cas-server-scc-sssd.yaml $install_dir
+            ;;
+        *)
+            echo "ERROR: Invalid value for casServerScc"
+            exit 1
+            ;;
+    esac
+
     cp -a deploy/sas-bases/overlays/sas-microanalytic-score/service-account/sas-microanalytic-score-scc.yaml $install_dir
     cp -a deploy/sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml $install_dir
-    cp -a resources/scc/sas-opendistro-scc-modified-for-sysctl-transformer.yaml $install_dir
     cp -a deploy/sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml $install_dir
     sed "s/{{ NAMESPACE }}/$project/g;s/default/sas-detection/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
     file_exists site-$cadence.yaml

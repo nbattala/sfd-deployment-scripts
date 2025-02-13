@@ -21,7 +21,7 @@ configurations:
 - sas-bases/overlays/required/kustomizeconfig.yaml
 
 transformers:
-- sas-bases/overlays/internal-elasticsearch/sysctl-transformer.yaml
+#Bank's policies do not allow privilege escalation and privileged container
 - sas-bases/overlays/required/transformers.yaml
 #- sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml
 - sas-bases/overlays/internal-elasticsearch/internal-elasticsearch-transformer.yaml

@@ -3,15 +3,30 @@
 oc project $project
 
 #Apply and bind SCCs
-oc apply -f cas-server-scc-host-launch.yaml
-oc -n $project adm policy add-scc-to-user sas-cas-server-host -z sas-cas-server
+if [ -e cas-server-scc-host-launch.yaml ]; then
+	oc apply -f cas-server-scc-host-launch.yaml
+	oc -n $project adm policy add-scc-to-user sas-cas-server-host -z sas-cas-server
+elif [ -e cas-server-scc.yaml ]; then
+	oc apply -f cas-server-scc.yaml
+	oc -n $project adm policy add-scc-to-user sas-cas-server -z sas-cas-server
+else
+	 echo "ERROR: cas-server scc file not found!"
+	 exit 1
+fi
 oc apply -f sas-microanalytic-score-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-microanalytic-score -z sas-microanalytic-score
 oc apply -f sas-detection-definition-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-detection-definition -z sas-detection-definition 
 oc apply -f sas-model-repository-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-model-repository -z sas-model-repository
-oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml
+if [ -e sas-opendistro-scc-modified-for-sysctl-transformer.yaml ]; then
+	oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml
+elif [ -e sas-opendistro-scc-modified-for-run-user-transformer.yaml ]; then
+	oc apply -f sas-opendistro-scc-modified-for-run-user-transformer.yaml
+else
+	echo "ERROR: sas-opendistro scc not found!"
+	exit 1
+fi
 oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro
 #sas-model-publish-kaniko
 oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
