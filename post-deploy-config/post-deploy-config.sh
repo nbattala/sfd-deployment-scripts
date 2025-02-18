@@ -29,8 +29,9 @@ export dockerPwdB64=$(echo -n $dockerPwd | base64)
 #################################################################
 
 
-#config-sso-oauth disable
+#config-sso-oauth 
 #config-model-publish-dest
 #config-sfd-designtime
 #config-sfd-rules-studio
-config-query-internal-postgres
+config-query-internal-postgres "SELECT * FROM logon.identity_provider"
+#config-query-internal-postgres "DELETE FROM logon.identity_provider WHERE id='6feb707e-05b8-4d85-adb6-63ddede40411'; COMMIT;"

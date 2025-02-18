@@ -2,7 +2,6 @@
 
 config-sfd-designtime () {
 
-  config-list-data-redis () {
     printf "Entering ${FUNCNAME[0]}\n"
     ### SECTION ############################################
     echo "Update Redis Values in Consul"
@@ -57,5 +56,5 @@ config-sfd-designtime () {
             }
         }'
     done
-  }
+
 }

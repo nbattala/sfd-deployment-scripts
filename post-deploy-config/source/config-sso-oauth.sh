@@ -2,7 +2,7 @@
 config-sso-oauth() {
     echo "Entering ${FUNCNAME[0]}"
     #configure SSO OAUTH
-    if [ $1 == "disable" ]; then
+    if [ "$1" == "disable" ]; then
      echo "Disabling SSO OAUTH"
      oauth_config_id=$(curl -k -X GET ${INGRESS_URL}/configuration/configurations \
           -H "Authorization: Bearer $ACCESS_TOKEN" \
