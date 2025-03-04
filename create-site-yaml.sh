@@ -163,6 +163,7 @@ create_site_yaml () {
     export MSYS_NO_PATHCONV=1
     #check_var nsGroupId
     #echo $nsGroupId
+    mkdir -p deploy/site-config/security
     if [[ -z "${nsGroupId}" ]]; then 
         echo "Namespace Supplemental group number cannot be found. Skipping fsgroup update..."
     else
@@ -261,7 +262,7 @@ create_site_yaml () {
             export scheme=https
             sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
             yq e -i '.components += ["sas-bases/components/security/core/base/full-stack-tls"]' deploy/kustomization.yaml
-            yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
+            #yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
             #yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
             file_exists deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml 
             cp -a deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml deploy/site-config/security/

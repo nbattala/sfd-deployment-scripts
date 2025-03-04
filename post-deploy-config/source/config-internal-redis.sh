@@ -15,6 +15,8 @@ data:
     cluster-enabled no
     cluster-require-full-coverage no
     protected-mode no
+    appendonly yes
+    stop-writes-on-bgsave-error no
 ---
 apiVersion: apps/v1
 kind: StatefulSet
