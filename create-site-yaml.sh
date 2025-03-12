@@ -262,8 +262,9 @@ create_site_yaml () {
             export scheme=https
             sed -i "s/{{scheme}}/$scheme/g" deploy/kustomization.yaml
             yq e -i '.components += ["sas-bases/components/security/core/base/full-stack-tls"]' deploy/kustomization.yaml
-            #yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
+            yq e -i '.components += ["sas-bases/components/security/network/route.openshift.io/route/full-stack-tls"]' deploy/kustomization.yaml
             #yq e -i '.resources += ["sas-bases/overlays/cert-manager-issuer"]' deploy/kustomization.yaml
+            #configure sas-certframe-configmap
             file_exists deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml 
             cp -a deploy/sas-bases/examples/security/customer-provided-merge-sas-certframe-configmap.yaml deploy/site-config/security/
             yq e -i '.literals.[0] = "SAS_CERTIFICATE_GENERATOR=cert-manager"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
@@ -271,16 +272,19 @@ create_site_yaml () {
             yq e -i '.literals.[2] = "SAS_CERTIFICATE_ADDITIONAL_SAN_DNS="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[3] = "SAS_CERTIFICATE_ADDITIONAL_SAN_IP="' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
             yq e -i '.literals.[4] = "EXCLUDE_MOZILLA_CERTS=false"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml
-            if [[ ! -z ${podCaIssuer} || ${podCaSecret} ]]; then
-            eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$podCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+            if [[ ! -z ${podCaIssuer} ]]; then
+                eval $(echo "yq e -i '.literals += \"SAS_CERTIFICATE_ISSUER=$podCaIssuer\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
+                yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
+                #create sas-viya-ca-certificate-secret
+                file_exists resources/cert-manager-created-sas-viya-ca-certificate.yaml
+                cp -a resources/cert-manager-created-sas-viya-ca-certificate.yaml deploy/site-config/security/
+                sed -i "s/{{ INGRESS_DNS_ALIAS }}/$ingressHost/g;s/sas-viya-issuer/$podCaIssuer/g" deploy/site-config/security/cert-manager-created-sas-viya-ca-certificate.yaml
+                yq e -i '.resources += ["site-config/security/cert-manager-created-sas-viya-ca-certificate.yaml"]' deploy/kustomization.yaml
+            else
+                echo "ERROR: podCaIssuer not set. Cannot enable TLS without podCaIssuer"
+                exit 1
             fi
-            #since sas-ingress-certificate will have ca.crt, we are going to use it as CA certificate secret instead of actual CA secret that has CA private key which could be confidential and restricted at customer sites.
-            eval $(echo "yq e -i '.literals += \"SAS_CA_CERTIFICATE_SECRET_NAME=$podCaSecret\"' deploy/site-config/security/customer-provided-merge-sas-certframe-configmap.yaml")
-            dir_exists deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls 
-            cp -a deploy/sas-bases/components/security/network/route.openshift.io/route/full-stack-tls deploy/site-config/security/full-stack-tls
-            find deploy/site-config/security/full-stack-tls -type f -exec sed -i "s/sas-viya-ca-certificate-secret/$podCaSecret/g" {} +
-            yq e -i '.components += ["site-config/security/full-stack-tls"]' deploy/kustomization.yaml
-            yq e -i '.generators += ["site-config/security/customer-provided-merge-sas-certframe-configmap.yaml"]' deploy/kustomization.yaml
+
             mkdir -p deploy/site-config/security/cacerts
             if [[ ! -z ${ingressCertificate} || ! -z ${ingressKey} || ! -z ${ingressCa} ]]; then
                 file_exists deploy/sas-bases/examples/security/customer-provided-ingress-certificate.yaml
