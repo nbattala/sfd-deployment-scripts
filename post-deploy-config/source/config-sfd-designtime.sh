@@ -2,6 +2,7 @@
 
 config-sfd-designtime () {
 
+    echo "Entering ${FUNCNAME[0]}"
     printf "Entering ${FUNCNAME[0]}\n"
     ### SECTION ############################################
     echo "Update Redis Values in Consul"
@@ -56,5 +57,21 @@ config-sfd-designtime () {
             }
         }'
     done
+    curl -k --location --request PUT ${INGRESS_URL}/credentials/domains/ListDataRedis/clients/sas.detectionDefinition \
+    -H "Authorization: Bearer $ACCESS_TOKEN" \
+    -H "Content-Type: application/json" \
+    --data '{
+    "domainId": "ListDataRedis",
+    "identityId": "sas.detectionDefinition",
+    "identityType": "client",
+    "domainType": "password",
+    "properties": {
+        "userId": "'${redisUser}'"
+    },
+    "secrets": {
+        "password": "'${redisPasswordB64}'"
+    }
+    }'
+    echo "Leaving ${FUNCNAME[0]}"
 
 }
