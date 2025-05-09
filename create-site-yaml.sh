@@ -167,22 +167,15 @@ create_site_yaml () {
     #echo $nsGroupId
     mkdir -p deploy/site-config/security
     if [[ -z "${nsGroupId}" ]]; then 
-        echo "Namespace Supplemental group number cannot be found. Skipping fsgroup update..."
-    else
-        mkdir -p deploy/site-config/security/container-security
-        if [ $cadence = '2024.08' ]; then
-            file_exists deploy/sas-bases/examples/security/container-security/update-fsgroup.yaml
-            cp -a deploy/sas-bases/examples/security/container-security/update-fsgroup.yaml deploy/site-config/security/container-security
-            sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/update-fsgroup.yaml
-            yq e -i '.transformers += ["site-config/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
-        else   
-            file_exists deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml
-            cp -a deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml deploy/site-config/security/container-security
-            sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/configmap-inputs.yaml
-            yq e -i '.resources += ["site-config/security/container-security/configmap-inputs.yaml"]' deploy/kustomization.yaml
-            yq e -i '.transformers += ["sas-bases/overlays/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
-        fi
+        echo "Namespace Supplemental group number cannot be found. Assigning a random value of 123456789 as the group number..."
+        nsGroupId=123456789
     fi
+    mkdir -p deploy/site-config/security/container-security
+    file_exists deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml
+    cp -a deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml deploy/site-config/security/container-security
+    sed -i "s/{{ FSGROUP_VALUE }}/${nsGroupId}/g" deploy/site-config/security/container-security/configmap-inputs.yaml
+    yq e -i '.resources += ["site-config/security/container-security/configmap-inputs.yaml"]' deploy/kustomization.yaml
+    yq e -i '.transformers += ["sas-bases/overlays/security/container-security/update-fsgroup.yaml"]' deploy/kustomization.yaml
 
     #opendistro - scc modifications
     export openDistroSccMod='runuser'
