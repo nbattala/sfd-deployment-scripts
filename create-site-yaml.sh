@@ -152,6 +152,8 @@ create_site_yaml () {
     file_exists resources/sas-detection/overlays/kafka-secret.yaml
     envsubst < resources/sas-detection/overlays/kafka-secret.yaml > deploy/site-config/sas-detection/overlays/kafka-secret.yaml 
 
+    #configure persistent storage for Impact Analysis
+    file_exists deploy/sas-bases/examples/sas-compute-server/configure/compute-server-add-nfs-mount.yaml
     #configure Active Directory, SSO, Redis for Designtime
     file_exists resources/sitedefault.yaml
     envsubst < resources/sitedefault.yaml >  deploy/site-config/sitedefault.yaml
