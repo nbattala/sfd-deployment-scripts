@@ -170,6 +170,10 @@ create_site_yaml () {
         echo "Namespace Supplemental group number cannot be found. Assigning a random value of 123456789 as the group number..."
         nsGroupId=123456789
     fi
+    if [[ -z "${nsUserId}" ]]; then 
+        echo "Namespace uid range cannot be found. Assigning a random value of 123456789 as the uid..."
+        nsUserId=123456789
+    fi
     mkdir -p deploy/site-config/security/container-security
     file_exists deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml
     cp -a deploy/sas-bases/examples/security/container-security/configmap-inputs.yaml deploy/site-config/security/container-security

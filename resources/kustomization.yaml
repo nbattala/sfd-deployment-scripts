@@ -27,7 +27,7 @@ transformers:
 - sas-bases/overlays/internal-elasticsearch/internal-elasticsearch-transformer.yaml
 - sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml
 - sas-bases/overlays/security/container-security/remove-seccomp-transformer.yaml
-- sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
+#- sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
 ##user defined
 - site-config/mirror.yaml
 - site-config/rwoStorageClass/crunchy-storage-transformer.yaml
