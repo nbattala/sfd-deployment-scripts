@@ -19,6 +19,10 @@ oc apply -f sas-detection-definition-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-detection-definition -z sas-detection-definition 
 oc apply -f sas-model-repository-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-model-repository -z sas-model-repository
+oc apply -f pyconfig-scc.yaml
+oc -n $project adm policy add-scc-to-user sas-pyconfig -z sas-pyconfig
+oc -n $project adm policy add-scc-to-user nonroot -z sas-programming-environment
+
 if [ -e sas-opendistro-scc-modified-for-sysctl-transformer.yaml ]; then
 	oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml
 elif [ -e sas-opendistro-scc-modified-for-run-user-transformer.yaml ]; then
@@ -28,8 +32,13 @@ else
 	exit 1
 fi
 oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro
-#sas-model-publish-kaniko
-oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
+#sas-model-publish
+if [[ $modelPublishMode == "kaniko" ]]; then
+	oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
+else
+	oc -n $project adm policy add-scc-to-user sas-model-publish -z sas-model-publish-buildkit
+	oc -n $project adm policy add-scc-to-user sas-model-publish -z sas-decisions-runtime-builder-buildkit
+fi
 #sas-detection-role-bindings (metrics)
 oc -n $project apply -f sas-detection-roles-and-rolebinding.yaml
 

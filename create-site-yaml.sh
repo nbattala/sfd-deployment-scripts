@@ -75,17 +75,17 @@ fi
 
 create_site_yaml () {
     dir_exists downloads
-   # rm -rf deploy
-   # mkdir -p deploy/site-config
-   # if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
-   #     unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
-   #     tar xzf downloads/*$cadence*deploymentAssets*.tgz -C deploy
-   #     cp downloads/*$cadence*license*.jwt deploy
-         export licenseFile=$(ls downloads/*$cadence*license*.jwt | xargs -n 1 basename)
-   # else
-   #     echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
-   #     exit 1
-   # fi
+    rm -rf deploy
+    mkdir -p deploy/site-config
+    if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
+        unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
+        tar xzf downloads/*$cadence*deploymentAssets*.tgz -C deploy
+        cp downloads/*$cadence*license*.jwt deploy
+        export licenseFile=$(ls downloads/*$cadence*license*.jwt | xargs -n 1 basename)
+    else
+        echo "ERROR: multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
+        exit 1
+    fi
     dir_exists deploy/sas-bases
     chmod -Rf 755 deploy/sas-bases
 
@@ -99,32 +99,26 @@ create_site_yaml () {
 
     mkdir -p deploy/site-config
     #kaniko configuration
-    case $modelPublishMode in
-        kaniko)
-            dir_exists deploy/sas-bases/examples/sas-model-publish/kaniko
-            cp -a deploy/sas-bases/examples/sas-model-publish/kaniko deploy/site-config/
-            rm -f deploy/site-config/kaniko/README.md
-            chmod -R u+rw deploy/site-config
-            file_exists deploy/site-config/kaniko/storage.yaml
-            sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/kaniko/storage.yaml
-            sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/kaniko/storage.yaml
-            yq e -i '.resources += ["site-config/kaniko"]' deploy/kustomization.yaml
-            yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml"]' deploy/kustomization.yaml
-        ;;
-        buildkit)
-            dir_exists deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit
-            cp -a deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit deploy/site-config
-            sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/buildkit/storage.yaml
-            sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/buildkit/storage.yaml
-            file_exists deploy/sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml
-            yq e -i '.resources += ["site-config/buildkit"]' deploy/kustomization.yaml
-            yq e -i '.transformers += ["sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml"]' deploy/kustomization.yaml
-        ;;
-        *)
-            echo "ERROR: Incorrect mode specified for model publish. Specify kaniko or buildkit for modelPublishMode property"
-            exit 1
-        ;;
-    esac
+    if [ "$modelPublishMode" == "kaniko" ]; then 
+        dir_exists deploy/sas-bases/examples/sas-model-publish/kaniko
+        cp -a deploy/sas-bases/examples/sas-model-publish/kaniko deploy/site-config/
+        rm -f deploy/site-config/kaniko/README.md
+        chmod -R u+rw deploy/site-config
+        file_exists deploy/site-config/kaniko/storage.yaml
+        sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/kaniko/storage.yaml
+        sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/kaniko/storage.yaml
+        yq e -i '.resources += ["site-config/kaniko"]' deploy/kustomization.yaml
+        yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml"]' deploy/kustomization.yaml
+    else
+        dir_exists deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit
+        cp -a deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit deploy/site-config
+        sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/buildkit/storage.yaml
+        sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/buildkit/storage.yaml
+        file_exists deploy/sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml
+        yq e -i '.resources += ["site-config/buildkit"]' deploy/kustomization.yaml
+        yq e -i '.transformers += ["sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml"]' deploy/kustomization.yaml
+    fi
+
     #configure rwo storage class (for customers who do not have rwo sc set as default or do not want default sc to be used)
     dir_exists resources/rwoStorageClass
     cp -a resources/rwoStorageClass deploy/site-config
@@ -279,6 +273,13 @@ create_site_yaml () {
     #enable HA if needed
     ${enableHA} && yq e -i '.transformers += ["sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml"]' deploy/kustomization.yaml
 
+    #modify CAS user from 1001
+    file_exists deploy/sas-bases/examples/cas/configure/cas-modify-user.yaml
+    cp -a deploy/sas-bases/examples/cas/configure/cas-modify-user.yaml deploy/site-config/security
+    sed -i "s/1001/${nsUserId}/g;s/\[2003,3000,3001,3002,3003,3004,3005,3006,3007\]/\[\]/g" deploy/site-config/security/cas-modify-user.yaml
+    yq e -i '.transformers += ["site-config/security/cas-modify-user.yaml"]' deploy/kustomization.yaml
+
+
     #enable TLS if needed
     case $tlsMode in
         front-door)
@@ -399,9 +400,15 @@ prepare_install_script () {
             ;;
     esac
 
+    sed -i "s/max: 1001/max: $nsGroupId/g;s/min: 1001/min: $nsGroupId/g;s/uid: 1001/uid: $nsUserId/g" $install_dir/cas-server-scc*
+
     cp -a deploy/sas-bases/overlays/sas-microanalytic-score/service-account/sas-microanalytic-score-scc.yaml $install_dir
     cp -a deploy/sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml $install_dir
+    if [ "$modelPublishMode" != "kaniko" ]; then
+        cp -a deploy/sas-bases/overlays/sas-model-publish/service-account/sas-model-publish-scc.yaml $install_dir
+    fi
     cp -a deploy/sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml $install_dir
+    cp -a deploy/sas-bases/examples/sas-pyconfig/pyconfig-scc.yaml $install_dir
     sed "s/{{ NAMESPACE }}/$project/g;s/default/sas-detection/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
     file_exists site-$cadence.yaml
     cp -a site-$cadence.yaml $install_dir
