@@ -1,21 +1,44 @@
 #!/bin/bash
 
-# Path to your YAML files (can be directory or single file)
-YAML_PATH="$1"
+# Usage: ./extract_1001_resources.sh site-2025.08.yaml
 
-echo "Resources using 1001 in runAsUser, runAsGroup, or fsGroup:"
+FILE="$1"
 
-for file in $YAML_PATH; do
-    ./tools/yq eval-all '
-      . as $doc |
-      select(
-        (.spec.template.spec.securityContext.runAsUser == 1001) or
-        (.spec.template.spec.securityContext.runAsGroup == 1001) or
-        (.spec.template.spec.securityContext.fsGroup == 1001) or
-        (.spec.securityContext.runAsUser == 1001) or
-        (.spec.securityContext.runAsGroup == 1001) or
-        (.spec.securityContext.fsGroup == 1001)
-      ) |
-      .metadata.name + " (" + (.kind // "UnknownKind") + ")"
-    ' "$file"
-done
+if [[ -z "$FILE" ]]; then
+  echo "Usage: $0 <kubernetes-manifest.yaml>"
+  exit 1
+fi
+
+echo "Resources using runAsUser/runAsGroup/fsGroup = 1001:"
+echo "-----------------------------------------------------"
+
+yq eval '
+  select(
+    .spec.securityContext.runAsUser == 1001 or
+    .spec.securityContext.runAsGroup == 1001 or
+    .spec.securityContext.fsGroup == 1001 or
+    .spec.template.spec.securityContext.runAsUser == 1001 or
+    .spec.template.spec.securityContext.runAsGroup == 1001 or
+    .spec.template.spec.securityContext.fsGroup == 1001 or
+    .spec.jobTemplate.spec.template.spec.securityContext.runAsUser == 1001 or
+    .spec.jobTemplate.spec.template.spec.securityContext.runAsGroup == 1001 or
+    .spec.jobTemplate.spec.template.spec.securityContext.fsGroup == 1001 or
+    .template.spec.securityContext.runAsUser == 1001 or
+    .template.spec.securityContext.runAsGroup == 1001 or
+    .template.spec.securityContext.fsGroup == 1001 or
+    (.spec.template.spec.containers[]?.securityContext.runAsUser == 1001) or
+    (.spec.template.spec.containers[]?.securityContext.runAsGroup == 1001) or
+    (.spec.template.spec.containers[]?.securityContext.fsGroup == 1001) or
+    (.spec.template.spec.initContainers[]?.securityContext.runAsUser == 1001) or
+    (.spec.template.spec.initContainers[]?.securityContext.runAsGroup == 1001) or
+    (.spec.template.spec.initContainers[]?.securityContext.fsGroup == 1001) or
+    (.template.spec.containers[]?.securityContext.runAsUser == 1001) or
+    (.template.spec.containers[]?.securityContext.runAsGroup == 1001) or
+    (.template.spec.containers[]?.securityContext.fsGroup == 1001) or
+    (.template.spec.initContainers[]?.securityContext.runAsUser == 1001) or
+    (.template.spec.initContainers[]?.securityContext.runAsGroup == 1001) or
+    (.template.spec.initContainers[]?.securityContext.fsGroup == 1001)
+  ) |
+  .kind + " | " + .metadata.name + " | " + (.metadata.namespace // "default")
+' "$FILE"
+
