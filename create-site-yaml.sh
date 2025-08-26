@@ -63,8 +63,8 @@ fi
 #extract tools
 if [[ "$(uname -s)" == "Linux"* ]]; then
     file_exists resources/tools-linux.tar.gz
-    tar xzf resources/tools-linux.tar.gz
-    mv tools-linux tools
+    tar xzf resources/tools-linux.tar.gz -C resources
+    mv resources/tools-linux resources/tools
     chmod +x resources/tools/*
 else
     file_exists resources/tools.tar.gz

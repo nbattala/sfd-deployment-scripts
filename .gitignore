@@ -4,5 +4,5 @@ ca-certificates
 deploy
 resource/tools
 properties.env
-sfd-install-scripts
+sfd-install-scripts*
 backups
