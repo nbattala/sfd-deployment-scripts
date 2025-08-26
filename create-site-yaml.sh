@@ -64,6 +64,7 @@ fi
 if [[ "$(uname -s)" == "Linux"* ]]; then
     file_exists resources/tools-linux.tar.gz
     tar xzf resources/tools-linux.tar.gz -C resources
+    rm -rf resources/tools
     mv resources/tools-linux resources/tools
     chmod +x resources/tools/*
 else
@@ -74,17 +75,17 @@ fi
 
 create_site_yaml () {
     dir_exists downloads
-    rm -rf deploy
-    mkdir -p deploy/site-config
-    if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
-        unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
-        tar xzf downloads/*$cadence*deploymentAssets*.tgz -C deploy
-        cp downloads/*$cadence*license*.jwt deploy
-        export licenseFile=$(ls downloads/*$cadence*license*.jwt | xargs -n 1 basename)
-    else
-        echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
-        exit 1
-    fi
+   # rm -rf deploy
+   # mkdir -p deploy/site-config
+   # if [ ! -f "downloads/*$cadence*multipleAssets*.zip" ]; then
+   #     unzip -o downloads/*$cadence*multipleAssets*.zip -d downloads
+   #     tar xzf downloads/*$cadence*deploymentAssets*.tgz -C deploy
+   #     cp downloads/*$cadence*license*.jwt deploy
+         export licenseFile=$(ls downloads/*$cadence*license*.jwt | xargs -n 1 basename)
+   # else
+   #     echo "multipleAssets*.zip file does not exist in downloads directory for cadence $cadence"
+   #     exit 1
+   # fi
     dir_exists deploy/sas-bases
     chmod -Rf 755 deploy/sas-bases
 
@@ -96,16 +97,34 @@ create_site_yaml () {
     file_exists resources/rwx-storageclass.yaml
     envsubst < resources/rwx-storageclass.yaml > deploy/site-config/rwx-storageclass.yaml 
 
-    #kaniko configuration
     mkdir -p deploy/site-config
-    dir_exists deploy/sas-bases/examples/sas-model-publish/kaniko
-    cp -a deploy/sas-bases/examples/sas-model-publish/kaniko deploy/site-config/
-    rm -f deploy/site-config/kaniko/README.md
-    chmod -R u+rw deploy/site-config
-    file_exists deploy/site-config/kaniko/storage.yaml
-    sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/kaniko/storage.yaml
-    sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/kaniko/storage.yaml
-
+    #kaniko configuration
+    case $modelPublishMode in
+        kaniko)
+            dir_exists deploy/sas-bases/examples/sas-model-publish/kaniko
+            cp -a deploy/sas-bases/examples/sas-model-publish/kaniko deploy/site-config/
+            rm -f deploy/site-config/kaniko/README.md
+            chmod -R u+rw deploy/site-config
+            file_exists deploy/site-config/kaniko/storage.yaml
+            sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/kaniko/storage.yaml
+            sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/kaniko/storage.yaml
+            yq e -i '.resources += ["site-config/kaniko"]' deploy/kustomization.yaml
+            yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml"]' deploy/kustomization.yaml
+        ;;
+        buildkit)
+            dir_exists deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit
+            cp -a deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit deploy/site-config
+            sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/buildkit/storage.yaml
+            sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/buildkit/storage.yaml
+            file_exists deploy/sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml
+            yq e -i '.resources += ["site-config/buildkit"]' deploy/kustomization.yaml
+            yq e -i '.transformers += ["sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml"]' deploy/kustomization.yaml
+        ;;
+        *)
+            echo "ERROR: Incorrect mode specified for model publish. Specify kaniko or buildkit for modelPublishMode property"
+            exit 1
+        ;;
+    esac
     #configure rwo storage class (for customers who do not have rwo sc set as default or do not want default sc to be used)
     dir_exists resources/rwoStorageClass
     cp -a resources/rwoStorageClass deploy/site-config
@@ -305,6 +324,14 @@ create_site_yaml () {
                 cp -a ${customerCaCertsDir}/${ingressCa} deploy/site-config/security/cacerts/sas-ingress-ca.pem
                 yq e -i '.files.[2] = "ca.crt=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/customer-provided-ingress-certificate.yaml
                 yq e -i '.generators += ["site-config/security/customer-provided-ingress-certificate.yaml"]' deploy/kustomization.yaml
+                #cert-utils fix
+                file_exists deploy/sas-bases/examples/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
+                cp -a deploy/sas-bases/examples/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
+                yq e -i '.files.[0] = "caCertificate=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
+                yq e -i '.files.[1] = "certificate=site-config/security/cacerts/sas-ingress-certificate.pem"' deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
+                yq e -i '.files.[2] = "key=site-config/security/cacerts/sas-ingress-key.pem"' deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
+                yq e -i '.generators += ["site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml"]' deploy/kustomization.yaml
+
             elif [[ ! -z ${ingressCaIssuer} ]]; then
                 file_exists deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml
                 cp -a deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml deploy/site-config/security/cert-manager-pre-created-ingress-certificate.yaml

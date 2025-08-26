@@ -15,7 +15,6 @@ resources:
   #- sas-bases/overlays/sas-detection-definition/service-account/sa.yaml
 ## user defined resources
 - site-config/sas-detection/overlays
-- site-config/kaniko
 
 configurations:
 - sas-bases/overlays/required/kustomizeconfig.yaml
@@ -25,7 +24,6 @@ transformers:
 - sas-bases/overlays/required/transformers.yaml
 #- sas-bases/overlays/scaling/ha/enable-ha-transformer.yaml
 - sas-bases/overlays/internal-elasticsearch/internal-elasticsearch-transformer.yaml
-- sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml
 - sas-bases/overlays/security/container-security/remove-seccomp-transformer.yaml
 #- sas-bases/overlays/sas-detection-definition/service-account/sa-transformer.yaml
 ##user defined
