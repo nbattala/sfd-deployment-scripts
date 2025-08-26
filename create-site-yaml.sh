@@ -61,9 +61,16 @@ if ${clusterPreReqCheck}; then
 fi
 
 #extract tools
-file_exists resources/tools.tar.gz
-tar xzf resources/tools.tar.gz -C resources
-chmod +x resources/tools/*
+if [[ "$(uname -s)" == "Linux"* ]]; then
+    file_exists resources/tools-linux.tar.gz
+    tar xzf resources/tools-linux.tar.gz
+    mv tools-linux tools
+    chmod +x resources/tools/*
+else
+    file_exists resources/tools.tar.gz
+    tar xzf resources/tools.tar.gz -C resources
+    chmod +x resources/tools/*
+fi
 
 create_site_yaml () {
     dir_exists downloads
