@@ -1,0 +1,56 @@
+## Example cert-manager certificate resource to used to create the TLS certificate secret used by ingress controllers
+##
+## In the following code, the locations that require user specified values are indicated by a capitalized and
+## hyphenated name set off by curly braces and a space at each end. You should replace this token with the
+## actual value.
+## Replace the curly braces, interior spaces, and the variable name.
+## For instance, "{{ INGRESS_DNS_ALIAS }}" should be replaced with the DNS alias used to reach the ingress controller
+## of your cluster.   Typically your IT organization will provide you with this value.
+## At least one DNS Name or IP address is required.  If your ingress controller has only one alias, as is typical, you
+## should delete the line that shows a second dnsNames: placeholder value.
+## It is not typical to use IP addresses to reach the ingress controller.  Unless your IT department suggests using IP
+## addresses, you should remove the entire ipAddresses: section including both the lines containing placeholder values.
+##
+## If your ingress controller DNS alias is myhostname.mycompany.com and you were not instructed to supply IP addresses,
+## the correct, final syntax would be:
+## dnsNames:
+##    - myhostname.mycompany.com
+## secretName: sas-viya-ca-certificate-secret
+###############
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: sas-viya-ca-certificate
+spec:
+
+  duration: 17520h # This default value is 2 years.  You can modify it if so desired.
+  renewBefore: 1h # This default value is 1 hour.  You can modify it if so desired.
+  subject:
+    organizations:
+      - SAS Viya # Default value for the certificate subject.  You can modify this value if so desired
+  commonName: sas-viya-ca-certificate # Default value for the certificate CommonName.  You can modify this value if so desired
+  isCA: false
+  privateKey:
+    algorithm: RSA
+    encoding: PKCS1
+    size: 2048 # Default value for the private key length.  You can increase this value to 4096 if desired.
+  usages:
+    - server auth
+    - client auth
+  # If you have only one DNS Name, delete the line that contains "- {{ ANOTHER_INGRESS_DNS_ALIAS }}"
+  dnsNames:
+    - {{ INGRESS_DNS_ALIAS }} # The DNS alias (or hostname) value used to reach the ingress controller in your cluster
+  # IP Addresses are optional, you can delete this entire ipAddresses: stanza (up to the line containing issuerRef:)
+  # if you do not want to include IP addresses in your ingress certificate
+  #ipAddresses:
+  #  - {{ INGRESS_IP ADDRESS }}
+  #  - {{ ANOTHER_INGRESS_IP ADDRESS }}
+  secretName: sas-viya-ca-certificate-secret
+  # Issuer references are always required.  Do not delete the lines below.
+  issuerRef:
+    name: sas-viya-issuer
+    kind: Issuer
+    # The group is optional since cert-manager will default to the cert-manager.io value however
+    # if you are using an external issuer, change this to that issuer group.
+    group: cert-manager.io
