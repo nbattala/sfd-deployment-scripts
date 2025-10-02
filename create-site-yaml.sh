@@ -327,11 +327,15 @@ create_site_yaml () {
                 yq e -i '.generators += ["site-config/security/customer-provided-ingress-certificate.yaml"]' deploy/kustomization.yaml
                 #cert-utils fix
                 file_exists deploy/sas-bases/examples/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
-                cp -a deploy/sas-bases/examples/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
+                cp -a deploy/sas-bases/examples/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml deploy/site-config/security
                 yq e -i '.files.[0] = "caCertificate=site-config/security/cacerts/sas-ingress-ca.pem"' deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
                 yq e -i '.files.[1] = "certificate=site-config/security/cacerts/sas-ingress-certificate.pem"' deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
                 yq e -i '.files.[2] = "key=site-config/security/cacerts/sas-ingress-key.pem"' deploy/site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml
                 yq e -i '.generators += ["site-config/security/openshift-no-cert-utils-operator-input-configmap-generator.yaml"]' deploy/kustomization.yaml
+                # file_exists deploy/sas-bases/examples/security/customer-provided-sas-viya-ca-certificate-secret.yaml
+                # cp -a deploy/sas-bases/examples/security/customer-provided-sas-viya-ca-certificate-secret.yaml deploy/site-config/security
+                # sed -i "s/"
+
 
             elif [[ ! -z ${ingressCaIssuer} ]]; then
                 file_exists deploy/sas-bases/examples/security/cert-manager-pre-created-ingress-certificate.yaml
@@ -364,7 +368,6 @@ prepare_install_script () {
     export siteYaml=site-$cadence.yaml
     rm -rf $install_dir
     mkdir -p $install_dir
-    envsubst < resources/install-sfd.sh > $install_dir/install-sfd.sh
     dir_exists deploy/sas-bases
     case $openDistroSccMod in
         sysctl)
@@ -412,6 +415,7 @@ prepare_install_script () {
     sed "s/{{ NAMESPACE }}/$project/g;s/default/sas-detection/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
     file_exists site-$cadence.yaml
     cp -a site-$cadence.yaml $install_dir
+    envsubst < resources/install-sfd.sh > $install_dir/install-sfd.sh
     echo "Install script and manifests are written to $install_dir directory"
 }
 
