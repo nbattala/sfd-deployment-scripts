@@ -64,6 +64,13 @@ config-sfd-rules-studio
 | config-sfd-designtime    | Configures Advanced Lists with Redis credentials defined in properties.env   |
 | config-sfd-rules-studio  | Configures Rules Studio UI with privileges for the sfdAdminUserId defined in properties.env and hardcoded messageClassification/Organization/Projects etc. Read the script [post-deploy-config/source/config-sfd-rules-studio.sh](post-deploy-config/source/config-sfd-rules-studio.sh) for more details |
 
+Ensure sfdAdminUserId property is set to an active directory user that needs SFD admin privileges. This is the user that will be used to configure SFD with the post-deploy-config script.
+
+```bash
+cd sfd-install-scripts/post-deploy-config
+./post-deploy-config.sh
+```
+
 ## Post Upgrade Steps
 If you are doing an upgrade, read the deployment notes published by SAS to see if there are any steps required to upgrade https://go.documentation.sas.com/doc/en/itopscdc/v_058/dplynotes/titlepage.htm
 
