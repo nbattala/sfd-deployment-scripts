@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-config-sfd-designtime () {
+config-list-data-redis () {
 
     echo "Entering ${FUNCNAME[0]}"
     printf "Entering ${FUNCNAME[0]}\n"

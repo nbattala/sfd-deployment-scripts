@@ -47,11 +47,13 @@ if [ -z "${ingressHost}" ]; then
     echo "Ingress Host is : $ingressHost"
 fi
 
+export modelPublishMode=${modelPublishMode:-buildkit}
+
 check_var project cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
     rwoStorageClass enableHA adHost adPort adUserDN adUserObjectFilter adGroupBaseDN adUserBaseDN redisHost redisPort \
     redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
-    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol \
-    customerCaCertsDir ingressHost tlsMode
+    kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol  \
+    customerCaCertsDir ingressHost tlsMode modelPublishMode
 
 if ${clusterPreReqCheck}; then
     k8s_resource_exists namespace "$project"
@@ -105,18 +107,21 @@ create_site_yaml () {
         rm -f deploy/site-config/kaniko/README.md
         chmod -R u+rw deploy/site-config
         file_exists deploy/site-config/kaniko/storage.yaml
-        sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/kaniko/storage.yaml
+        sed -i "s/{{ STORAGE-CAPACITY}}/50Gi/g" deploy/site-config/kaniko/storage.yaml
         sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/kaniko/storage.yaml
         yq e -i '.resources += ["site-config/kaniko"]' deploy/kustomization.yaml
         yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/kaniko/kaniko-transformer.yaml"]' deploy/kustomization.yaml
     else
-        dir_exists deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit
-        cp -a deploy/sas-bases/examples/sas-decisions-runtime-builder/buildkit deploy/site-config
-        sed -i "s/{{ STORAGE-CAPACITY }}/50Gi/g" deploy/site-config/buildkit/storage.yaml
-        sed -i "s/{{ STORAGE-CLASS-NAME }}/${rwxStorageClass}/g" deploy/site-config/buildkit/storage.yaml
-        file_exists deploy/sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml
+        dir_exists deploy/sas-bases/examples/sas-model-publish/buildkit
+        cp -a deploy/sas-bases/examples/sas-model-publish/buildkit deploy/site-config
+        sed -i "s/{{ BUILDKIT-STORAGE-SIZE }}/50Gi/g" deploy/site-config/buildkit/configuration.env
+        sed -i "s/{{ BUILDKIT-STORAGE-CLASS }}/${rwxStorageClass}/g" deploy/site-config/buildkit/configuration.env
+        file_exists deploy/site-config/buildkit/kustomization.yaml
+        yq e -i '.resources += ["sas-bases/overlays/sas-model-publish/buildkit"]' deploy/kustomization.yaml
         yq e -i '.resources += ["site-config/buildkit"]' deploy/kustomization.yaml
-        yq e -i '.transformers += ["sas-bases/overlays/sas-decisions-runtime-builder/buildkit/buildkit-transformer.yaml"]' deploy/kustomization.yaml
+        yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/buildkit/buildkit-transformer.yaml"]' deploy/kustomization.yaml
+        yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/buildkit/buildkit-userns-transformer.yaml"]' deploy/kustomization.yaml
+        yq e -i '.transformers += ["sas-bases/overlays/sas-model-publish/buildkit/buildkit-remove-limits.yaml"]' deploy/kustomization.yaml
     fi
 
     #configure rwo storage class (for customers who do not have rwo sc set as default or do not want default sc to be used)
@@ -138,6 +143,11 @@ create_site_yaml () {
     #configure ip bind for sas-consul-server
     file_exists resources/sas-consul-server-ip-bind-transformer.yaml
     cp -a resources/sas-consul-server-ip-bind-transformer.yaml deploy/site-config
+
+    #configure hostUser False for sas launcher deployment
+    file_exists resources/sas-launcher-host-user-false-transformer.yaml
+    cp -a resources/sas-launcher-host-user-false-transformer.yaml deploy/site-config
+    yq e -i '.transformers += ["site-config/sas-launcher-host-user-false-transformer.yaml"]' deploy/kustomization.yaml
 
     #configure SCR sidecar for sas-detection
     file_exists resources/sas-detection/overlays/kustomization.yaml
@@ -409,10 +419,11 @@ prepare_install_script () {
     cp -a deploy/sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml $install_dir
     if [ "$modelPublishMode" != "kaniko" ]; then
         cp -a deploy/sas-bases/overlays/sas-model-publish/service-account/sas-model-publish-scc.yaml $install_dir
+        cp -a deploy/sas-bases/overlays/sas-model-publish/buildkit/service-account/buildkit-scc.yaml $install_dir
     fi
     cp -a deploy/sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml $install_dir
     cp -a deploy/sas-bases/examples/sas-pyconfig/pyconfig-scc.yaml $install_dir
-    sed "s/{{ NAMESPACE }}/$project/g;s/default/sas-detection/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
+    #sed "s/{{ NAMESPACE }}/$project/g;s/default/sas-detection/g" deploy/sas-bases/examples/sas-detection/roles-and-rolebinding.yaml > $install_dir/sas-detection-roles-and-rolebinding.yaml
     file_exists site-$cadence.yaml
     cp -a site-$cadence.yaml $install_dir
     envsubst < resources/install-sfd.sh > $install_dir/install-sfd.sh

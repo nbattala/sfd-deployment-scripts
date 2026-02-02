@@ -22,7 +22,6 @@ requiredDropCapabilities:
 - ALL
 runAsUser:
   type: RunAsAny
-  uid: 1000
 seLinuxContext:
   type: RunAsAny
 supplementalGroups:

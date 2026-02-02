@@ -6,7 +6,7 @@ source ../properties.env
 chmod +x ./source/*.sh
 fn_dir=source
 if [ -d "$fn_dir" ]; then
-    for file in "$fn_dir"/*.sh; do
+    for file in "$fn_dir"/$1.sh; do
         [ -r "$file" ] && source "$file"
     done
 else
@@ -36,8 +36,8 @@ case $1 in
     config-model-publish-dest)
     config-model-publish-dest
     ;;
-    config-sfd-designtime)
-    config-sfd-designtime
+    config-list-data-redis)
+    config-list-data-redis
     ;;
     config-sfd-rules-studio)
     config-sfd-rules-studio

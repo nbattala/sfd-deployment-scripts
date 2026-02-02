@@ -1,0 +1,13 @@
+apiVersion: builtin
+kind: PatchTransformer
+metadata:
+ name: patch-transformer-for-hostuser
+patch: |-
+ - op: add
+   path: /spec/template/spec/hostUsers
+   value: false
+target:
+ group: apps
+ kind: Deployment
+ name: sas-launcher
+ version: v1
