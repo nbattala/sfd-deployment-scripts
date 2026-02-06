@@ -48,12 +48,13 @@ if [ -z "${ingressHost}" ]; then
 fi
 
 export modelPublishMode=${modelPublishMode:-buildkit}
+export idsDataStore=${idsDataStore:-postgres}
 
 check_var project cadence imagePullSecret imageRegistry scrImageName rwxStorageClass \
     rwoStorageClass enableHA adHost adPort adUserDN adUserObjectFilter adGroupBaseDN adUserBaseDN redisHost redisPort \
     redisTlsEnabled redisServerDomain redisUser redisPassword redisProfileCompress kafkaHost kafkaPort kafkaBypass \
     kafkaConsumerEnabled kafkaConsumerTopic kafkaTdrTopic kafkaSecurityProtocol  \
-    customerCaCertsDir ingressHost tlsMode modelPublishMode
+    customerCaCertsDir ingressHost tlsMode modelPublishMode idsDataStore
 
 if ${clusterPreReqCheck}; then
     k8s_resource_exists namespace "$project"
@@ -100,7 +101,7 @@ create_site_yaml () {
     envsubst < resources/rwx-storageclass.yaml > deploy/site-config/rwx-storageclass.yaml 
 
     mkdir -p deploy/site-config
-    #kaniko configuration
+    #kaniko/buildkit configuration
     if [ "$modelPublishMode" == "kaniko" ]; then 
         dir_exists deploy/sas-bases/examples/sas-model-publish/kaniko
         cp -a deploy/sas-bases/examples/sas-model-publish/kaniko deploy/site-config/
@@ -187,6 +188,42 @@ create_site_yaml () {
     #configure Active Directory, SSO, Redis for Designtime
     file_exists resources/sitedefault.yaml
     envsubst < resources/sitedefault.yaml >  deploy/site-config/sitedefault.yaml
+
+    #configure ids datastore
+    case ${idsDataStore} in
+        "postgres")
+            dir_exists deploy/sas-bases/components/crunchydata/internal-platform-postgres
+            yq e -i '.components += ["sas-bases/components/crunchydata/internal-platform-postgres"]' deploy/kustomization.yaml
+            file_exists site-config/rwoStorageClass/crunchy-storage-transformer.yaml
+            yq e -i '.transformers += ["site-config/rwoStorageClass/crunchy-storage-transformer.yaml"]' deploy/kustomization.yaml
+            dir_exists deploy/sas-bases/overlays/crunchydata/postgres-operator
+            yq e -i '.resources += ["sas-bases/overlays/crunchydata/postgres-operator"]' deploy/kustomization.yaml
+            dir_exists deploy/sas-bases/overlays/postgres/plaform-postgres
+            yq e -i '.resources += ["sas-bases/overlays/postgres/plaform-postgres"]' deploy/kustomization.yaml
+            ;;
+        "oracle")
+            dir_exists deploy/sas-bases/components/oracle/external-platform-oracle
+            yq e -i '.components += ["sas-bases/components/oracle/external-platform-oracle"]' deploy/kustomization.yaml
+            mkdir -p deploy/site-config/oracle
+
+            file_exists deploy/sas-bases/examples/oracle/dataserver-transformer.yaml
+            cp -a deploy/sas-bases/examples/oracle/dataserver-transformer.yaml deploy/site-config/oracle/dataserver-transformer.yaml
+            sed -i "s/{{ DATASERVER-NAME }}/sas-platform-oracle/g; s/{{ DB-NAME }}/${oracleDbName}/g; s/{{ DB-HOST }}/${oracleDbHost}/g; s/{{ DB-PORT }}/${oracleDbPort}/g; s/{{ ORACLE-USER-SECRET-NAME }}/sas-platform-oracle-credentials-secret/g" deploy/site-config/oracle/dataserver-transformer.yaml
+            yq e -i '.transformers += ["site-config/oracle/dataserver-transformer.yaml"]' deploy/kustomization.yaml
+
+            file_exists deploy/sas-bases/examples/oracle/oracle-user.env
+            cp -a deploy/sas-bases/examples/oracle/oracle-user.env deploy/site-config/oracle/oracle-user.env
+            sed -i "s/{{ DB-ROLE }}/${oracleDbUser}/g; s/{{ DB-ROLE-PASSWORD }}/${oracleDbPassword}/g" deploy/site-config/oracle/oracle-user.env
+            file_exists resources/oracle/sas-platform-oracle-credentials-secret-generator.yaml
+            cp -a resources/oracle/sas-platform-oracle-credentials-secret-generator.yaml deploy/site-config/oracle/
+            yq e -i '.generators += ["site-config/oracle/sas-platform-oracle-credentials-secret-generator.yaml"]' deploy/kustomization.yaml
+            ;;
+        *)
+            echo "Invalid idsDataStore value: ${idsDataStore}"
+            exit 1
+            ;;
+    esac
+    
 
     #add FSGROUP Value 
     unset MSYS_NO_PATHCONV
@@ -368,7 +405,7 @@ create_site_yaml () {
 
 
     #delete old site.yaml or backup
-    [ -f site-$cadence.yaml ] && mv -f site-$cadence.yaml site-$cadence-$(date +%Y-%m-%d.%H:%M:%S).yaml
+    [ -f site-$cadence.yaml ] && mv -f site-$cadence.yaml backup/site-$cadence-$(date +%Y-%m-%d.%H:%M:%S).yaml
     ./resources/tools/kustomize build ./deploy -o site-$cadence.yaml
 }
 
@@ -389,6 +426,7 @@ prepare_install_script () {
             # runuser modifications
             cp -a deploy/sas-bases/examples/configure-elasticsearch/internal/openshift/sas-opendistro-scc.yaml $install_dir/sas-opendistro-scc-modified-for-run-user-transformer.yaml
             sed -i "s/uid: 1000/uid: $nsUserId/g" $install_dir/sas-opendistro-scc-modified-for-run-user-transformer.yaml
+            #sed -i 's/MustRunAs/MustRunAsRange/g;/uid/d' $install_dir/sas-opendistro-scc-modified-for-run-user-transformer.yaml
             ;;
         *)
             echo "ERROR: Invalid value for openDistroSccMod"

@@ -22,6 +22,7 @@ transformers:
 - sas-bases/overlays/security/container-security/remove-seccomp-transformer.yaml
 ##user defined
 - site-config/mirror.yaml
+- site-config/rwoStorageClass/crunchy-storage-transformer.yaml
 - site-config/rwoStorageClass/consul-storage-transformer.yaml
 - site-config/rwoStorageClass/opendistro-storage-transformer.yaml
 - site-config/rwoStorageClass/rabbitmq-storage-transformer.yaml
@@ -38,6 +39,7 @@ patches:
     annotationSelector: sas.com/component-name in (sas-backup-job,sas-data-quality-services,sas-commonfiles,sas-cas-operator,sas-pyconfig)
 
 components:
+- sas-bases/components/crunchydata/internal-platform-postgres 
 
 generators:
 - site-config/security/customer-provided-ca-certificates.yaml

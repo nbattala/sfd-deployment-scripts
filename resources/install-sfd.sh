@@ -22,8 +22,6 @@ oc -n $project adm policy add-scc-to-user sas-model-repository -z sas-model-repo
 oc apply -f pyconfig-scc.yaml
 oc -n $project adm policy add-scc-to-user sas-pyconfig -z sas-pyconfig
 oc -n $project adm policy add-scc-to-user nonroot -z sas-programming-environment
-#launcher host user false
-oc -n $project adm policy add-scc-to-user 
 
 if [ -e sas-opendistro-scc-modified-for-sysctl-transformer.yaml ]; then
 	oc apply -f sas-opendistro-scc-modified-for-sysctl-transformer.yaml

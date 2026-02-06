@@ -50,6 +50,8 @@ oc create secret docker-registry $imagePullSecret \
 	--docker-server $imageRegHost \
 	--docker-username $imageRegUser \
 	--docker-password $imageRegPwd
+#link the secret to default service account if needed
+oc secrets link default $imagePullSecret --for=pull
 
 #create ingress ca cluster issuer
 oc -n cert-manager create secret tls myca-ingress-secret --cert=../MyCA/myca.crt --key=../MyCA/myca-unencrypted.key
