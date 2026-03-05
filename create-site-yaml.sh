@@ -409,6 +409,7 @@ prepare_install_script () {
     cp -a deploy/sas-bases/overlays/sas-model-repository/service-account/sas-model-repository-scc.yaml $install_dir
     if [ "$modelPublishMode" != "kaniko" ]; then
         cp -a deploy/sas-bases/overlays/sas-model-publish/service-account/sas-model-publish-scc.yaml $install_dir
+        cp -a deploy/sas-bases/overlays/sas-decisions-runtime-builder/buildkit/service-account/buildkit-scc.yaml $install_dir
     fi
     cp -a deploy/sas-bases/overlays/sas-detection-definition/service-account/sas-detection-definition-scc.yaml $install_dir
     cp -a deploy/sas-bases/examples/sas-pyconfig/pyconfig-scc.yaml $install_dir

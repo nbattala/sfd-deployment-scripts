@@ -1,7 +1,7 @@
 site-*.yaml
 downloads
 ca-certificates
-deploy
+deploy*
 resource/tools
 properties.env
 sfd-install-scripts*

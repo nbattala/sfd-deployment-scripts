@@ -36,6 +36,7 @@ oc -n $project adm policy add-scc-to-user sas-opendistro -z sas-opendistro
 if [[ $modelPublishMode == "kaniko" ]]; then
 	oc -n $project adm policy add-scc-to-user anyuid -z sas-model-publish-kaniko
 else
+	oc apply -f sas-model-publish-scc.yaml
 	oc -n $project adm policy add-scc-to-user sas-model-publish -z sas-model-publish-buildkit
 	oc -n $project adm policy add-scc-to-user sas-model-publish -z sas-decisions-runtime-builder-buildkit
 fi
